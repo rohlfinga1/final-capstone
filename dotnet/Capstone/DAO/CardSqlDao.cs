@@ -8,7 +8,7 @@ using Capstone.Models;
 
 namespace Capstone.DAO
 {
-    public class CardSqlDao:ICardDao    
+    public class CardSqlDao : ICardDao
     {
         private readonly string connectionString;
         public CardSqlDao(string connString)
@@ -83,7 +83,7 @@ namespace Capstone.DAO
                 cmd.Parameters.AddWithValue("@back", card.Back);
                 cmd.Parameters.AddWithValue("@card_keywords", card.CardKeywords);
                 cmd.Parameters.AddWithValue("@deck_id", card.CardId);
-                
+
 
                 newCardId = Convert.ToInt32(cmd.ExecuteScalar());
             }
@@ -105,7 +105,7 @@ namespace Capstone.DAO
                 cmd.Parameters.AddWithValue("@front", card.Front);
                 cmd.Parameters.AddWithValue("@back", card.Back);
                 cmd.Parameters.AddWithValue("@card_kewords", card.CardKeywords);
-                
+
 
                 cmd.ExecuteNonQuery();
             }
@@ -148,7 +148,7 @@ namespace Capstone.DAO
             card.Front = Convert.ToString(reader["front"]);
             card.Back = Convert.ToString(reader["back"]);
             card.CardKeywords = Convert.ToString(reader["card_keywords"]);
-            
+
 
             return card;
         }

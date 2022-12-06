@@ -13,5 +13,6 @@ namespace Capstone.Models
         public string Description { get; set; }
         public bool IsPublic { get; set; }
         public string DeckKeywords { get; set; }
+
     }
 }
