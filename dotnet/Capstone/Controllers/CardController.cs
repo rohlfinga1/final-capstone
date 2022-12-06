@@ -54,7 +54,7 @@ namespace Capstone.Controllers
         }
 
         [HttpPost()]
-        public ActionResult<Card> AddCar(Card card)
+        public ActionResult<Card> AddCard(Card card)
         {
             Card added = cardDao.CreateCard(card);
             return Created($"/{added.CardId}", added);

@@ -75,7 +75,7 @@ namespace Capstone.DAO
 
                 SqlCommand cmd = new SqlCommand("INSERT INTO card (textcard_id, front, back, card_keywords, " +
                                                 "deck_id)" +
-                                                "OUTPUT INSERTED.card_id " +
+                                                "OUTPUT INSERTED.textcard_id " +
                                                 "VALUES (@card_id, @front, @back, @card_keywords, " +
                                                 "@deck_id);", conn);
                 cmd.Parameters.AddWithValue("@card_id", card.CardId);
@@ -99,7 +99,7 @@ namespace Capstone.DAO
 
                 SqlCommand cmd = new SqlCommand("UPDATE " +
                                                 "SET textcard_id = @card_id, front = @front, back = @back, card_keywords = @card_kewords, deck_id = @deck_id " +
-                                                "WHERE card_id = @card_id;", conn);
+                                                "WHERE textcard_id = @card_id;", conn);
                 cmd.Parameters.AddWithValue("@deck_id", card.DeckId);
                 cmd.Parameters.AddWithValue("@card_id", card.CardId);
                 cmd.Parameters.AddWithValue("@front", card.Front);
