@@ -41,7 +41,7 @@ namespace Capstone.Controllers
         [HttpGet("public")]
         public ActionResult<List<Deck>> GetAllPublicDecks()
         {
-            List<Deck> allPublicDecks = deckDao.GetAllDecks();
+            List<Deck> allPublicDecks = deckDao.GetAllPublicDecks();
 
             // null, empty list, or full list
             if (allPublicDecks == null)
