@@ -52,7 +52,7 @@ namespace Capstone.DAO
             {
                 conn.Open();
 
-                SqlCommand cmd = new SqlCommand("SELECT * FROM card WHERE card_id = @card_id;", conn);
+                SqlCommand cmd = new SqlCommand("SELECT * FROM card WHERE textcard_id = @card_id;", conn);
                 cmd.Parameters.AddWithValue("@card_id", cardId);
 
                 SqlDataReader reader = cmd.ExecuteReader();
@@ -73,9 +73,9 @@ namespace Capstone.DAO
             {
                 conn.Open();
 
-                SqlCommand cmd = new SqlCommand("INSERT INTO card (card_id, front, back, card_keywords, " +
+                SqlCommand cmd = new SqlCommand("INSERT INTO card (textcard_id, front, back, card_keywords, " +
                                                 "deck_id)" +
-                                                "OUTPUT INSERTED.card_id " +
+                                                "OUTPUT INSERTED.textcard_id " +
                                                 "VALUES (@card_id, @front, @back, @card_keywords, " +
                                                 "@deck_id);", conn);
                 cmd.Parameters.AddWithValue("@card_id", card.CardId);
@@ -98,8 +98,8 @@ namespace Capstone.DAO
                 conn.Open();
 
                 SqlCommand cmd = new SqlCommand("UPDATE " +
-                                                "SET card_id = @card_id, front = @front, back = @back, card_keywords = @card_kewords, deck_id = @deck_id " +
-                                                "WHERE card_id = @card_id;", conn);
+                                                "SET textcard_id = @card_id, front = @front, back = @back, card_keywords = @card_kewords, deck_id = @deck_id " +
+                                                "WHERE textcard_id = @card_id;", conn);
                 cmd.Parameters.AddWithValue("@deck_id", card.DeckId);
                 cmd.Parameters.AddWithValue("@card_id", card.CardId);
                 cmd.Parameters.AddWithValue("@front", card.Front);
@@ -122,7 +122,7 @@ namespace Capstone.DAO
             {
                 conn.Open();
 
-                SqlCommand cmd = new SqlCommand("DELETE FROM card WHERE card_id = @card_id;", conn);
+                SqlCommand cmd = new SqlCommand("DELETE FROM card WHERE textcard_id = @card_id;", conn);
                 cmd.Parameters.AddWithValue("@card_id", cardId);
 
                 cmd.ExecuteNonQuery();
@@ -144,7 +144,7 @@ namespace Capstone.DAO
         {
             Card card = new Card();
             card.DeckId = Convert.ToInt32(reader["deck_id"]);
-            card.CardId = Convert.ToInt32(reader["card_id"]);
+            card.CardId = Convert.ToInt32(reader["textcard_id"]);
             card.Front = Convert.ToString(reader["front"]);
             card.Back = Convert.ToString(reader["back"]);
             card.CardKeywords = Convert.ToString(reader["card_keywords"]);
@@ -155,5 +155,4 @@ namespace Capstone.DAO
     }
 
 
-}
 }
