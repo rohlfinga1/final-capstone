@@ -26,7 +26,7 @@ namespace Capstone.DAO
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("SELECT * FROM card", conn);
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM textcard", conn);
                     SqlDataReader reader = cmd.ExecuteReader();
                     cardList = new List<Card>();
                     while (reader.Read())
@@ -52,7 +52,7 @@ namespace Capstone.DAO
             {
                 conn.Open();
 
-                SqlCommand cmd = new SqlCommand("SELECT * FROM card WHERE textcard_id = @card_id;", conn);
+                SqlCommand cmd = new SqlCommand("SELECT * FROM textcard WHERE textcard_id = @card_id;", conn);
                 cmd.Parameters.AddWithValue("@card_id", cardId);
 
                 SqlDataReader reader = cmd.ExecuteReader();
@@ -73,7 +73,7 @@ namespace Capstone.DAO
             {
                 conn.Open();
 
-                SqlCommand cmd = new SqlCommand("INSERT INTO card (textcard_id, front, back, card_keywords, " +
+                SqlCommand cmd = new SqlCommand("INSERT INTO textcard (textcard_id, front, back, card_keywords, " +
                                                 "deck_id)" +
                                                 "OUTPUT INSERTED.textcard_id " +
                                                 "VALUES (@card_id, @front, @back, @card_keywords, " +
@@ -122,7 +122,7 @@ namespace Capstone.DAO
             {
                 conn.Open();
 
-                SqlCommand cmd = new SqlCommand("DELETE FROM card WHERE textcard_id = @card_id;", conn);
+                SqlCommand cmd = new SqlCommand("DELETE FROM textcard WHERE textcard_id = @card_id;", conn);
                 cmd.Parameters.AddWithValue("@card_id", cardId);
 
                 cmd.ExecuteNonQuery();
