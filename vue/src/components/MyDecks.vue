@@ -75,7 +75,7 @@ export default {
         }).catch((error) => {
           if(error.response){
             //if the error object has a response, I know I made it to the server
-            this.errorMsg = 'Error adding a new deck, response recieved from the server was ' + error.response.statusText + '.';
+            this.errorMsg = 'Error adding a new deck, response received from the server was ' + error.response.statusText + '.';
           }
 
 
