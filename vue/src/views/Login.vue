@@ -1,5 +1,7 @@
 <template>
+  
   <div id="login" class="text-center">
+    <menu-bar></menu-bar>
     <form class="form-signin" @submit.prevent="login">
       <h1 class="h3 mb-3 font-weight-normal">Please Sign In</h1>
       <div
@@ -39,10 +41,11 @@
 
 <script>
 import authService from "../services/AuthService";
+import MenuBar from "../components/MenuBar.vue";
 
 export default {
   name: "login",
-  components: {},
+  components: {MenuBar},
   data() {
     return {
       user: {
