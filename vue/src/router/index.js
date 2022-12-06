@@ -4,8 +4,8 @@ import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Logout from '../views/Logout.vue'
 import Register from '../views/Register.vue'
-//import AccountPage from '../views/AccountPage.vue'
 import store from '../store/index'
+import AccountPage from '../views/AccountPage.vue'
 
 Vue.use(Router)
 
@@ -23,11 +23,11 @@ const router = new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/',
-      name: 'home',
+      path: '/',// changed this to false does not require auth
+      name: 'homepage',
       component: Home,
       meta: {
-        requiresAuth: true
+        requiresAuth: false
       }
     },
     {
@@ -59,9 +59,17 @@ const router = new Router({
     //   name: "public-decks",
     //   component: ,
     //   meta: {
-    //     requiresAuth: true
+    //     requiresAuth: false
     //   }
     // },
+    {
+      path: "/myDecks",
+      name: "myDecks",
+      component: AccountPage,
+      meta:{
+        requiresAuth: true
+      }
+    }
   ]
 })
 
