@@ -42,6 +42,33 @@ namespace Capstone.DAO
             return deckList;
         }
 
+        public List<Deck> GetAllPublicDecks()
+        {
+            List<Deck> publicDeckList = null;
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM deck WHERE is_public = 1;", conn);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    publicDeckList = new List<Deck>();
+                    while (reader.Read())
+                    {
+                        publicDeckList.Add(CreateDeckFromReader(reader));
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.Error.WriteLine(ex.Message);
+            }
+
+            return publicDeckList;
+        }
+
         public Deck GetDeck(int deckId)
         {
             // establish the SQL connection

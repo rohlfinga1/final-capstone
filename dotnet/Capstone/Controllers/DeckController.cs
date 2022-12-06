@@ -19,7 +19,7 @@ namespace Capstone.Controllers
         }
 
         [HttpGet()]
-        public ActionResult<List<Deck>> GetAllCars()
+        public ActionResult<List<Deck>> GetAllDecks()
         {
             List<Deck> allDecks = deckDao.GetAllDecks();
 
@@ -35,6 +35,26 @@ namespace Capstone.Controllers
             else
             {
                 return allDecks;
+            }
+        }
+
+        [HttpGet()]
+        public ActionResult<List<Deck>> GetAllPublicDecks()
+        {
+            List<Deck> allPublicDecks = deckDao.GetAllDecks();
+
+            // null, empty list, or full list
+            if (allPublicDecks == null)
+            {
+                return StatusCode(500);
+            }
+            else if (allPublicDecks.Count == 0)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return allPublicDecks;
             }
         }
 
