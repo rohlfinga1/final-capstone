@@ -74,7 +74,7 @@ namespace Capstone.Controllers
         }
 
         [HttpPost()]
-        public ActionResult<Deck> AddCar(Deck deck)
+        public ActionResult<Deck> AddDeck(Deck deck)
         {
             Deck added = deckDao.CreateDeck(deck);
             return Created($"/{added.DeckId}", added);
@@ -84,7 +84,7 @@ namespace Capstone.Controllers
         public ActionResult<Deck> UpdateExistingDeck(int id, Deck deck)
         {
             Deck existingDeck = deckDao.GetDeck(id);
-            if (existingDeck == null) // if the car does not exist
+            if (existingDeck == null) // if the deck does not exist
             {
                 return NotFound();
             }
