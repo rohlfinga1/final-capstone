@@ -12,6 +12,6 @@ namespace Capstone.DAO
         Deck CreateDeck(Deck deck);
         Deck UpdateDeck(int deckId, Deck deck);
         bool DeleteDeck(int deckId);
-        List<Deck> GetAllDecks();
+        public List<Deck> GetAllDecks();
     }
 }

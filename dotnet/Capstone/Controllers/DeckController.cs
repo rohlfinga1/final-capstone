@@ -8,7 +8,7 @@ using Capstone.Models;
 
 namespace Capstone.Controllers
 {
-    [Route("deck")]
+    [Route("[controller]")]
     [ApiController]
     public class DeckController : ControllerBase
     {
@@ -19,7 +19,7 @@ namespace Capstone.Controllers
         }
 
         [HttpGet()]
-        public ActionResult<List<Deck>> GetAllCars()
+        public ActionResult<List<Deck>> GetAllDecks()
         {
             List<Deck> allDecks = deckDao.GetAllDecks();
 
