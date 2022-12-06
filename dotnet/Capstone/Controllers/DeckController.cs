@@ -38,6 +38,26 @@ namespace Capstone.Controllers
             }
         }
 
+        [HttpGet()]
+        public ActionResult<List<Deck>> GetAllPublicDecks()
+        {
+            List<Deck> allPublicDecks = deckDao.GetAllDecks();
+
+            // null, empty list, or full list
+            if (allPublicDecks == null)
+            {
+                return StatusCode(500);
+            }
+            else if (allPublicDecks.Count == 0)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return allPublicDecks;
+            }
+        }
+
         [HttpGet("{id}")]
         public ActionResult<Deck> RetrieveDeck(int id)
         {
