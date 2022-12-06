@@ -1,14 +1,14 @@
 <template>
   <header id="menubar">
       <div class="title">
-          Page Title
+          <h2>FlashCard Study App</h2>
       </div>
     <div class= "dropdown_menu">
-       <b-dropdown id="nav_dropdown" text="menu" class="nav_dropdown">
-            <b-dropdown-item href="#">Login</b-dropdown-item>
-            <b-dropdown-item href="#">My Decks</b-dropdown-item>
-            <b-dropdown-item href="#">Public Decks</b-dropdown-item>
-       </b-dropdown>
+        <select name="nav_dropdown" id="nav_dropdown" class="nav_dropdown">
+            <option value="login"><router-link v-bind:to="{ name: 'login' }">Login</router-link></option>
+            <option value="login"><router-link v-bind:to="{ name: 'myDecks' }">My Decks</router-link></option>
+            <option value="login"><router-link v-bind:to="{ name: 'public-decks' }">Public Decks</router-link></option>
+        </select>
     </div>
   </header>
 </template>
@@ -28,12 +28,14 @@ header {
     'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
     background-color: #508ca8;
     display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 .dropdown_menu {
-    align-self: right;
+    align-items: right;
 }
 
 .title {
-    align-self: center;
+    align-items: center;
 }
 </style>

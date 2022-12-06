@@ -73,12 +73,11 @@ namespace Capstone.DAO
             {
                 conn.Open();
 
-                SqlCommand cmd = new SqlCommand("INSERT INTO textcard (textcard_id, front, back, card_keywords, " +
+                SqlCommand cmd = new SqlCommand("INSERT INTO textcard (front, back, card_keywords, " +
                                                 "deck_id)" +
                                                 "OUTPUT INSERTED.textcard_id " +
-                                                "VALUES (@card_id, @front, @back, @card_keywords, " +
+                                                "VALUES (@front, @back, @card_keywords, " +
                                                 "@deck_id);", conn);
-                cmd.Parameters.AddWithValue("@card_id", card.CardId);
                 cmd.Parameters.AddWithValue("@front", card.Front);
                 cmd.Parameters.AddWithValue("@back", card.Back);
                 cmd.Parameters.AddWithValue("@card_keywords", card.CardKeywords);

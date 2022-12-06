@@ -99,12 +99,11 @@ namespace Capstone.DAO
             {
                 conn.Open();
 
-                SqlCommand cmd = new SqlCommand("INSERT INTO deck (deck_id, creator_id, name, description, " +
+                SqlCommand cmd = new SqlCommand("INSERT INTO deck (creator_id, name, description, " +
                                                 "is_public, deck_keywords)" +
                                                 "OUTPUT INSERTED.deck_id " +
-                                                "VALUES (@deck_id, @creator_id, @name, @description, " +
+                                                "VALUES (@creator_id, @name, @description, " +
                                                 "@is_public, @deck_keywords);", conn);
-                cmd.Parameters.AddWithValue("@deck_id", deck.DeckId);
                 cmd.Parameters.AddWithValue("@creator_id", deck.CreatorId);
                 cmd.Parameters.AddWithValue("@name", deck.Name);
                 cmd.Parameters.AddWithValue("@description", deck.Description);
