@@ -17,7 +17,7 @@ namespace Capstone.Controllers
         {
             this.deckDao = deckDao;
         }
-        [Route("myDecks")]
+        //[Route("myDecks")]
         [HttpGet()]
         public ActionResult<List<Deck>> GetAllDecks()
         {

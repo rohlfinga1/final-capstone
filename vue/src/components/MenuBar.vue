@@ -6,9 +6,9 @@
     <nav>
         <ul>
             <!--<li><router-link v-bind:to="{ name: 'login' }" v-if="token==''">LOGIN</router-link></li>-->
-            <li><router-link v-bind:to="{ name: 'myDecks' }">MY DECKS</router-link></li>
-            <li><router-link v-bind:to="{ name: 'public-decks' }">PUBLIC DECKS</router-link></li>
-            <li><router-link v-bind:to="{ name: 'logout' }" >LOG OUT</router-link></li> <!--v-else="token"-->
+            <li><router-link v-bind:to="{ name: 'myDecks' }" class="link">MY DECKS</router-link></li>
+            <li><router-link v-bind:to="{ name: 'public-decks' }" class="link">PUBLIC DECKS</router-link></li>
+            <li><router-link v-bind:to="{ name: 'logout' }" class="link">LOG OUT</router-link></li> <!--v-else="token"-->
         </ul>
     </nav>
   </header>
@@ -85,5 +85,6 @@ nav ul li {
     border-radius: 5px;
     text-align: center;
     line-height: 50px;
+    text-decoration: none;
 }
 </style>
