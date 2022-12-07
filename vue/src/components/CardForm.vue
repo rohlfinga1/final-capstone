@@ -1,6 +1,7 @@
 <template>
   <form v-on:submit.prevent="submitForm" class="cardForm">
     <div class="status-message error" v-show="errorMsg !== ''">{{errorMsg}}</div>
+    <h2>Card Form</h2>
     <div class="form-group">
       <label for="front">Question: </label>
       <input id="front" type="text" name="front" v-model="card.front" />

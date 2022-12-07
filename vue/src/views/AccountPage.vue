@@ -1,15 +1,17 @@
 <template>
 <div>
-<my-decks/>
+<myDecks/>
 </div>
 </template>
 
 <script>
-import MyDecks from '../components/MyDecks.vue';
+import myDecks from '../components/MyDecks.vue';
 
 export default {
-  components: { MyDecks },
-MyDecks
+  components: { 
+    myDecks
+  },
+
 }
 </script>
 
