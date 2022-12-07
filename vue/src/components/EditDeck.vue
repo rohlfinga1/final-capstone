@@ -1,6 +1,11 @@
 <template>
   <div>
-      <button class="add-btn">Add Card</button>
+      <button class="add-btn" @click="() => TogglePopup('buttonTrigger')">Add Card</button>
+      <popup
+          v-if="popupTriggers.buttonTrigger"
+          :TogglePopup="() => TogglePopup('buttonTrigger')">
+            <h2>epic popup</h2>
+      </popup>
       <table>  
           <tr>
               <th>Front</th>
@@ -21,19 +26,33 @@
 </template>
 
 <script>
-import DeckCardService from '../services/DeckCardService'
+import DeckCardService from '../services/DeckCardService.js'
+import { ref } from 'vue';
+import Popup from '../components/Popup.vue'
+
 export default {
     name: 'edit-deck',
     props: ['card'],
+    setup() {
+        const popupTriggers = ref({
+                buttonTrigger: false
+        });
+        const TogglePopup = (trigger) => {
+            popupTriggers.value[trigger] = !popupTriggers.value[trigger]
+        }
+        return {
+            Popup, popupTriggers, TogglePopup
+        }
+    },
     data() {
         return {
             newCard: {
                 cardId: 0,
                 deckId: 1, // right now, GetCards() is taking this number literally,
                             // but we want it to auto-increment
-                front: '',
-                back: '',
-                keywords: ''
+                front: 'test',
+                back: 'test',
+                keywords: 'test'
             }
         }
     },
@@ -48,7 +67,7 @@ export default {
         }
     },
     components: {
-
+        Popup
     },
     created() {
         this.GetCards();
