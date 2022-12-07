@@ -24,7 +24,7 @@ export default {
   };
 },
  created() {
-     DeckCardService.GetDecks().then((response) => {this.$store.commit('SET_DECKS', response.data);
+     DeckCardService.GetAllDecks().then((response) => {this.$store.commit('SET_DECKS', response.data);
      })
      .catch(error => {
          alert("Error Obtaining List of Decks" + error);
