@@ -1,5 +1,6 @@
 <template>
   <div id="register" class="text-center">
+    <menu-bar />
     <form class="form-register" @submit.prevent="register">
       <h1 class="h3 mb-3 font-weight-normal">Create Account</h1>
       <div class="alert alert-danger" role="alert" v-if="registrationErrors">
@@ -41,9 +42,11 @@
 </template>
 
 <script>
+import MenuBar from '../components/MenuBar.vue';
 import authService from '../services/AuthService';
 
 export default {
+  components: { MenuBar },
   name: 'register',
   data() {
     return {
