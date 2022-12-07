@@ -41,7 +41,7 @@ namespace Capstone.Controllers
         [HttpGet("{id}")]
         public ActionResult<List<Card>> GetAllCardsByDeckId(int deckId)
         {
-            List<Card> allCardsByDeckId = cardDao.GetAllCardsByDeckId();
+            List<Card> allCardsByDeckId = cardDao.GetAllCardsByDeckId(deckId);
 
             if (allCardsByDeckId == null)
             {

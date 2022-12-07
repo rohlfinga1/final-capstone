@@ -44,6 +44,9 @@ export default {
     },
     created() {
         // hard coded deck #2 for testing purposes
+
+        // THIS IS NOT WORKING >:(
+
         DeckCardService.getCards(2).then((response) => {
             this.$store.commit("SET_DECKS", response.data);
         })
