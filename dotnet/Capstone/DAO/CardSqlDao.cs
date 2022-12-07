@@ -109,7 +109,7 @@ namespace Capstone.DAO
                 cmd.Parameters.AddWithValue("@front", card.Front);
                 cmd.Parameters.AddWithValue("@back", card.Back);
                 cmd.Parameters.AddWithValue("@card_keywords", card.CardKeywords);
-                cmd.Parameters.AddWithValue("@deck_id", card.CardId);
+                cmd.Parameters.AddWithValue("@deck_id", card.DeckId);
 
 
                 newCardId = Convert.ToInt32(cmd.ExecuteScalar());
@@ -124,14 +124,14 @@ namespace Capstone.DAO
             {
                 conn.Open();
 
-                SqlCommand cmd = new SqlCommand("UPDATE " +
-                                                "SET textcard_id = @card_id, front = @front, back = @back, card_keywords = @card_kewords, deck_id = @deck_id " +
+                SqlCommand cmd = new SqlCommand("UPDATE textcard " +
+                                                "SET front = @front, back = @back, card_keywords = @card_keywords, deck_id = @deck_id " +
                                                 "WHERE textcard_id = @card_id;", conn);
                 cmd.Parameters.AddWithValue("@deck_id", card.DeckId);
-                cmd.Parameters.AddWithValue("@card_id", card.CardId);
+                cmd.Parameters.AddWithValue("@card_id", cardId);
                 cmd.Parameters.AddWithValue("@front", card.Front);
                 cmd.Parameters.AddWithValue("@back", card.Back);
-                cmd.Parameters.AddWithValue("@card_kewords", card.CardKeywords);
+                cmd.Parameters.AddWithValue("@card_keywords", card.CardKeywords);
 
 
                 cmd.ExecuteNonQuery();
