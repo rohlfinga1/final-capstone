@@ -57,7 +57,7 @@ const router = new Router({
       }
     },
     {
-      path: "/myDecks",
+      path: "/deck",
       name: "myDecks",
       component: AccountPage,
       meta:{
