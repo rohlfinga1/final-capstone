@@ -55,20 +55,12 @@ const router = new Router({
         requiresAuth: false
       }
     },
-    // {
-    //   path: "/publicdecks",
-    //   name: "public-decks",
-    //   component: ,
-    //   meta: {
-    //     requiresAuth: false
-    //   }
-    // },
     {
       path: "/myDecks",
       name: "myDecks",
       component: AccountPage,
       meta:{
-        requiresAuth: true
+        requiresAuth: false
       }
     }
   ]

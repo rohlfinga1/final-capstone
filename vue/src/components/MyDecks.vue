@@ -55,9 +55,11 @@ export default {
   
   methods: {
     retrieveDecks() { //we need to look at this one!
-      deckCardService.getDecks().then(response => {
+      deckCardService.GetDecks().then(response => {
         this.$store.commit("SET_DECKS", response.data);
-                            
+                       
+    }).catch((error) => {
+      alert(error);
     });
     },
 

@@ -24,7 +24,7 @@ export default new Vuex.Store({
     deck:{
       name: '',
       description:'',
-      deckid: 0,
+      deckId: 0,
       deckKeywords:''
 
     }
