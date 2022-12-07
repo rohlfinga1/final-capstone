@@ -1,6 +1,6 @@
 <template>
 <div>
-<my-decks/>
+<myDecks/>
 </div>
 </template>
 
