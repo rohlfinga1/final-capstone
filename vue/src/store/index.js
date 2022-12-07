@@ -57,6 +57,10 @@ export default new Vuex.Store({
 
     SET_DECKS(state, data) {
       state.decks = data;
+    },
+
+    SET_CARDS(state, data){
+      state.cards = data;
     }
   }
 })
