@@ -1,9 +1,12 @@
 <template>
   <div class="popup">
-      <slot />
+      <div class="popup-inner">
+          <slot />
       <button class="popup-close" @click="TogglePopup()">
           Close popup
       </button>
+      </div>
+      
   </div>
 </template>
 
@@ -24,11 +27,13 @@ export default {
 	background-color: rgba(0, 0, 0, 0.2);
 	
 	display: flex;
+    flex-direction: column;
 	align-items: center;
 	justify-content: center;
+    text-align: center;
 }
 .popup-inner {
-	background: #FFF;
+	background-color: rgb(255, 255, 255);
 	padding: 32px;
 }
 
