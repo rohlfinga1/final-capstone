@@ -1,11 +1,14 @@
 <template>
   <div>
       <button class="add-btn" @click="() => TogglePopup('buttonTrigger')">Add Card</button>
-      <popup
+      <div class="popup">
+          <popup 
           v-if="popupTriggers.buttonTrigger"
           :TogglePopup="() => TogglePopup('buttonTrigger')">
             <h2>epic popup</h2>
+            <p class="lorem">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam debitis facere blanditiis molestiae porro, saepe fuga nihil eveniet sed delectus earum itaque animi possimus repellat, illo beatae ipsa, nobis a.</p>
       </popup>
+      </div>
       <table>  
           <tr>
               <th>Front</th>
