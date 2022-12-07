@@ -6,6 +6,7 @@ import Logout from '../views/Logout.vue'
 import Register from '../views/Register.vue'
 import store from '../store/index'
 import AccountPage from '../views/AccountPage.vue'
+import DeckEditor from '../views/DeckEditor.vue'
 
 Vue.use(Router)
 
@@ -69,7 +70,15 @@ const router = new Router({
       meta:{
         requiresAuth: true
       }
-    }
+    },
+    {
+      path: "/DeckEditor",
+      name: "DeckEditor",
+      component: DeckEditor,
+      meta:{
+        requiresAuth: true
+      }
+    },
   ]
 })
 
