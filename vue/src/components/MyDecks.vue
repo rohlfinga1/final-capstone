@@ -4,14 +4,17 @@
     <h1>My Decks</h1>
     
     
-    <button class="btn addDeck"   v-on:click="showAddDeck = !showAddDeck">Add New Deck</button> 
+    <button class="addDeck"   v-on:click="showAddDeck = !showAddDeck">Add New Deck</button> 
     
   <div class="decks" v-for="deck in this.$store.state.decks"
         v-bind:key="deck.id"
         v-bind:style="{ 'background-color': deck.
         backgroundColor }">
-      
-        {{ deck.name }}
+        
+        <p class="eachDeck">
+        {{ deck.name }}<br><br>
+        {{ deck.description}}
+        </p>
       
       <form v-if="showAddDeck">
         Deck Name:
@@ -109,7 +112,8 @@ export default {
 </script>
 
 <style scoped>
-div#Nav {
+#Nav {
+  align-items: center;
   height: 100%;
   width: 20%;
   position: fixed;
@@ -119,7 +123,7 @@ div#Nav {
   padding-top: 20px;
   padding-bottom: 20px;
   overflow-x: hidden;
-  border-right: solid lightgrey 1px;
+  border-right: solid rgb(224, 42, 42) 1px;
 }
 
 h1 {
@@ -130,9 +134,18 @@ h1 {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  border-width: 3px;
+  border-color: black;
+  border:black;
   align-items: center;
+  font-size: 16px;
+  width: 60%;
+  margin: 10px;
+  padding: 20px;
+  cursor: pointer;
+  font-weight:bold;
 }
-.deck {
+#decks {
   color: #f7fafc;
   border-radius: 10px;
   padding: 40px;
@@ -143,28 +156,42 @@ h1 {
   cursor: pointer;
   width: 60%;
 }
+.eachDeck {
+text-align:center;
+align-items: center;
+color: #f7fafc;
+border-style:solid;
+border-radius: 10px;
+border-width: 2px;
+border-color: black;
+
+background-color:rgb(79, 189, 240);
+font-size: 16px;
+width: 90%;
+margin: 10px;
+padding: 20px;
+margin-bottom: 35px;
+cursor: pointer;
+}
 .addDeck {
+  align-items: center;
   color: #f7fafc;
   border-radius: 10px;
-  background-color: #28a745;
+  background-color:mediumaquamarine;
   font-size: 16px;
-  width: 60%;
+  width: 90%;
   margin: 10px;
   padding: 20px;
+  margin-bottom: 35px;
   cursor: pointer;
 }
 .form-control {
   margin-bottom: 10px;
 }
-.btn {margin-bottom: 35px;}
-.loading {
-  flex: 3;
-}
+
 .deck:hover:not(.router-link-active), .addDeck:hover {
   font-weight: bold;
 }
-.deck-active {
-  font-weight: bold;
-  border: solid blue 5px;
-}
+
+
 </style>
