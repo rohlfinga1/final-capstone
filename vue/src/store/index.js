@@ -24,9 +24,16 @@ export default new Vuex.Store({
     deck:{
       name: '',
       description:'',
-      deckid: 0,
+      deck_id: 0,
       deckKeywords:''
-
+    },
+    cards: [],
+    card: {
+      card_id: 0,
+      deck_id: 0,
+      front: '',
+      back: '',
+      keywords: ''
     }
   },
 
