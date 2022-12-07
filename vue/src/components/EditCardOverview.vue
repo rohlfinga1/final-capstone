@@ -73,8 +73,8 @@ export default {
         Popup
     },
     created() {
-        this.boardId = parseInt(this.$route.params.id);
-        this.$store.commit("SET_ACTIVE_BOARD", this.boardId);
+        //this.boardId = parseInt(this.$route.params.id);
+        //this.$store.commit("SET_ACTIVE_BOARD", this.boardId);
 
         //this.GetCards();
         // hard coded deck #2 for testing purposes
