@@ -33,7 +33,7 @@
         required
       />
       <router-link :to="{ name: 'login' }">Have an account?</router-link>
-      <button class="btn btn-lg btn-primary btn-block" type="submit">
+      <button class="btn btn-lg btn-primary btn-block" type="submit" @click="register" > <!-- Add Register functionality using @click to call register method-->
         Create Account
       </button>
     </form>
@@ -59,6 +59,9 @@ export default {
   },
   methods: {
     register() {
+      //call clearError function defined below will set current errors back to default
+      this.clearErrors();
+
       if (this.user.password != this.user.confirmPassword) {
         this.registrationErrors = true;
         this.registrationErrorMsg = 'Password & Confirm Password do not match.';
