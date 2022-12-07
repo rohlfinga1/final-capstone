@@ -19,8 +19,17 @@ if(currentToken != null) {
 export default new Vuex.Store({
   state: {
     token: currentToken || '',
-    user: currentUser || {}
+    user: currentUser || {},
+    decks:[],
+    deck:{
+      name: '',
+      description:'',
+      deckid: 0,
+      deckKeywords:''
+
+    }
   },
+
   mutations: {
     SET_AUTH_TOKEN(state, token) {
       state.token = token;
@@ -37,6 +46,10 @@ export default new Vuex.Store({
       state.token = '';
       state.user = {};
       axios.defaults.headers.common = {};
+    },
+
+    SET_DECKS(state, data) {
+      state.decks = data;
     }
   }
 })

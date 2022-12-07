@@ -43,7 +43,8 @@ export default {
       newDeck: {
         name: '',
         description: '',
-        deckKeywords: ''
+        deckKeywords: '',
+        deckId: '0'
       },
       errorMsg: ''
     };
