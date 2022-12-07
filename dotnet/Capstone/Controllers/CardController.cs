@@ -38,24 +38,24 @@ namespace Capstone.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        public ActionResult<List<Card>> GetAllCardsByDeckId(int deckId)
-        {
-            List<Card> allCardsByDeckId = cardDao.GetAllCardsByDeckId();
+        //[HttpGet("{id}")]
+        //public ActionResult<List<Card>> GetAllCardsByDeckId(int deckId)
+        //{
+        //    List<Card> allCardsByDeckId = cardDao.GetAllCardsByDeckId();
 
-            if (allCardsByDeckId == null)
-            {
-                return StatusCode(500);
-            }
-            else if (allCardsByDeckId.Count == 0)
-            {
-                return NotFound();
-            }
-            else
-            {
-                return allCardsByDeckId;
-            }
-        }
+        //    if (allCardsByDeckId == null)
+        //    {
+        //        return StatusCode(500);
+        //    }
+        //    else if (allCardsByDeckId.Count == 0)
+        //    {
+        //        return NotFound();
+        //    }
+        //    else
+        //    {
+        //        return allCardsByDeckId;
+        //    }
+        //}
 
         [HttpGet("{id}")]
         public ActionResult<Card> RetrieveCard(int id)
