@@ -31,7 +31,7 @@
 <script>
 import DeckCardService from '../services/DeckCardService.js'
 import { ref } from 'vue';
-import Popup from '../components/Popup.vue'
+import Popup from './Popup.vue'
 
 export default {
     name: 'edit-deck',
@@ -50,12 +50,12 @@ export default {
     data() {
         return {
             card: {
-                cardId: this.card.cardId,
-                deckId: this.card.deckId, // right now, GetCards() is taking this number literally,
+                cardId: 0,
+                deckId: 0, // right now, GetCards() is taking this number literally,
                             // but we want it to auto-increment
-                front: this.card.front,
-                back: this.card.back,
-                keywords: this.card.keywords
+                front: '',
+                back: '',
+                keywords: ''
             }
         }
     },
@@ -73,7 +73,10 @@ export default {
         Popup
     },
     created() {
-        this.GetCards();
+        this.boardId = parseInt(this.$route.params.id);
+        this.$store.commit("SET_ACTIVE_BOARD", this.boardId);
+
+        //this.GetCards();
         // hard coded deck #2 for testing purposes
 
         // THIS IS NOT WORKING >:(
