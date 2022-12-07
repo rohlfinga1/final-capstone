@@ -61,7 +61,7 @@ const router = new Router({
       name: "myDecks",
       component: AccountPage,
       meta:{
-        requiresAuth: false
+        requiresAuth: true
       }
     },
     {
