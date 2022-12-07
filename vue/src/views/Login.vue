@@ -34,7 +34,10 @@
         required
       />
       <router-link :to="{ name: 'register' }">Need an account?</router-link>
-      <button type="submit">Sign in</button>
+      <button type="submit" @click="login">Sign in</button> 
+      <!--  @click triggers login function on a click-->
+      <!-- testable using default username = "user" password = "password" -->
+      
     </form>
   </div>
 </template>
