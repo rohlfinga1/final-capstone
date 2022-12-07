@@ -1,15 +1,16 @@
 <template>
-  <div>
-    <card-form />
+  <div class="deckEditor">
+
+    <h1>Deck Editor</h1>
+    <edit-deck />
   </div>
 </template>
 
 <script>
-import CardForm from "../components/CardForm";
+import EditDeck from '../components/EditDeck.vue';
 
 export default {
-  components: {
-    CardForm
-  }
+  components: { EditDeck },
+
 };
 </script>

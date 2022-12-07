@@ -7,11 +7,12 @@
               <th>Keywords</th>
               <th>Edit</th>
           </tr>
-          <tr v-for="(value, key) in textcard" v-bind:key="key">
+          <tr class="card-row" v-for="(value, key) in $store.state.cards"
+              v-bind:key="key" :card="value">
               <!-- For every card in the textcard table by deck_id, assign each data point to the appropriate column -->
-              <td>{{textcard.front}}</td>
-              <td>{{textcard.front}}</td>
-              <td>{{textcard.front}}</td>
+              <td>{{card.front}}</td>
+              <td>{{card.back}}</td>
+              <td>{{card.keywords}}</td>
               <td><button class="edit-btn">Edit Card</button></td>
           </tr>
       </table>
@@ -20,8 +21,17 @@
 
 <script>
 export default {
-
+    name: 'edit-deck',
+    data() {
+        return {
+            card: {}
+        }
+    },
+    methods: {
+    
+    }
 }
+
 </script>
 
 <style>

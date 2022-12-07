@@ -5,13 +5,19 @@
 </template>
 
 <script>
-import myDecks from '../components/MyDecks.vue';
+import MyDecks from '../components/MyDecks.vue';
+import DeckCardService from '../services/DeckCardService';
 
 export default {
-  components: { 
-    myDecks
-  },
-
+  components: { MyDecks },
+ 
+ created() {
+     DeckCardService.GetDecks().then((response) => {this.$store.commit('SET_DECKS', response.data);
+     })
+     .catch(error => {
+         alert("Error Obtaining List of Decks" + error);
+     });
+     }
 }
 </script>
 

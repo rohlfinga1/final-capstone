@@ -36,6 +36,7 @@ prevent="saveNewDeck">Save</button>
 import deckCardService from '../services/DeckCardService';
 
 export default {
+  name: 'my-decks',
   data() {
     return {
       
@@ -43,7 +44,8 @@ export default {
       newDeck: {
         name: '',
         description: '',
-        deckKeywords: ''
+        deckKeywords: '',
+        deckId: '0'
       },
       errorMsg: ''
     };
