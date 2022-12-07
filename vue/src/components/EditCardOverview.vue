@@ -17,11 +17,11 @@
               <th>Edit</th>
           </tr>
           <tr class="card-row" v-for="card in this.$store.state.cards"
-              v-bind:key="card.id">
+              v-bind:key="card.cardId">
               <!-- For every card in the textcard table by deck_id, assign each data point to the appropriate column -->
-              <td>{{newCard.front}}</td>
-              <td>{{newCard.back}}</td>
-              <td>{{newCard.keywords}}</td>
+              <td>{{card.front}}</td>
+              <td>{{card.back}}</td>
+              <td>{{card.keywords}}</td>
               <td><button class="edit-btn">Edit Card</button></td>
           </tr>
       </table>
@@ -31,11 +31,11 @@
 <script>
 import DeckCardService from '../services/DeckCardService.js'
 import { ref } from 'vue';
-import Popup from '../components/Popup.vue'
+import Popup from './Popup.vue'
 
 export default {
     name: 'edit-deck',
-    props: ['card'],
+    props: ['cards'],
     setup() {
         const popupTriggers = ref({
                 buttonTrigger: false
@@ -49,19 +49,19 @@ export default {
     },
     data() {
         return {
-            newCard: {
+            card: {
                 cardId: 0,
-                deckId: 1, // right now, GetCards() is taking this number literally,
+                deckId: 0, // right now, GetCards() is taking this number literally,
                             // but we want it to auto-increment
-                front: 'test',
-                back: 'test',
-                keywords: 'test'
+                front: '',
+                back: '',
+                keywords: ''
             }
         }
     },
     methods: {
         GetCards() {
-            DeckCardService.getCards(this.newCard.deckId).then((response) => {
+            DeckCardService.getCards(this.card.deckId).then((response) => {
                  this.$store.commit("SET_CARDS", response.data);
             })
             .catch((error) => {
@@ -73,7 +73,10 @@ export default {
         Popup
     },
     created() {
-        this.GetCards();
+        //this.boardId = parseInt(this.$route.params.id);
+        //this.$store.commit("SET_ACTIVE_BOARD", this.boardId);
+
+        //this.GetCards();
         // hard coded deck #2 for testing purposes
 
         // THIS IS NOT WORKING >:(
