@@ -8,10 +8,10 @@
     
   <div class="decks" v-for="deck in this.$store.state.decks"
         v-bind:key="deck.id"
-        v-bind:style="{ 'background-color': board.
-        backgroundColor }"
+        v-bind:style="{ 'background-color': deck.
+        backgroundColor }">
       
-        {{ deck.name }}>
+        {{ deck.name }}
       
       <form v-if="showAddDeck">
         Deck Name:
@@ -56,19 +56,21 @@ export default {
   
   methods: {
     retrieveDecks() { //we need to look at this one!
-      deckCardService.getDecks().then(response => {
+      deckCardService.GetAllDecks().then(response => {
         this.$store.commit("SET_DECKS", response.data);
-                            
+                       
+    }).catch((error) => {
+      alert(error);
     });
     },
 
-    saveNewBoard() 
+    saveNewDeck() 
     {
         
         this.showAddDeck = false; // take away the form so the user can't click the 'save' button 823,492 times while waiting for the Promise to resolve
         deckCardService.addDeck(this.newDeck).then(() => {
             this.retrieveDecks();
-            //reset new board object
+            //reset new deck object
             this.newDeck = {
               name: '',
               description:'',
@@ -158,10 +160,10 @@ h1 {
 .loading {
   flex: 3;
 }
-.board:hover:not(.router-link-active), .addBoard:hover {
+.deck:hover:not(.router-link-active), .addDeck:hover {
   font-weight: bold;
 }
-.board-active {
+.deck-active {
   font-weight: bold;
   border: solid blue 5px;
 }
