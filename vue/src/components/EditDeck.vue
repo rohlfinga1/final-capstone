@@ -50,12 +50,12 @@ export default {
     data() {
         return {
             card: {
-                cardId: 0,
-                deckId: 0, // right now, GetCards() is taking this number literally,
+                cardId: this.card.cardId,
+                deckId: this.card.deckId, // right now, GetCards() is taking this number literally,
                             // but we want it to auto-increment
-                front: '',
-                back: '',
-                keywords: ''
+                front: this.card.front,
+                back: this.card.back,
+                keywords: this.card.keywords
             }
         }
     },
