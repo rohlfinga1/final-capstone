@@ -38,10 +38,17 @@ namespace Capstone.Controllers
             }
         }
 
+<<<<<<< HEAD
         //[HttpGet("{id}")]
         //public ActionResult<List<Card>> GetAllCardsByDeckId(int deckId)
         //{
         //    List<Card> allCardsByDeckId = cardDao.GetAllCardsByDeckId();
+=======
+        [HttpGet("{id}")]
+        public ActionResult<List<Card>> GetAllCardsByDeckId(int deckId)
+        {
+            List<Card> allCardsByDeckId = cardDao.GetAllCardsByDeckId(deckId);
+>>>>>>> e8cbb357b500624d469c3196e0ff7bf74c4104c8
 
         //    if (allCardsByDeckId == null)
         //    {
