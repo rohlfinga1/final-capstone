@@ -5,9 +5,9 @@
       </div>
     <div class= "dropdown_menu">
         <select name="nav_dropdown" id="nav_dropdown" class="nav_dropdown">
-            <option value="login"><router-link v-bind:to="{ name: 'login' }">Login</router-link></option>
-            <option value="login"><router-link v-bind:to="{ name: 'myDecks' }">My Decks</router-link></option>
-            <option value="login"><router-link v-bind:to="{ name: 'public-decks' }">Public Decks</router-link></option>
+            <option value="login"><router-link v-bind:to="{ name: 'login' }" >Login</router-link></option><!--v-show=""-->
+            <option value="myDecks"><router-link v-bind:to="{ name: 'myDecks' }">My Decks</router-link></option>
+            <option value="public-decks"><router-link v-bind:to="{ name: 'public-decks' }">Public Decks</router-link></option>
         </select>
     </div>
   </header>
@@ -16,7 +16,13 @@
 <script>
 
 export default {
-    name: "menu-bar"
+    name: "menu-bar",
+    // data() {
+    //     return {
+    //         token: currentToken
+    //     }
+    // }
+    
 }
 </script>
 

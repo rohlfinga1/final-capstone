@@ -8,7 +8,7 @@ using Capstone.Models;
 
 namespace Capstone.Controllers
 {
-    [Route("card")]
+    [Route("[controller]")]
     [ApiController]
     public class CardController : ControllerBase
     {
