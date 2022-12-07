@@ -33,7 +33,10 @@
         required
       />
       <router-link :to="{ name: 'register' }">Need an account?</router-link>
+
+    
       <button type="submit" @click="login">Sign in</button> 
+     
       <!--  @click triggers login function on a click-->
       <!-- testable using default username = "user" password = "password" -->
       
@@ -63,7 +66,7 @@ export default {
           if (response.status == 200) {
             this.$store.commit("SET_AUTH_TOKEN", response.data.token);
             this.$store.commit("SET_USER", response.data.user);
-            this.$router.push("/");
+            this.$router.push("/myDecks");
           }
         })
         .catch(error => {
