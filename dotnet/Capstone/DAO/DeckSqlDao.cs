@@ -122,8 +122,8 @@ namespace Capstone.DAO
             {
                 conn.Open();
 
-                SqlCommand cmd = new SqlCommand("UPDATE " +
-                                                "SET deck_id = @deck_id, creator_id = @creator_id, name = @name, description = @description, is_public = @is_public, deck_keywords = @deck_keywords " +
+                SqlCommand cmd = new SqlCommand("UPDATE deck " +
+                                                "SET creator_id = @creator_id, name = @name, description = @description, is_public = @is_public, deck_keywords = @deck_keywords " +
                                                 "WHERE deck_id = @deck_id;", conn);
                 cmd.Parameters.AddWithValue("@deck_id", deck.DeckId);
                 cmd.Parameters.AddWithValue("@creator_id", deck.CreatorId);
