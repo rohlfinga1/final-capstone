@@ -30,14 +30,26 @@ export default {
         }
     },
     methods: {
-        CreateCard() {
-            DeckCardService.getCard(this.newCard.deck_id, this.newCard.card_id).then((response) => {
+        GetCards() {
+            DeckCardService.getCards(this.newCard.deck_id).then((response) => {
                  this.newCard.card_id = response.data;
             })
             .catch((error) => {
                 alert(error);
             })
         }
+    },
+    components: {
+
+    },
+    created() {
+        // hard coded deck #2 for testing purposes
+        DeckCardService.getCards(2).then((response) => {
+            this.$store.commit("SET_DECKS", response.data);
+        })
+        .catch(error => {
+            alert(error);
+        });
     }
 }
 
