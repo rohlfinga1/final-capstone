@@ -29,6 +29,7 @@ prevent="saveNewDeck">Save</button>
       </form>
   </div>
  </div>
+ </div>
 </template>
 
 <script>
