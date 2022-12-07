@@ -23,7 +23,7 @@
 import DeckCardService from '../services/DeckCardService'
 export default {
     name: 'edit-deck',
-    props: ['card'],
+    props: ['cards'],
     data() {
         return {
             newCard: {}
@@ -31,8 +31,8 @@ export default {
     },
     methods: {
         GetCards() {
-            DeckCardService.getCards(this.newCard.deck_id).then((response) => {
-                 this.newCard.card_id = response.data;
+            DeckCardService.getCards(this.newCard.deckId).then((response) => {
+                 this.newCard.cardId = response.data;
             })
             .catch((error) => {
                 alert(error);
