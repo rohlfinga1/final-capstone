@@ -65,7 +65,7 @@ const router = new Router({
       }
     },
     {
-      path: "/DeckEditor/",
+      path: "/deck/:deckId/card",
       name: "DeckEditor",
       component: DeckEditor,
       meta:{
