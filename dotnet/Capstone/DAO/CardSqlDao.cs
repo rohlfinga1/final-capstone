@@ -43,6 +43,34 @@ namespace Capstone.DAO
             return cardList;
         }
 
+        public List<Card> GetAllCardsByDeckId(int deckId)
+        {
+            List<Card> cardList = null;
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM textcard WHERE deck_id = @deck_id", conn);
+                    cmd.Parameters.AddWithValue("@deck_id", deckId);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    cardList = new List<Card>();
+                    while (reader.Read())
+                    {
+                        cardList.Add(CreateCardFromReader(reader));
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.Error.WriteLine(ex.Message);
+            }
+
+            return cardList;
+        }
+
         public Card GetCard(int cardId)
         {
             // establish the SQL connection
