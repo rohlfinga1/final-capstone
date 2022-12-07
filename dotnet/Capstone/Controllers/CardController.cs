@@ -38,7 +38,7 @@ namespace Capstone.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("/deck/{deckId}/card")]
         public ActionResult<List<Card>> GetAllCardsByDeckId(int deckId)
         {
             List<Card> allCardsByDeckId = cardDao.GetAllCardsByDeckId(deckId);

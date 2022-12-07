@@ -57,7 +57,7 @@ const router = new Router({
       }
     },
     {
-      path: "/myDecks",
+      path: "/deck",
       name: "myDecks",
       component: AccountPage,
       meta:{
@@ -72,6 +72,21 @@ const router = new Router({
         requiresAuth: true
       }
     },
+    // {
+    //   path: '/deck/:deckId/card/:cardId',
+    //   name: 'Card',
+    //   component: Card
+    // },
+    // {
+    //   path: '/deck/:deckId/card/create',
+    //   name: 'AddCard',
+    //   component: AddCard
+    // },
+    // {
+    //   path: '/deck/:deckId/card/:cardId/edit',
+    //   name: 'EditCard',
+    //   component: EditCard
+    // }
   ]
 })
 

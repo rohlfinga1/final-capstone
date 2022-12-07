@@ -13,7 +13,7 @@ AddDeck(newDeck){
 
 //about cards
 getCards(deckId) {
-    return axios.get(`/deck/${deckId}`)
+    return axios.get(`/deck/${deckId}/card`)
 },
 
   getCard(deckId, cardId) {
