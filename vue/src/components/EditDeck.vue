@@ -56,5 +56,23 @@ export default {
 </script>
 
 <style>
-
+    table {
+        align-self: center;
+        justify-self: center;  
+        table-layout: fixed;
+        width: 80%;
+        border-collapse: collapse;
+        border: 3px solid gray;
+        text-align: center;
+    }
+    tbody tr:nth-child(odd) {
+  background-color: #e9e9e9;
+    }
+    tbody tr:nth-child(even) {
+  background-color: #979797;
+    }
+    .edit-btn {
+        background-color: green;
+        border-style: solid, black;
+    }
 </style>
