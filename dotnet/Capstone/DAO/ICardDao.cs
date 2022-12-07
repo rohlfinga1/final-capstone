@@ -17,6 +17,7 @@ namespace Capstone.DAO
         bool DeleteCard(int cardId);
 
         List<Card> GetAllCards();
+        List<Card> GetAllCardsByDeckId();
 
 
 
