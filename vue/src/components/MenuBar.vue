@@ -1,15 +1,16 @@
 <template>
   <header id="menubar">
-      <div class="title">
-          <h2>FlashCard Study App</h2>
-      </div>
-    <div class= "dropdown_menu">
-        <select name="nav_dropdown" id="nav_dropdown" class="nav_dropdown">
-            <option value="login"><router-link v-bind:to="{ name: 'login' }" >Login</router-link></option><!--v-show=""-->
-            <option value="myDecks"><router-link v-bind:to="{ name: 'myDecks' }">My Decks</router-link></option>
-            <option value="public-decks"><router-link v-bind:to="{ name: 'public-decks' }">Public Decks</router-link></option>
-        </select>
+    <div class="title">
+        <h2>FlashCard Study App</h2>
     </div>
+    <nav>
+        <ul>
+            <!--<li><router-link v-bind:to="{ name: 'login' }" v-if="token==''">LOGIN</router-link></li>-->
+            <li><router-link v-bind:to="{ name: 'myDecks' }">MY DECKS</router-link></li>
+            <li><router-link v-bind:to="{ name: 'public-decks' }">PUBLIC DECKS</router-link></li>
+            <li><router-link v-bind:to="{ name: 'logout' }" >LOG OUT</router-link></li> <!--v-else="token"-->
+        </ul>
+    </nav>
   </header>
 </template>
 
@@ -17,12 +18,6 @@
 
 export default {
     name: "menu-bar",
-    // data() {
-    //     return {
-    //         token: currentToken
-    //     }
-    // }
-    
 }
 </script>
 
@@ -36,12 +31,59 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex-grow: 1;
 }
-.dropdown_menu {
-    align-items: right;
-}
-
 .title {
     align-items: center;
+}
+
+header div
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+
+}
+header nav
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex-grow: 1;
+    justify-content: flex-end;
+}
+header nav ul{
+    justify-content: space-evenly;
+    flex-grow: 0.5;
+    justify-items: center;
+    align-items: center;    
+}
+/* #header nav ul li a 
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    text-decoration:  none;
+
+} */
+
+nav ul {
+    display: inline;
+    margin: 0;
+    padding: 20px 0 0 0;
+    display: flex;
+    flex-direction: row;
+    
+}
+
+nav ul li {
+    list-style: none;
+    width: 30%;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 50px;
 }
 </style>
