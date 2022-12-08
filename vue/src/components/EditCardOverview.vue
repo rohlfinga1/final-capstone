@@ -59,39 +59,25 @@ export default {
             }
         }
     },
-    created() {
-        this.GetCards();
-        //this.boardId = parseInt(this.$route.params.id);
-        //this.$store.commit("SET_ACTIVE_BOARD", this.boardId);
-
-        //this.GetCards();
-        // hard coded deck #2 for testing purposes
-
-        // THIS IS NOT WORKING >:(
-
-        // DeckCardService.getCards(2).then((response) => {
-        //     this.$store.commit("SET_DECKS", response.data);
-        // })
-        // .catch(error => {
-        //     alert(error);
-        // });
-    },
-    methods: {
-        GetCards() {
-            DeckCardService.getCards(this.card.deckId).then((response) => {
-                 this.$store.commit("SET_CARDS", response.data);
-            })
-            .catch((error) => {
-                alert(error);
-            })
-        }
-    },
+  created() {
+      this.GetCards();
+  },
+  methods: {
+    GetCards() {
+      DeckCardService.getCards(this.card.deckId)
+        .then((response) => {
+          this.$store.commit("SET_CARDS", response.data);
+        })
+        .catch((error) => {
+          alert(error);
+        });
+    }
+  },
     components: {
-        Popup
-    },
+        Popup, CardForm
+    }
     
 }
-
 </script>
 
 <style>
