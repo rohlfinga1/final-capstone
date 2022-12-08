@@ -1,18 +1,21 @@
 <template>
   <div class="popup">
       <div class="popup-inner">
-          <slot />
-      <button class="popup-close" @click="TogglePopup()">
+          <slot><card-form /></slot>
+      <!-- <button class="popup-close" @click="TogglePopup()">
           Close popup
-      </button>
+      </button> -->
       </div>
       
   </div>
 </template>
 
 <script>
+import CardForm from './CardForm.vue'
+
 export default {
-    props: ['TogglePopup']
+    props: ['TogglePopup', 'cards'],
+	components: CardForm
 }
 </script>
 

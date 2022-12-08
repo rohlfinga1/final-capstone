@@ -59,7 +59,9 @@ export default {
   
   methods: {
     retrieveDecks() { //we need to look at this one!
-      deckCardService.GetAllDecks().then(response => {
+      const userId = this.$store.state.user.userId;
+      console.log(this.$store.state.user.userId);
+      deckCardService.getUserDecks(userId).then(response => {
         this.$store.commit("SET_DECKS", response.data);
                        
     }).catch((error) => {
