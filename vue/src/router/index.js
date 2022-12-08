@@ -75,16 +75,16 @@ const router = new Router({
     // {
     //   path: '/deck/:deckId/card/:cardId',
     //   name: 'Card',
-    //   component: Card
-    // },
-    // {
-    //   path: '/deck/:deckId/card/create',
-    //   name: 'CardForm',
-    //   component: CardForm,
+    //   component: Card,
     //   meta:{
     //     requiresAuth: true
     //   }
-    // }
+    // },
+    // {
+    //   path: '/deck/:deckId/card/create',
+    //   name: 'AddCard',
+    //   component: AddCard
+    // },
     // {
     //   path: '/deck/:deckId/card/:cardId/edit',
     //   name: 'EditCard',

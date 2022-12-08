@@ -9,7 +9,7 @@ namespace Capstone.DAO
     public interface IDeckDao
     {
         Deck GetDeck(int deckId);
-        Deck CreateDeck(string name, bool isPublic, string description, string deckKeywords);
+        Deck CreateDeck(Deck deck);
         Deck UpdateDeck(int deckId, Deck deck);
         bool DeleteDeck(int deckId);
         List<Deck> GetAllDecks();

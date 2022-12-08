@@ -105,7 +105,7 @@ export default {
   created() {
     if (this.cardID != 0) {
       deckCardService
-        .getCard(this.cardID)
+        .getCard(this.$route.params.deckId, this.cardID)
         .then(response => {
           this.card = response.data;
         })
