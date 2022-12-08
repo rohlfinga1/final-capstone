@@ -138,8 +138,7 @@ export default {
     },
     components: {
         Popup
-    },
-    
+    } 
 }
 
 </script>
