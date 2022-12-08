@@ -6,14 +6,16 @@
     
     <button class="addDeck"   v-on:click="showAddDeck = !showAddDeck">Add New Deck</button> 
     
-  <div class="decks" v-for="deck in this.$store.state.decks"
+  <div class="decks" v-for="deck in $store.state.decks"
         v-bind:key="deck.id"
         v-bind:style="{ 'background-color': deck.
         backgroundColor }">
         
         <p class="eachDeck">
         {{ deck.name }}<br><br>
-        {{ deck.description}}
+        {{ deck.description}}<br>
+        {{deck.creatorId}}
+        
         </p>
       
       <form v-if="showAddDeck">
@@ -48,7 +50,8 @@ export default {
         name: '',
         description: '',
         deckKeywords: '',
-        deckId: '0'
+        deckId: '0',
+        creatorId:'0'
       },
       errorMsg: ''
     };
@@ -56,7 +59,6 @@ export default {
   created() {
     this.retrieveDecks();
   },
-  
   methods: {
     retrieveDecks() { //we need to look at this one!
       deckCardService.GetAllDecks().then(response => {
@@ -107,8 +109,21 @@ export default {
       if (bg.length !== 6) bg = this.generateHexCode();
       return bg;
     }
-  }
-};
+  },
+  // computed:{
+    // filteredDecks() {
+    // let tempDecks = this.$store.state.decks
+    
+    // tempDecks = tempDecks.filter((deck) => {
+      // return (deck.creatorId == this.deck.creatorId)
+    // })
+    
+    // return tempDecks;
+  // }
+  // }
+  
+}
+
 </script>
 
 <style scoped>
