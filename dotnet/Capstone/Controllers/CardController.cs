@@ -72,7 +72,7 @@ namespace Capstone.Controllers
             }
         }
 
-        [HttpPost()]
+        [HttpPost("/deck/{deckId}/card")]
         public ActionResult<Card> AddCard(Card card)
         {
             Card added = cardDao.CreateCard(card);
