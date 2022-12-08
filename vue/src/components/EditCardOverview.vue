@@ -51,7 +51,7 @@ export default {
         return {
             card: {
                 cardId: 0,
-                deckId: 0, // right now, GetCards() is taking this number literally,
+                deckId: this.$route.params.deckId, // right now, GetCards() is taking this number literally,
                             // but we want it to auto-increment
                 front: '',
                 back: '',
@@ -59,20 +59,8 @@ export default {
             }
         }
     },
-    methods: {
-        GetCards() {
-            DeckCardService.getCards(this.card.deckId).then((response) => {
-                 this.$store.commit("SET_CARDS", response.data);
-            })
-            .catch((error) => {
-                alert(error);
-            })
-        }
-    },
-    components: {
-        Popup
-    },
     created() {
+        this.GetCards();
         //this.boardId = parseInt(this.$route.params.id);
         //this.$store.commit("SET_ACTIVE_BOARD", this.boardId);
 
@@ -87,7 +75,21 @@ export default {
         // .catch(error => {
         //     alert(error);
         // });
-    }
+    },
+    methods: {
+        GetCards() {
+            DeckCardService.getCards(this.card.deckId).then((response) => {
+                 this.$store.commit("SET_CARDS", response.data);
+            })
+            .catch((error) => {
+                alert(error);
+            })
+        }
+    },
+    components: {
+        Popup
+    },
+    
 }
 
 </script>
