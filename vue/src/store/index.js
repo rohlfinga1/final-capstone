@@ -29,8 +29,8 @@ export default new Vuex.Store({
     },
     cards: [],
     card: {
-      card_id: 0,
-      deck_id: 0,
+      cardId: 0,
+      deckId: 0,
       front: '',
       back: '',
       keywords: ''
@@ -57,6 +57,10 @@ export default new Vuex.Store({
 
     SET_DECKS(state, data) {
       state.decks = data;
+    },
+
+    SET_CARDS(state, data){
+      state.cards = data;
     }
   }
 })

@@ -10,11 +10,12 @@ AddDeck(newDeck){
     return axios.post('/deck', newDeck)
 
 },
+getCards(deckId) {
+    return axios.get(`/deck/${deckId}/card`)
+},
 
 //about cards
-getCards(deckId) {
-    return axios.get(`/deck/${deckId}`)
-},
+
 
   getCard(deckId, cardId) {
     return axios.get(`/deck/${deckId}/card/${cardId}`)
