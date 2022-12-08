@@ -90,26 +90,58 @@ export default {
         .catch((error) => {
           alert(error);
         });
+        const TogglePopup = (trigger) => {
+            popupTriggers.value[trigger] = !popupTriggers.value[trigger]
+        }
+        return {
+            Popup, popupTriggers, TogglePopup
+        }
     },
-  },
-  components: {
-    CardForm,
-    Popup,
-  },
-  created() {
-    //this.boardId = parseInt(this.$route.params.id);
-    //this.$store.commit("SET_ACTIVE_BOARD", this.boardId);
-    //this.GetCards();
-    // hard coded deck #2 for testing purposes
-    // THIS IS NOT WORKING >:(
-    // DeckCardService.getCards(2).then((response) => {
-    //     this.$store.commit("SET_DECKS", response.data);
-    // })
-    // .catch(error => {
-    //     alert(error);
-    // });
-  },
-};
+    data() {
+        return {
+            card: {
+                cardId: 0,
+                deckId: this.$route.params.deckId, // right now, GetCards() is taking this number literally,
+                            // but we want it to auto-increment
+                front: '',
+                back: '',
+                keywords: ''
+            }
+        }
+    },
+    created() {
+        this.GetCards();
+        //this.boardId = parseInt(this.$route.params.id);
+        //this.$store.commit("SET_ACTIVE_BOARD", this.boardId);
+
+        //this.GetCards();
+        // hard coded deck #2 for testing purposes
+
+        // THIS IS NOT WORKING >:(
+
+        // DeckCardService.getCards(2).then((response) => {
+        //     this.$store.commit("SET_DECKS", response.data);
+        // })
+        // .catch(error => {
+        //     alert(error);
+        // });
+    },
+    methods: {
+        GetCards() {
+            DeckCardService.getCards(this.card.deckId).then((response) => {
+                 this.$store.commit("SET_CARDS", response.data);
+            })
+            .catch((error) => {
+                alert(error);
+            })
+        }
+    },
+    components: {
+        Popup
+    },
+    
+}
+
 </script>
 
 <style>
