@@ -18,8 +18,6 @@
     <br/>
     <div class="actions">
       <button class="btn btn-submit">Submit</button>
-      
-      <button class="btn btn-cancel" v-on:click="cancelForm" type="button">Cancel</button>
     </div>
   </form>
 </template>

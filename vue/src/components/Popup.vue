@@ -2,9 +2,9 @@
   <div class="popup">
       <div class="popup-inner">
           <slot><card-form /></slot>
-      <!-- <button class="popup-close" @click="TogglePopup()">
-          Close popup
-      </button> -->
+      <button class="popup-close" @click="TogglePopup()">
+          Cancel (close popup)
+      </button>
       </div>
       
   </div>

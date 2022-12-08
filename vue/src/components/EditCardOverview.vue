@@ -3,7 +3,7 @@
     <button class="add-btn" @click="() => TogglePopup('buttonTrigger')">
       Add Card
     </button>
-    <!-- <div class="popup">
+    <div class="popup">
       <popup
         v-if="popupTriggers.buttonTrigger"
         :TogglePopup="() => TogglePopup('buttonTrigger')"
@@ -11,26 +11,7 @@
         <h3>Add Card</h3>
         <card-form />
       </popup>
-<<<<<<< HEAD
-      </div>
-      <table>  
-          <tr>
-              <th>Front</th>
-              <th>Back</th>
-              <th>Keywords</th>
-              <th>Edit</th>
-          </tr>
-          <tr class="card-row" v-for="card in this.$store.state.cards"
-              v-bind:key="card.cardId">
-              <!-- For every card in the textcard table by deck_id, assign each data point to the appropriate column -->
-              <td>{{newCard.front}}</td>
-              <td>{{newCard.back}}</td>
-              <td>{{newCard.keywords}}</td>
-              <td><button class="edit-btn">Edit Card</button></td>
-          </tr>
-      </table>
-=======
-    </div> -->
+    </div>
     <table>
       <tr>
         <th>Front</th>
@@ -63,7 +44,6 @@
         <card-form />
       </popup>
     </div>
->>>>>>> c17a6d8905093ebc347a3ea408b57890dad71a39
   </div>
 </template>
 
@@ -83,6 +63,7 @@ export default {
     const TogglePopup = (trigger) => {
       popupTriggers.value[trigger] = !popupTriggers.value[trigger];
     };
+    
     return {
       Popup,
       popupTriggers,
@@ -90,16 +71,19 @@ export default {
     };
   },
   data() {
-    return {
-      card: {
-        cardId: 0,
-        deckId: 0, // right now, GetCards() is taking this number literally,
-        // but we want it to auto-increment
-        front: "",
-        back: "",
-        keywords: "",
-      },
-    };
+        return {
+            card: {
+                cardId: 0,
+                deckId: this.$route.params.deckId, // right now, GetCards() is taking this number literally,
+                            // but we want it to auto-increment
+                front: '',
+                back: '',
+                keywords: ''
+            }
+        }
+    },
+  created() {
+      this.GetCards();
   },
   methods: {
     GetCards() {
@@ -110,58 +94,13 @@ export default {
         .catch((error) => {
           alert(error);
         });
-        const TogglePopup = (trigger) => {
-            popupTriggers.value[trigger] = !popupTriggers.value[trigger]
-        }
-        return {
-            Popup, popupTriggers, TogglePopup
-        }
-    },
-    data() {
-        return {
-            newCard: {
-                cardId: 0,
-                deckId: this.$route.params.deckId, // right now, GetCards() is taking this number literally,
-                            // but we want it to auto-increment
-                front: 'test',
-                back: 'test',
-                keywords: 'test'
-            }
-        }
-    },
-    created() {
-        this.GetCards();
-        //this.boardId = parseInt(this.$route.params.id);
-        //this.$store.commit("SET_ACTIVE_BOARD", this.boardId);
-
-        //this.GetCards();
-        // hard coded deck #2 for testing purposes
-
-        // THIS IS NOT WORKING >:(
-
-        // DeckCardService.getCards(2).then((response) => {
-        //     this.$store.commit("SET_DECKS", response.data);
-        // })
-        // .catch(error => {
-        //     alert(error);
-        // });
-    },
-    methods: {
-        GetCards() {
-            DeckCardService.getCards(this.card.deckId).then((response) => {
-                 this.$store.commit("SET_CARDS", response.data);
-            })
-            .catch((error) => {
-                alert(error);
-            })
-        }
-    },
+    }
+  },
     components: {
-        Popup
-    },
+        Popup, CardForm
+    }
     
 }
-
 </script>
 
 <style>
