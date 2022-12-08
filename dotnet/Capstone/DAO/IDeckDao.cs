@@ -15,7 +15,6 @@ namespace Capstone.DAO
         List<Deck> GetAllDecks();
 
         List<Deck> GetAllPublicDecks();
-
-        //List<Deck> GetAllDecksByCreatorId(int creatorId);
+        List<Deck> GetDecksForUser(int userId);
     }
 }

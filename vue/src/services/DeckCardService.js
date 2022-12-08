@@ -2,22 +2,21 @@ import axios from 'axios';
 
 export default 
 {
-GetAllDecks(){
+  GetAllDecks(){
     return axios.get('/deck');
-},
+  },
+  getUserDecks(userId){
+    return axios.get(`/deck/${userId}/public`);//new method for my decks and public
+  },
+  AddDeck(newDeck){
+    return axios.post('/deck', newDeck);
 
-AddDeck(newDeck){
-    return axios.post('/deck', newDeck)
+  },
+  getCards(deckId) {
+    return axios.get(`/deck/${deckId}/card`);
+  },
 
-},
-getDecksbyCreatorId(){
-  return axios.get(`/deck`)
-},
-getCards(deckId) {
-    return axios.get(`/deck/${deckId}/card`)
-},
-
-//about cards
+  //about cards
 
 
   getCard(deckId, cardId) {

@@ -78,6 +78,30 @@ namespace Capstone.Controllers
             }
         }
 
+        [HttpGet("{userId}/public")]  //new GetMethod for mydecks+public
+        public ActionResult<List<Deck>> GetUserDecks(int userId)
+        {
+            List<Deck> allPublicDecks = deckDao.GetAllPublicDecks();
+            if(allPublicDecks == null)
+            {
+                allPublicDecks = new List<Deck>();
+            }
+            List<Deck> userDecks = deckDao.GetDecksForUser(userId);
+            if(userDecks == null)
+            {
+                userDecks = new List<Deck>();
+            }
+
+            List<Deck> userAllDecks = allPublicDecks.Concat(userDecks).Distinct().ToList();//combined lists added duplicate filter
+            //  empty list, or full list
+            if (userAllDecks.Count == 0)
+            {
+                return NotFound();
+            }
+            
+            return userAllDecks; 
+        }
+
         [HttpGet("{id}")]
         public ActionResult<Deck> RetrieveDeck(int id)
         {

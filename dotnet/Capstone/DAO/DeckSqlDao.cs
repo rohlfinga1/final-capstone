@@ -213,5 +213,32 @@ namespace Capstone.DAO
 
             return deck;
         }
+
+        public List<Deck> GetDecksForUser(int userId)
+        {
+            List<Deck> userDecks = null;
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM deck WHERE creatorId = @userId;", conn);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    userDecks = new List<Deck>();
+                    while (reader.Read())
+                    {
+                        userDecks.Add(CreateDeckFromReader(reader));
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.Error.WriteLine(ex.Message);
+            }
+
+            return userDecks;
+        }
     }
 }
