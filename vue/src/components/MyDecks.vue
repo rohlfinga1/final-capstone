@@ -1,156 +1,150 @@
 <template>
- <div id= "MyDecksPage">
-  <div class="Nav">
-    <h1>My Decks</h1>
-    
-    
-  <button class="addDeck"   v-on:click="showAddDeck = !showAddDeck">Add New Deck</button> 
+  <div id="MyDecksPage">
+    <div class="Nav">
+      <h1>My Decks</h1>
+
+      <button class="addDeck" v-on:click="showAddDeck = !showAddDeck">
+        Add New Deck
+      </button>
 
       <form v-if="showAddDeck" @submit="submitForm">
         Deck Name:
-        <input type="text" class="form-control" 
-        v-model="newDeck.name" />
+        <input type="text" class="form-control" v-model="newDeck.name" />
         Description:
-        <input type="text" class="form-control" 
-        v-model="newDeck.description" />
+        <input type="text" class="form-control" v-model="newDeck.description" />
         Deck Keywords:
-        <input type="text" class="form-control" v-model="newDeck.deckKeywords" />
+        <input
+          type="text"
+          class="form-control"
+          v-model="newDeck.deckKeywords"
+        />
         Is this Public:
-        <input type="checkbox" class="form-control" v-model="newDeck.isPublic"/>
+        <input
+          type="checkbox"
+          class="form-control"
+          v-model="newDeck.isPublic"
+        />
         <button class="btn btn-submit" @click="submitForm">Save</button>
-        <button class="btn btn-cancel" v-on:click="showAddDeck= !showAddDeck">Cancel</button>
+        <button class="btn btn-cancel" v-on:click="showAddDeck = !showAddDeck">
+          Cancel
+        </button>
       </form>
-    
-  <div class="decks" v-for="deck in $store.state.decks"
+
+      <div
+        class="decks"
+        v-for="deck in $store.state.decks"
         v-bind:key="deck.id"
-        v-bind:style="{ 'background-color': deck.
-        backgroundColor }">
-        
+        v-bind:style="{ 'background-color': deck.backgroundColor }"
+      >
         <p class="eachDeck">
-        {{ deck.name }}<br><br>
-        {{ deck.description}}<br>
-        {{deck.creatorId}}
-        
+          {{ deck.name }}<br /><br />
+          {{ deck.description }}<br />
+          {{ deck.creatorId }}
         </p>
       </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
- </div>
- </div>
+    </div>
+  </div>
 </template>
 
 <script>
-import deckCardService from '../services/DeckCardService';
+import deckCardService from "../services/DeckCardService";
 
 export default {
-  name: 'myDecks',
+  name: "myDecks",
   data() {
     return {
-      
       showAddDeck: false,
       newDeck: {
-        name: '',
-        description: '',
-        deckKeywords: '',
-        deckId: '0',
-        creatorId:'0'
+        name: "",
+        description: "",
+        deckKeywords: "",
+        deckId: "0",
+        creatorId: "0",
       },
-      errorMsg: ''
+      errorMsg: "",
     };
   },
   created() {
     this.retrieveDecks();
   },
   methods: {
-    retrieveDecks() { //we need to look at this one!
+    retrieveDecks() {
+      //we need to look at this one!
       const userId = this.$store.state.user.userId;
       console.log(this.$store.state.user.userId);
-      deckCardService.getUserDecks(userId).then(response => {
-        this.$store.commit("SET_DECKS", response.data);
-                       
-    }).catch((error) => {
-      alert(error);
-    });
+      deckCardService
+        .getUserDecks(userId)
+        .then((response) => {
+          this.$store.commit("SET_DECKS", response.data);
+        })
+        .catch((error) => {
+          alert(error);
+        });
     },
 
-    submitForm(){
+    submitForm() {
       const newDeck = {
-        name:this.name,
+        name: this.name,
         description: this.description,
         deckKeywords: this.deckKeywords,
-        isPublic: this.isPublic
+        isPublic: this.isPublic,
       };
-    
-    if (this.deckId ===0)
-    {
-        
+
+      if (this.deckId === 0) {
         this.showAddDeck = false; // take away the form so the user can't click the 'save' button 823,492 times while waiting for the Promise to resolve
-        deckCardService.AddDeck(newDeck).then(() => {
+        deckCardService
+          .AddDeck(newDeck)
+          .then(() => {
             this.retrieveDecks();
             //reset new deck object
             this.newDeck = {
-              name: '',
-              description:'',
-              deckKeywords:'',
-              deckId:'0',
-              creatorId:'0'
-            
+              name: "",
+              description: "",
+              deckKeywords: "",
+              deckId: "0",
+              creatorId: "0",
+            };
+          })
+          .catch((error) => {
+            if (error.response) {
+              //if the error object has a response, I know I made it to the server
+              this.errorMsg =
+                "Error adding a new deck, response received from the server was " +
+                error.response.statusText +
+                ".";
+            } else if (error.request) {
+              //we never got a response, so there was a problem reaching the server
+              this.errorMsg =
+                "Error adding a new deck, could not reach the server.";
+            } else {
+              //no request, no response, something has gone terribly wrong in the application
+              this.errorMsg =
+                "Error adding a new deck, request could not be created.";
             }
-
-        }).catch((error) => {
-          if(error.response){
-            //if the error object has a response, I know I made it to the server
-            this.errorMsg = 'Error adding a new deck, response received from the server was ' + error.response.statusText + '.';
-          }
-
-
-          else if(error.request) {
-            //we never got a response, so there was a problem reaching the server
-            this.errorMsg = 'Error adding a new deck, could not reach the server.';
-          }
-          else {
-            //no request, no response, something has gone terribly wrong in the application
-            this.errorMsg = 'Error adding a new deck, request could not be created.';
-          }
-         
-        });
-    } 
+          });
+      }
     },
     randomBackgroundColor() {
       return "#" + this.generateHexCode();
     },
     generateHexCode() {
-      var bg = Math.floor(Math.random()*16777215).toString(16);
+      var bg = Math.floor(Math.random() * 16777215).toString(16);
       if (bg.length !== 6) bg = this.generateHexCode();
       return bg;
-    }
+    },
   },
   // computed:{
-    // filteredDecks() {
-    // let tempDecks = this.$store.state.decks
-    
-    // tempDecks = tempDecks.filter((deck) => {
-      // return (deck.creatorId == this.deck.creatorId)
-    // })
-    
-    // return tempDecks;
-  // }
-  // }
-  
-}
+  // filteredDecks() {
+  // let tempDecks = this.$store.state.decks
 
+  // tempDecks = tempDecks.filter((deck) => {
+  // return (deck.creatorId == this.deck.creatorId)
+  // })
+
+  // return tempDecks;
+  // }
+  // }
+};
 </script>
 
 <style scoped>
@@ -178,14 +172,14 @@ h1 {
   justify-content: space-between;
   border-width: 3px;
   border-color: black;
-  border:black;
+  border: black;
   align-items: center;
   font-size: 16px;
   width: 60%;
   margin: 10px;
   padding: 20px;
   cursor: pointer;
-  font-weight:bold;
+  font-weight: bold;
 }
 #decks {
   color: #f7fafc;
@@ -199,27 +193,27 @@ h1 {
   width: 60%;
 }
 .eachDeck {
-text-align:center;
-align-items: center;
-color: #f7fafc;
-border-style:solid;
-border-radius: 10px;
-border-width: 2px;
-border-color: black;
+  text-align: center;
+  align-items: center;
+  color: #f7fafc;
+  border-style: solid;
+  border-radius: 10px;
+  border-width: 2px;
+  border-color: black;
 
-background-color:rgb(79, 189, 240);
-font-size: 16px;
-width: 90%;
-margin: 10px;
-padding: 20px;
-margin-bottom: 35px;
-cursor: pointer;
+  background-color: rgb(79, 189, 240);
+  font-size: 16px;
+  width: 90%;
+  margin: 10px;
+  padding: 20px;
+  margin-bottom: 35px;
+  cursor: pointer;
 }
 .addDeck {
   align-items: center;
   color: #f7fafc;
   border-radius: 10px;
-  background-color:mediumaquamarine;
+  background-color: mediumaquamarine;
   font-size: 16px;
   width: 90%;
   margin: 10px;
@@ -231,9 +225,8 @@ cursor: pointer;
   margin-bottom: 10px;
 }
 
-.deck:hover:not(.router-link-active), .addDeck:hover {
+.deck:hover:not(.router-link-active),
+.addDeck:hover {
   font-weight: bold;
 }
-
-
 </style>
