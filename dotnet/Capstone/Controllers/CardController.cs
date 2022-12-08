@@ -72,23 +72,23 @@ namespace Capstone.Controllers
             }
         }
 
-        [HttpPost("/deck/{deckId}/card")]
+        [HttpPost()]
         public ActionResult<Card> AddCard(Card card)
         {
             Card added = cardDao.CreateCard(card);
             return Created($"/{added.CardId}", added);
         }
 
-        [HttpPut("/deck/{card.deckId}/card/{cardId}")]
-        public ActionResult<Card> UpdateExistingCard(int cardId, Card card)
+        [HttpPut("{id}")]
+        public ActionResult<Card> UpdateExistingCard(int id, Card card)
         {
-            Card existingCard = cardDao.GetCard(cardId);
+            Card existingCard = cardDao.GetCard(id);
             if (existingCard == null)
             {
                 return NotFound();
             }
 
-            Card updatedCard = cardDao.UpdateCard(cardId, card);
+            Card updatedCard = cardDao.UpdateCard(id, card);
 
             return updatedCard;
         }
