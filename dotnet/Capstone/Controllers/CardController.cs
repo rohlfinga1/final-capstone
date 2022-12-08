@@ -79,16 +79,16 @@ namespace Capstone.Controllers
             return Created($"/{added.CardId}", added);
         }
 
-        [HttpPut("{id}")]
-        public ActionResult<Card> UpdateExistingCard(int id, Card card)
+        [HttpPut("/deck/{card.deckId}/card/{cardId}")]
+        public ActionResult<Card> UpdateExistingCard(int cardId, Card card)
         {
-            Card existingCard = cardDao.GetCard(id);
+            Card existingCard = cardDao.GetCard(cardId);
             if (existingCard == null)
             {
                 return NotFound();
             }
 
-            Card updatedCard = cardDao.UpdateCard(id, card);
+            Card updatedCard = cardDao.UpdateCard(cardId, card);
 
             return updatedCard;
         }
