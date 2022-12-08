@@ -75,7 +75,10 @@ const router = new Router({
     // {
     //   path: '/deck/:deckId/card/:cardId',
     //   name: 'Card',
-    //   component: Card
+    //   component: Card,
+    //   meta:{
+    //     requiresAuth: true
+    //   }
     // },
     // {
     //   path: '/deck/:deckId/card/create',
