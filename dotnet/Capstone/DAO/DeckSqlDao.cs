@@ -126,7 +126,8 @@ namespace Capstone.DAO
         //    return deckList;
         //}
 
-        public Deck CreateDeck(string name, bool isPublic, string description, string deckKeywords)
+        //public Deck CreateDeck(string name, bool isPublic, string description, string deckKeywords)
+        public Deck CreateDeck(Deck deck)
         {
             int newDeckId;
             using (SqlConnection conn = new SqlConnection(connectionString))
@@ -134,16 +135,17 @@ namespace Capstone.DAO
                 conn.Open();
 
                 SqlCommand cmd = new SqlCommand("INSERT INTO deck (name, description, " +
-                                                "is_public, deck_keywords, description) " +
+                                                "is_public, deck_keywords, creator_id) " +
                                                 "OUTPUT INSERTED.deck_id " +
                                                 "VALUES (@name, @description, " +
-                                                "@is_public, @deck_keywords);", conn);
+                                                "@is_public, @deck_keywords, @creator_id);", conn);
                 
-                cmd.Parameters.AddWithValue("@name", name);
-                cmd.Parameters.AddWithValue("@description", description);
-                cmd.Parameters.AddWithValue("@is_public", isPublic);
-                cmd.Parameters.AddWithValue("@deck_keywords", deckKeywords);
-                
+                cmd.Parameters.AddWithValue("@name", deck.Name);
+                cmd.Parameters.AddWithValue("@description", deck.Description);
+                cmd.Parameters.AddWithValue("@is_public", deck.IsPublic);
+                cmd.Parameters.AddWithValue("@deck_keywords", deck.DeckKeywords);
+                cmd.Parameters.AddWithValue("@creator_id", deck.CreatorId);
+
 
                 newDeckId = Convert.ToInt32(cmd.ExecuteScalar());
             }
