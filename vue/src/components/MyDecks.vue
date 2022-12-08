@@ -4,7 +4,22 @@
     <h1>My Decks</h1>
     
     
-    <button class="addDeck"   v-on:click="showAddDeck = !showAddDeck">Add New Deck</button> 
+  <button class="addDeck"   v-on:click="showAddDeck = !showAddDeck">Add New Deck</button> 
+
+      <form v-if="showAddDeck" @submit="submitForm">
+        Deck Name:
+        <input type="text" class="form-control" 
+        v-model="newDeck.name" />
+        Description:
+        <input type="text" class="form-control" 
+        v-model="newDeck.description" />
+        Deck Keywords:
+        <input type="text" class="form-control" v-model="newDeck.deckKeywords" />
+        Is this Public:
+        <input type="checkbox" class="form-control" v-model="newDeck.isPublic"/>
+        <button class="btn btn-submit" @click="submitForm">Save</button>
+        <button class="btn btn-cancel" v-on:click="showAddDeck= !showAddDeck">Cancel</button>
+      </form>
     
   <div class="decks" v-for="deck in $store.state.decks"
         v-bind:key="deck.id"
@@ -17,22 +32,21 @@
         {{deck.creatorId}}
         
         </p>
-      
-      <form v-if="showAddDeck">
-        Deck Name:
-        <input type="text" class="form-control" 
-v-model="newDeck.name" />
-        Description:
-        <input type="text" class="form-control" 
-v-model="newDeck.description" />
-        Deck Keywords:
-        <input type="text" class="form-control" v-model="newDeck.deckKeywords" />
-        <button class="btn btn-submit" v-on:click.
-prevent="saveNewDeck">Save</button>
-        <button class="btn btn-cancel" v-on:click="showAddDeck 
-= !showAddDeck">Cancel</button>
-      </form>
-  </div>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
  </div>
  </div>
 </template>
@@ -69,17 +83,28 @@ export default {
     });
     },
 
-    saveNewDeck() 
+    submitForm(){
+      const newDeck = {
+        name:this.name,
+        description: this.description,
+        deckKeywords: this.deckKeywords,
+        isPublic: this.isPublic
+      };
+    
+    if (this.deckId ===0)
     {
         
         this.showAddDeck = false; // take away the form so the user can't click the 'save' button 823,492 times while waiting for the Promise to resolve
-        deckCardService.addDeck(this.newDeck).then(() => {
+        deckCardService.AddDeck(newDeck).then(() => {
             this.retrieveDecks();
             //reset new deck object
             this.newDeck = {
               name: '',
               description:'',
-              deckKeywords:''
+              deckKeywords:'',
+              deckId:'0',
+              creatorId:'0'
+            
             }
 
         }).catch((error) => {
@@ -97,9 +122,9 @@ export default {
             //no request, no response, something has gone terribly wrong in the application
             this.errorMsg = 'Error adding a new deck, request could not be created.';
           }
-          
+         
         });
-        
+    } 
     },
     randomBackgroundColor() {
       return "#" + this.generateHexCode();

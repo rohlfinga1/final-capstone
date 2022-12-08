@@ -17,7 +17,7 @@ namespace Capstone.Controllers
         {
             this.deckDao = deckDao;
         }
-        
+
         [HttpGet()]
         public ActionResult<List<Deck>> GetAllDecks()
         {
@@ -37,6 +37,26 @@ namespace Capstone.Controllers
                 return allDecks;
             }
         }
+
+        //[HttpGet("user/{creatorId}")]
+        //public ActionResult<List<Deck>> GetAllDecksByCreatorId(int creatorId)
+        //{
+        //    List<Deck> allDecksByCreator = deckDao.GetAllDecksByCreatorId(creatorId);
+
+        //    // null, empty list, or full list
+        //    if (allDecksByCreator == null)
+        //    {
+        //        return StatusCode(500);
+        //    }
+        //    else if (allDecksByCreator.Count == 0)
+        //    {
+        //        return NotFound();
+        //    }
+        //    else
+        //    {
+        //        return allDecksByCreator;
+        //    }
+        //}
 
         [HttpGet("public")]
         public ActionResult<List<Deck>> GetAllPublicDecks()

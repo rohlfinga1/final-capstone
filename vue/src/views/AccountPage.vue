@@ -19,7 +19,8 @@ export default {
       description: '',
       deckKeywords: '',
       deckId: '0',
-      creatorId: '0'
+      creatorId: '0',
+      isPublic:''
     },
     errorMsg: ''
   };

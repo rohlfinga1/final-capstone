@@ -73,47 +73,83 @@ namespace Capstone.DAO
         {
             // establish the SQL connection
             Deck deck = null;
-
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            try
             {
-                conn.Open();
-
-                SqlCommand cmd = new SqlCommand("SELECT * FROM deck WHERE deck_id = @deck_id;", conn);
-                cmd.Parameters.AddWithValue("@deck_id", deckId);
-
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                if (reader.Read())
+                using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    deck = CreateDeckFromReader(reader); // create a deck object from the information passed in by the database
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM deck WHERE deck_id = @deck_id;", conn);
+                    cmd.Parameters.AddWithValue("@deck_id", deckId);
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        deck = CreateDeckFromReader(reader); // create a deck object from the information passed in by the database
+                    }
                 }
+            }
+            catch(SqlException)
+            {
+                throw;
             }
 
             return deck;
         }
 
-        public Deck CreateDeck(Deck deck)
+        //public List<Deck> GetAllDecksByCreatorId(int creatorId)
+        //{
+        //    List<Deck> deckList = null;
+
+        //    try
+        //    {
+        //        using (SqlConnection conn = new SqlConnection(connectionString))
+        //        {
+        //            conn.Open();
+
+        //            SqlCommand cmd = new SqlCommand("SELECT * FROM deck WHERE creator_id = @creator_id", conn);
+        //            cmd.Parameters.AddWithValue("@creator_id", creatorId);
+        //            SqlDataReader reader = cmd.ExecuteReader();
+        //            deckList = new List<Deck>();
+        //            while (reader.Read())
+        //            {
+        //                deckList.Add(CreateDeckFromReader(reader));
+        //            }
+        //        }
+        //    }
+        //    catch (SqlException ex)
+        //    {
+        //        Console.Error.WriteLine(ex.Message);
+        //    }
+
+        //    return deckList;
+        //}
+
+        public Deck CreateDeck(string name, bool isPublic, string description, string deckKeywords)
         {
             int newDeckId;
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
 
-                SqlCommand cmd = new SqlCommand("INSERT INTO deck (creator_id, name, description, " +
-                                                "is_public, deck_keywords)" +
+                SqlCommand cmd = new SqlCommand("INSERT INTO deck (name, description, " +
+                                                "is_public, deck_keywords, description) " +
                                                 "OUTPUT INSERTED.deck_id " +
-                                                "VALUES (@creator_id, @name, @description, " +
+                                                "VALUES (@name, @description, " +
                                                 "@is_public, @deck_keywords);", conn);
-                cmd.Parameters.AddWithValue("@creator_id", deck.CreatorId);
-                cmd.Parameters.AddWithValue("@name", deck.Name);
-                cmd.Parameters.AddWithValue("@description", deck.Description);
-                cmd.Parameters.AddWithValue("@is_public", deck.IsPublic);
-                cmd.Parameters.AddWithValue("@deck_keywords", deck.DeckKeywords);
+                
+                cmd.Parameters.AddWithValue("@name", name);
+                cmd.Parameters.AddWithValue("@description", description);
+                cmd.Parameters.AddWithValue("@is_public", isPublic);
+                cmd.Parameters.AddWithValue("@deck_keywords", deckKeywords);
+                
 
                 newDeckId = Convert.ToInt32(cmd.ExecuteScalar());
             }
+            Deck newDeck = GetDeck(newDeckId);
 
-            return GetDeck(newDeckId);
+            return newDeck;
         }
 
         public Deck UpdateDeck(int deckId, Deck deck)
