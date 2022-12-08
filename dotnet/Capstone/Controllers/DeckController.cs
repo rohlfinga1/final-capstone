@@ -82,12 +82,12 @@ namespace Capstone.Controllers
         public ActionResult<List<Deck>> GetUserDecks(int userId)
         {
             List<Deck> allPublicDecks = deckDao.GetAllPublicDecks();
-            if(allPublicDecks == null)
+            if (allPublicDecks == null)
             {
                 allPublicDecks = new List<Deck>();
             }
             List<Deck> userDecks = deckDao.GetDecksForUser(userId);
-            if(userDecks == null)
+            if (userDecks == null)
             {
                 userDecks = new List<Deck>();
             }
@@ -98,8 +98,8 @@ namespace Capstone.Controllers
             {
                 return NotFound();
             }
-            
-            return userAllDecks; 
+
+            return userAllDecks;
         }
 
         [HttpGet("{id}")]

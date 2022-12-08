@@ -224,7 +224,8 @@ namespace Capstone.DAO
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("SELECT * FROM deck WHERE creatorId = @userId;", conn);
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM deck WHERE creator_id = @userId;", conn);
+                    cmd.Parameters.AddWithValue("@userId", userId);
                     SqlDataReader reader = cmd.ExecuteReader();
                     userDecks = new List<Deck>();
                     while (reader.Read())
