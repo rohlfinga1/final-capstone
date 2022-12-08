@@ -19,9 +19,9 @@
           <tr class="card-row" v-for="card in this.$store.state.cards"
               v-bind:key="card.cardId">
               <!-- For every card in the textcard table by deck_id, assign each data point to the appropriate column -->
-              <td>{{card.front}}</td>
-              <td>{{card.back}}</td>
-              <td>{{card.keywords}}</td>
+              <td>{{newCard.front}}</td>
+              <td>{{newCard.back}}</td>
+              <td>{{newCard.keywords}}</td>
               <td><button class="edit-btn">Edit Card</button></td>
           </tr>
       </table>
@@ -49,13 +49,13 @@ export default {
     },
     data() {
         return {
-            card: {
+            newCard: {
                 cardId: 0,
                 deckId: 0, // right now, GetCards() is taking this number literally,
                             // but we want it to auto-increment
-                front: '',
-                back: '',
-                keywords: ''
+                front: 'test',
+                back: 'test',
+                keywords: 'test'
             }
         }
     },
