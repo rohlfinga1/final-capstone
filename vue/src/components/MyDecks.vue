@@ -42,8 +42,23 @@
           {{ deck.creatorId }}
         </p>
       </div>
-    </div>
+      <form v-if="showAddDeck">
+        Deck Name:
+        <input type="text" class="form-control" 
+v-model="newDeck.name" />
+        Description:
+        <input type="text" class="form-control" 
+v-model="newDeck.description" />
+        Deck Keywords:
+        <input type="text" class="form-control" v-model="newDeck.deckKeywords" />
+        <button class="btn btn-submit" v-on:click.
+prevent="saveNewDeck">Save</button>
+        <button class="btn btn-cancel" v-on:click="showAddDeck 
+= !showAddDeck">Cancel</button>
+      </form>
   </div>
+ 
+ </div>
 </template>
 
 <script>
@@ -71,15 +86,15 @@ export default {
     retrieveDecks() {
       //we need to look at this one!
       const userId = this.$store.state.user.userId;
-      console.log(this.$store.state.user.userId);
-      deckCardService
-        .getUserDecks(userId)
-        .then((response) => {
-          this.$store.commit("SET_DECKS", response.data);
-        })
-        .catch((error) => {
-          alert(error);
-        });
+      //console.log(this.$store.state.user.userId);
+      this.$store.commit("SET_DECKS", []);//reset before pulling decks
+      deckCardService.getUserDecks(userId).then(response => {
+        console.log(response.data);
+        this.$store.commit("SET_DECKS", response.data);
+                       
+    }).catch((error) => {
+      alert(error);
+    });
     },
 
     submitForm() {
