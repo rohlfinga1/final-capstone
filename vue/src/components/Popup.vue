@@ -1,9 +1,9 @@
 <template>
   <div class="popup">
       <div class="popup-inner">
-          <slot><card-form /></slot>
+          <slot />
       <button class="popup-close" @click="TogglePopup()">
-          Cancel (close popup)
+          Close popup
       </button>
       </div>
       
@@ -11,11 +11,8 @@
 </template>
 
 <script>
-import CardForm from './CardForm.vue'
-
 export default {
-    props: ['TogglePopup', 'cards'],
-	components: CardForm
+    props: ['TogglePopup']
 }
 </script>
 
