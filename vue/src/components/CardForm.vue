@@ -4,7 +4,7 @@
     <h2>Card Form</h2>
     <div class="form-group">
       <label for="front">Question: </label>
-      <input id="front" type="text" name="front" v-model="card.front" />
+      <input id="front" type="text" name="front" value="ipsum lorem" v-model="card.front" />
     </div>
      <div class="form-group">
       <label for="back">Answer: </label>
