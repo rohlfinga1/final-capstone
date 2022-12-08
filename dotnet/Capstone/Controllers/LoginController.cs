@@ -5,7 +5,7 @@ using Capstone.Security;
 
 namespace Capstone.Controllers
 {
-    [Route("[controller]")]
+    [Route("[controller]")]//i think we should change other controllers to match this to conform to convention
     [ApiController]
     public class LoginController : ControllerBase
     {
