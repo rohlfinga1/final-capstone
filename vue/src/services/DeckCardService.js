@@ -9,11 +9,11 @@ export default
     return axios.get(`/deck/${userId}/public`);//new method for my decks and public
   },
   AddDeck(newDeck){
-    return axios.post('/deck', newDeck);
+      return axios.post('/deck', newDeck);
 
   },
   getCards(deckId) {
-    return axios.get(`/deck/${deckId}/card`);
+      return axios.get(`/deck/${deckId}/card`);
   },
 
   //about cards
