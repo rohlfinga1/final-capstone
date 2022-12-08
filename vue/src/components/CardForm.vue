@@ -27,19 +27,14 @@ import deckCardService from "../services/DeckCardService.js";
 
 export default {
   name: "card-form",
-  props: {
-    cardID: {
-      type: Number,
-      default: 0
-    }
-  },
   data() {
     return {
       card: {
         front: "",
         back: "",
         cardKeywords: "",
-        deckId: 0
+        deckId: 0,
+        cardId: 0
       },
       errorMsg: ""
     };
