@@ -3,7 +3,7 @@
     <button class="add-btn" @click="() => TogglePopup('buttonTrigger')">
       Add Card
     </button>
-    <!-- <div class="popup">
+    <div class="popup">
       <popup
         v-if="popupTriggers.buttonTrigger"
         :TogglePopup="() => TogglePopup('buttonTrigger')"
@@ -137,7 +137,8 @@ export default {
         }
     },
     components: {
-        Popup
+        Popup,
+        CardForm
     } 
 }
 
