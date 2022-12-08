@@ -27,7 +27,7 @@
         <!-- For every card in the textcard table by deck_id, assign each data point to the appropriate column -->
         <td>{{ card.front }}</td>
         <td>{{ card.back }}</td>
-        <td>{{ card.keywords }}</td>
+        <td>{{ card.cardKeywords }}</td>
         <td>
           <button class="edit-btn" @click="() => TogglePopup('buttonTrigger')">
             Edit Card
@@ -63,7 +63,7 @@ export default {
     const TogglePopup = (trigger) => {
       popupTriggers.value[trigger] = !popupTriggers.value[trigger];
     };
-    
+
     return {
       Popup,
       popupTriggers,
@@ -71,19 +71,19 @@ export default {
     };
   },
   data() {
-        return {
-            card: {
-                cardId: 0,
-                deckId: this.$route.params.deckId, // right now, GetCards() is taking this number literally,
-                            // but we want it to auto-increment
-                front: '',
-                back: '',
-                keywords: ''
-            }
-        }
-    },
+    return {
+      card: {
+        cardId: 0,
+        deckId: this.$route.params.deckId, // right now, GetCards() is taking this number literally,
+        // but we want it to auto-increment
+        front: "",
+        back: "",
+        cardKeywords: "",
+      },
+    };
+  },
   created() {
-      this.GetCards();
+    this.GetCards();
   },
   methods: {
     GetCards() {
@@ -94,13 +94,13 @@ export default {
         .catch((error) => {
           alert(error);
         });
-    }
+    },
   },
-    components: {
-        Popup, CardForm
-    }
-    
-}
+  components: {
+    Popup,
+    CardForm
+  },
+};
 </script>
 
 <style>
