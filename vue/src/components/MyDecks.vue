@@ -2,11 +2,11 @@
   <div id="MyDecksPage">
     <div class="Nav">
       <h1>My Decks</h1>
-
+      </div>
       <button class="addDeck" v-on:click="showAddDeck = !showAddDeck">
         Add New Deck
       </button>
-
+      
       <form v-if="showAddDeck" @submit="submitForm">
         Deck Name:
         <input type="text" class="form-control" v-model="newDeck.name" />
@@ -42,21 +42,7 @@
           {{ deck.creatorId }}
         </p>
       </div>
-      <form v-if="showAddDeck">
-        Deck Name:
-        <input type="text" class="form-control" 
-v-model="newDeck.name" />
-        Description:
-        <input type="text" class="form-control" 
-v-model="newDeck.description" />
-        Deck Keywords:
-        <input type="text" class="form-control" v-model="newDeck.deckKeywords" />
-        <button class="btn btn-submit" v-on:click.
-prevent="saveNewDeck">Save</button>
-        <button class="btn btn-cancel" v-on:click="showAddDeck 
-= !showAddDeck">Cancel</button>
-      </form>
-  </div>
+  
  
  </div>
 </template>
@@ -105,7 +91,7 @@ export default {
         isPublic: this.isPublic,
       };
 
-      if (this.deckId === 0) {
+      if (this.deckId == 0) {
         this.showAddDeck = false; // take away the form so the user can't click the 'save' button 823,492 times while waiting for the Promise to resolve
         deckCardService
           .AddDeck(newDeck)
