@@ -5,8 +5,8 @@
     
     
     <button class="addDeck"   v-on:click="showAddDeck = !showAddDeck">Add New Deck</button> 
-    
-  <div class="decks" v-for="deck in this.$store.state.decks"
+    <!--removed this.-->
+  <div class="decks" v-for="deck in $store.state.decks"
         v-bind:key="deck.id"
         v-bind:style="{ 'background-color': deck.
         backgroundColor }">
@@ -15,7 +15,7 @@
         {{ deck.name }}<br><br>
         {{ deck.description}}
         </p>
-      
+      </div>
       <form v-if="showAddDeck">
         Deck Name:
         <input type="text" class="form-control" 
@@ -31,7 +31,7 @@ prevent="saveNewDeck">Save</button>
 = !showAddDeck">Cancel</button>
       </form>
   </div>
- </div>
+ 
  </div>
 </template>
 
@@ -60,8 +60,10 @@ export default {
   methods: {
     retrieveDecks() { //we need to look at this one!
       const userId = this.$store.state.user.userId;
-      console.log(this.$store.state.user.userId);
+      //console.log(this.$store.state.user.userId);
+      this.$store.commit("SET_DECKS", []);//reset before pulling decks
       deckCardService.getUserDecks(userId).then(response => {
+        console.log(response.data);
         this.$store.commit("SET_DECKS", response.data);
                        
     }).catch((error) => {
