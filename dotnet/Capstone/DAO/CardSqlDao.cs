@@ -71,6 +71,37 @@ namespace Capstone.DAO
             return cardList;
         }
 
+        //study function
+        //public List<Card> GetStudyCardsByDeckId(int[] deckIdArray)
+        //{
+        //    List<Card> studyList = new List<Card>();
+
+        //    try
+        //    {
+        //        using (SqlConnection conn = new SqlConnection(connectionString))
+        //        {
+        //            conn.Open();
+        //            for (int i = 0; i < deckIdArray.Length; i++)
+        //            {
+        //                SqlCommand cmd = new SqlCommand("SELECT * FROM textcard WHERE deck_id = @deck_id", conn);
+        //                cmd.Parameters.AddWithValue("@deck_id", deckIdArray[i]);
+        //                SqlDataReader reader = cmd.ExecuteReader();
+
+        //                while (reader.Read())
+        //                {
+        //                    studyList.Add(CreateCardFromReader(reader));
+        //                }
+        //            } 
+        //        }
+        //    }
+        //    catch (SqlException ex)
+        //    {
+        //        Console.Error.WriteLine(ex.Message);
+        //    }
+
+        //    return studyList;
+        //}
+
         public Card GetCard(int cardId)
         {
             // establish the SQL connection
