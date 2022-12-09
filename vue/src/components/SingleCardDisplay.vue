@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card" v-bind:key="this.$route.params.cardId">
     <div class="content">
       <div class="front">
         <h2>{{ card.front }}</h2>
@@ -33,7 +33,7 @@ export default {
   methods: {
     retrieveCard() {
       deckCardService
-        .getCard(this.$route.params.cardID)
+        .getCard(this.$route.params.deckId, this.$route.params.cardId)
         .then((response) => {
           this.$store.commit("SET_CURRENT_CARD", response.data);
           //this.showFront = true;
@@ -54,9 +54,10 @@ export default {
 
 <style>
 @import 'https://fonts.googleapis.com/css?family=Lily+Script+One';
+
 body {
   background: #eee;
-  font-family: 'Lily Script One';
+  font-family: 'Lily Script One', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
 }
 
 .card {
