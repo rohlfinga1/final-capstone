@@ -1,20 +1,23 @@
 <template>
-  <form @submit.prevent="submitForm" class="cardForm">
-    <div class="status-message error" v-show="errorMsg !== ''">{{errorMsg}}</div>
+  <form @submit.prevent="submitForm" class="editCardForm">
+    <div class="status-message error" v-show="errorMsg !== ''">{
+{errorMsg}}</div>
     <div class="form-group">
       <label for="front">Question:  </label>
       
-      <input id="front" type="text" name="front" v-model="newCard.front" />
+      <input id="front" type="text" name="front" v-model="newCard.
+front" value="Test"/>
     </div>
     <br/>
      <div class="form-group">
       <label for="back">Answer:  </label>
-      <input type="text" name="back" v-model="newCard.back" value="test"/>
+      <input type="text" name="back" v-model="newCard.back" />
     </div>
     <br/>
     <div class="form-group">
       <label for="cardKeywords">Tags:  </label>
-      <input id="cardKeywords" type="text" name="cardKeywords" v-model="newCard.cardKeywords" />
+      <input id="cardKeywords" type="text" name="cardKeywords" 
+v-model="newCard.cardKeywords" />
     </div>
     <br/>
     <div class="actions">
@@ -44,22 +47,21 @@ export default {
     };
   },
   created() {
-    // if (this.newCard.cardId != 0) {
-      // deckCardService
-        // .getCard(this.$route.params.deckId, this.card.cardId)
-        // .then(response => {
-          // this.card.cardId = response.data.card.cardId;
-          //;
-        // })
-        // .catch(error => {
-          // if (error.response && error.response.status === 404) {
-            // alert(
-              // // "Card not available. This card may have been deleted or you have entered an invalid card ID."
-            // );
-            // this.$router.push({ name: 'Home' });
-          // }
-        // });
-    // }
+    if (this.newCard.cardId != 0) {
+      deckCardService
+        .getCard(this.$route.params.deckId, this.card.cardId)
+        .then(response => {
+          this.card = response.data;
+        })
+        .catch(error => {
+          if (error.response && error.response.status === 404) {
+            alert(
+              "Card not available. This card may have been deleted or you have entered an invalid card ID."
+            );
+            this.$router.push({ name: 'Home' });
+          }
+        });
+    }
   },
   methods: {
     submitForm() {

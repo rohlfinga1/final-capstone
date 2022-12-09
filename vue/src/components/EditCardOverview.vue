@@ -3,6 +3,7 @@
     <button class="add-btn" @click="() => TogglePopup('buttonTrigger')">
       Add Card
     </button>
+    <button class="edit-btn" @click="ShowEditForm = !ShowEditForm"> Edit Deck</button>  
     <div class="popup">
       <popup
         v-if="popupTriggers.buttonTrigger"
@@ -10,7 +11,6 @@
       >
         <h3>Add Card</h3>
         <!--<card-form v-bind:cardID="parseInt($route.params.cardID)" />-->
-        <add-new-card/>
       </popup>
     </div>
     <table>
@@ -18,7 +18,6 @@
         <th>Front</th>
         <th>Back</th>
         <th>Keywords</th>
-        <th>Edit</th>
       </tr>
       <tr
         class="card-row"
@@ -26,16 +25,27 @@
         v-bind:key="card.cardId"
       >
         <!-- For every card in the textcard table by deck_id, assign each data point to the appropriate column -->
-        <td>{{ card.front }}</td>
-        <td>{{ card.back }}</td>
-        <td>{{ card.cardKeywords }}</td>
-        <td>
-          <button class="edit-btn" @click="() => TogglePopup('buttonTrigger')">
-            Edit Card
-          </button>
+        <td v-if="ShowEditForm == false">{{ card.front }}</td>
+        <td v-if="ShowEditForm == false">{{ card.back }}</td>
+        <td v-if="ShowEditForm == false">{{ card.cardKeywords }}</td>
+        <td v-if="ShowEditForm">
+          <form id="editForm" v-if="ShowEditForm" @submit.prevent="editForm">
+            <input type="text" class="form-control" v-model="card.front" />
+          </form>
         </td>
+        <td v-if="ShowEditForm">
+          <form id="editForm" v-if="ShowEditForm" @submit.prevent="editForm">
+            <input type="text" class="form-control" v-model="card.back" />
+          </form>
+        </td>
+        <td v-if="ShowEditForm">
+          <form id="editForm" v-if="ShowEditForm" @submit.prevent="editForm">
+            <input type="text" class="form-control" v-model="card.cardKeywords" />
+          </form>
+        </td>   
       </tr>
     </table>
+    <button class="edit-btn" v-if="ShowEditForm">submit</button>
     <div class="popup">
       <popup
         v-if="popupTriggers.buttonTrigger"
@@ -73,6 +83,7 @@ export default {
   },
   data() {
     return {
+      ShowEditForm: false,
       card: {
         cardId: 0,
         deckId: this.$route.params.deckId, // right now, GetCards() is taking this number literally,
@@ -99,7 +110,7 @@ export default {
   },
   components: {
     Popup,
-    CardForm
+    CardForm,
   },
 };
 </script>
