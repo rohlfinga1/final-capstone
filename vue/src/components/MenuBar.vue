@@ -5,7 +5,15 @@
     </div>
     <nav>
         <ul>
-            <!--<li><router-link v-bind:to="{ name: 'login' }" v-if="token==''">LOGIN</router-link></li>-->
+            <li>
+                <div>
+                    <form @submit.prevent="processResults">
+                        <input id="front" type="text" name="keyword" placeholder="Search" v-model="searchInput"/>
+                        <router-link v-bind:to="{ name: 'SearchCards', params: {searchInput} }" class="link"><button class="btn btn-submit" >Search</button></router-link>
+                    </form>
+                </div>
+            </li>
+            <!--<li><router-link v-bind:to="{ name: 'login' }" v-if="token==''">LOGIN</router-link></li> possibly switch v-bind for v-model   @click="processResults"-->
             <li><router-link v-bind:to="{ name: 'myDecks' }" class="link">MY DECKS</router-link></li>
             <li><router-link v-bind:to="{ name: 'public-decks' }" class="link">PUBLIC DECKS</router-link></li>
             <li><router-link v-bind:to="{ name: 'logout' }" class="link">LOG OUT</router-link></li> <!--v-else="token"-->
@@ -15,9 +23,31 @@
 </template>
 
 <script>
+import deckCardService from '../services/DeckCardService.js';
 
 export default {
     name: "menu-bar",
+    data() {
+        return {
+            searchInput: '',
+        }
+    },
+    methods: {
+        processResults() {
+            const searchResult = this.searchInput;
+            this.$store.commit('SET_SEARCH_RESULTS', []);
+            deckCardService.getSearchResults(searchResult).then((response) => {
+                console.log(response.data);
+                this.$store.commit('SET_SEARCH_RESULTS', response.data);
+            }). catch((error) => {
+                alert(error);
+            });
+            this.route.replace({ name: 'SearchCards', params: {searchResult}});
+        }
+    }
+
+
+
 }
 </script>
 

@@ -8,7 +8,7 @@ import store from '../store/index'
 import AccountPage from '../views/AccountPage.vue'
 import DeckEditor from '../views/DeckEditor.vue'
 import StudySession from '../views/StudySession.vue'
-
+import SearchCards from '../components/SearchCards.vue'
 
 Vue.use(Router)
 
@@ -77,6 +77,14 @@ const router = new Router({
       path: '/deck/:deckId/card/:cardId',
       name: 'StudySession',
       component: StudySession,
+      meta:{
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/card/keyword/:searchInput',//'/card/keyword/:deckKeyword'
+      name: 'SearchCards',
+      component: SearchCards,
       meta:{
         requiresAuth: true
       }

@@ -57,6 +57,21 @@ namespace Capstone.Controllers
             }
         }
 
+        // GET /api/cards/{id}: Provides a Cat Card with the given ID.
+        [HttpGet("keyword/{searchInput}")]
+        public ActionResult<List<Card>> GetCardsByKeywords(string searchInput)
+        {
+            List<Card> filteredCards = cardDao.GetCardsByKeywords(searchInput);
+            if (filteredCards != null)
+            {
+                return filteredCards;
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
         //[HttpGet("/study/")]
         //public ActionResult<List<Card>> GetStudyCardsByDeckId(int[] deckIdArray)
         //{

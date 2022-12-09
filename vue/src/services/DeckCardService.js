@@ -18,7 +18,9 @@ export default
       return axios.get(`/deck/${deckId}/card`);
   },
 
- 
+  getSearchResults(keyword) {
+    return axios.get(`/card/keyword/${keyword}`);
+  },
 
 
   getCard(deckId, cardId) {
