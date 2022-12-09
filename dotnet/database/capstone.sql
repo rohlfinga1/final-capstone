@@ -56,8 +56,8 @@ INSERT INTO textcard (front, back, card_keywords, deck_id) VALUES ('What is the 
 INSERT INTO textcard (front, back, card_keywords, deck_id) VALUES ('What is the capital of Missouri?', 'Jefferson City', 'state, capital, US, Missouri', 1);
 INSERT INTO textcard (front, back, card_keywords, deck_id) VALUES ('What is the capital of Mississippi?', 'Jackson', 'state, capital, US, Mississippi', 1);
 INSERT INTO textcard (front, back, card_keywords, deck_id) VALUES ('What is the capital of Pennsylvania?', 'Harrisburg', 'state, capital, US, Pennsylvania', 1);
-INSERT INTO textcard (front, back, card_keywords, deck_id) VALUES ('What is the capital of New York?', 'Albany', 'state, capital, US, New York', 1);
-INSERT INTO textcard (front, back, card_keywords, deck_id) VALUES ('What is the capital of Texas?', 'Austin', 'state, capital, US, Texas', 1);
+INSERT INTO textcard (front, back, card_keywords, deck_id) VALUES ('What is the capital of New York?', 'Albany', 'state, US, New York', 1);
+INSERT INTO textcard (front, back, card_keywords, deck_id) VALUES ('What is the capital of Texas?', 'Austin', 'state, US, Texas', 1);
 
 INSERT INTO textcard (front, back, card_keywords, deck_id) VALUES ('Define polymorphism.', 'something taking many forms', 'software, computer, OOP', 2);
 INSERT INTO textcard (front, back, card_keywords, deck_id) VALUES ('What does DAO stand for?', 'Data Access Object', 'software, computer, DAO, design pattern', 2);

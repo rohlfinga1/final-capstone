@@ -34,7 +34,9 @@ export default new Vuex.Store({
       front: '',
       back: '',
       keywords: ''
-    }
+    },
+    searchInput: '',
+    searchResults: []
   },
 
   mutations: {
@@ -65,6 +67,10 @@ export default new Vuex.Store({
     
     SET_CURRENT_CARD(state, data) {
       state.card = data;
+    },
+
+    SET_SEARCH_RESULT(state, input) {
+      state.searchInput = input;
     },
   }
 })

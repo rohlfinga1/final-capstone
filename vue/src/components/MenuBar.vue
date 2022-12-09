@@ -5,7 +5,8 @@
     </div>
     <nav>
         <ul>
-            <!--<li><router-link v-bind:to="{ name: 'login' }" v-if="token==''">LOGIN</router-link></li>-->
+            <li><input id="front" type="text" name="front" placeholder="Search" v-model="searchInput" v-on:keyup.enter="processResults" /></li>
+            <!--<li><router-link v-bind:to="{ name: 'login' }" v-if="token==''">LOGIN</router-link></li> possibly switch v-bind for v-model-->
             <li><router-link v-bind:to="{ name: 'myDecks' }" class="link">MY DECKS</router-link></li>
             <li><router-link v-bind:to="{ name: 'public-decks' }" class="link">PUBLIC DECKS</router-link></li>
             <li><router-link v-bind:to="{ name: 'logout' }" class="link">LOG OUT</router-link></li> <!--v-else="token"-->
@@ -18,6 +19,20 @@
 
 export default {
     name: "menu-bar",
+    data() {
+        return {
+            searchInput: '',
+        }
+    },
+    methods: {
+        processResults() {
+            let searchResult = this.$store.commit('SET_SEARCH_RESULT', this.searchInput);
+            this.route.push(`/card/keyword/${searchResult}`);
+        }
+    }
+
+
+
 }
 </script>
 

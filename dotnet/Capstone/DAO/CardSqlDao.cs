@@ -71,6 +71,36 @@ namespace Capstone.DAO
             return cardList;
         }
 
+        public List<Card> GetCardsByKeywords(string cardKeyword)
+        {
+            List<Card> cardList = null;
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string wildKeyword = '%' + cardKeyword + '%';
+                    SqlCommand cmd = new SqlCommand("SELECT DISTINCT textcard_id, front, back, card_keywords, textcard.deck_id " +
+                        "FROM textcard JOIN deck ON textcard.deck_id = deck.deck_id " +
+                        "WHERE card_keywords LIKE @wild_keyword OR deck_keywords LIKE @wild_keyword;", conn);
+                    cmd.Parameters.AddWithValue("@wild_keyword", wildKeyword);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    cardList = new List<Card>();
+                    while (reader.Read())
+                    {
+                        cardList.Add(CreateCardFromReader(reader));
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.Error.WriteLine(ex.Message);
+            }
+
+            return cardList;
+        }
+
         //study function
         //public List<Card> GetStudyCardsByDeckId(int[] deckIdArray)
         //{
