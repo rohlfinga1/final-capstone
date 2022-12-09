@@ -9,7 +9,8 @@
         :TogglePopup="() => TogglePopup('buttonTrigger')"
       >
         <h3>Add Card</h3>
-        <card-form />
+        <!--<card-form v-bind:cardID="parseInt($route.params.cardID)" />-->
+        <add-new-card/>
       </popup>
     </div>
     <table>
