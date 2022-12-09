@@ -7,6 +7,7 @@ import Register from '../views/Register.vue'
 import store from '../store/index'
 import AccountPage from '../views/AccountPage.vue'
 import DeckEditor from '../views/DeckEditor.vue'
+import StudySession from '../views/StudySession.vue'
 
 
 Vue.use(Router)
@@ -72,14 +73,14 @@ const router = new Router({
         requiresAuth: true
       }
     },
-    // {
-    //   path: '/deck/:deckId/card/:cardId',
-    //   name: 'Card',
-    //   component: Card,
-    //   meta:{
-    //     requiresAuth: true
-    //   }
-    // },
+    {
+      path: '/deck/:deckId/card/:cardId',
+      name: 'StudySession',
+      component: StudySession,
+      meta:{
+        requiresAuth: true
+      }
+    },
     // {
     //   path: '/deck/:deckId/card/create',
     //   name: 'CardForm',

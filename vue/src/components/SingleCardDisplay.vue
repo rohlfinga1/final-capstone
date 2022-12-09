@@ -1,19 +1,107 @@
 <template>
-  <div>
-    <!-- <h2 v-if="showFront">{{ card.front }}</h2>
-    <h2 v-else="!showFront">{{card.back }}</h2>
-    <router-link
+  <div class="card">
+    <div class="content">
+      <div class="front">
+        <h2>{{ card.front }}</h2>
+        <p><em>{{ card.keywords }}</em></p>
+      </div>
+      <div class="back">
+        <h2>{{ card.back }}</h2>
+      </div>
+    </div>
+  </div>
+
+  <!-- <router-link
       :to="{ name: 'EditCard', params: {cardID: $route.params.cardID} }"
       class="btn editCard"
     >Edit Card</router-link>
     <div class="status-message error" v-show="errorMsg !== ''">{{errorMsg}}</div>
     <comments-list :comments="card.comments" /> -->
-    </div>
 </template>
 
 <script>
-export default {};
+import deckCardService from "../services/DeckCardService.js";
+
+export default {
+  name: "single-card-display",
+  data() {
+    return {
+      showFront: true,
+      errorMsg: "",
+    };
+  },
+  methods: {
+    retrieveCard() {
+      deckCardService
+        .getCard(this.$route.params.cardID)
+        .then((response) => {
+          this.$store.commit("SET_CURRENT_CARD", response.data);
+          //this.showFront = true;
+        })
+        .catch((error) => {
+          if (error.response && error.response.status === 404) {
+            alert(
+              "Card not available. This card may have been deleted or you have entered an invalid card ID."
+            );
+            this.$router.push({ name: "Home" });
+          }
+        });
+    },
+  },
+};
 </script>
 
+
 <style>
+@import 'https://fonts.googleapis.com/css?family=Lily+Script+One';
+body {
+  background: #eee;
+  font-family: 'Lily Script One';
+}
+
+.card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300px;
+  height: 300px;
+  margin: -150px;
+  float: left;
+  perspective: 500px;
+}
+
+.content {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+
+  transition: transform 1s;
+  transform-style: preserve-3d;
+}
+
+.card:hover .content {
+  transform: rotateY( 180deg ) ;
+  transition: transform 0.5s;
+}
+
+.front,
+.back {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: white;
+  line-height: 300px;
+  color: #03446A;
+  text-align: center;
+  font-size: 60px;
+  border-radius: 5px;
+  backface-visibility: hidden;
+}
+
+.back {
+  background: #03446A;
+  color: white;
+  transform: rotateY( 180deg );
+}
 </style>

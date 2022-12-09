@@ -34,7 +34,10 @@ export default {
         back: "",
         cardKeywords: "",
         deckId: this.$route.params.deckId,
-        cardId: 1
+        cardId: {
+          type: Number,
+          default: 0
+        }
       },
       errorMsg: ""
     };
