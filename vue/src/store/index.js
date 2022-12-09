@@ -61,6 +61,10 @@ export default new Vuex.Store({
 
     SET_CARDS(state, data){
       state.cards = data;
-    }
+    },
+    
+    SET_CURRENT_CARD(state, data) {
+      state.card = data;
+    },
   }
 })
