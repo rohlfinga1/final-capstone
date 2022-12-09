@@ -35,7 +35,6 @@ export default new Vuex.Store({
       back: '',
       keywords: ''
     },
-    searchInput: '',
     searchResults: []
   },
 
@@ -69,8 +68,8 @@ export default new Vuex.Store({
       state.card = data;
     },
 
-    SET_SEARCH_RESULT(state, input) {
-      state.searchInput = input;
+    SET_SEARCH_RESULT(state, data) {
+      state.searchResults = data;
     },
   }
 })
