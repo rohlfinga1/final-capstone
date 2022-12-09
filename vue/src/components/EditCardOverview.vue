@@ -10,7 +10,6 @@
       >
         <h3>Add Card</h3>
         <!--<card-form v-bind:cardID="parseInt($route.params.cardID)" />-->
-        <add-new-card/>
       </popup>
     </div>
     <table>
@@ -30,9 +29,15 @@
         <td>{{ card.back }}</td>
         <td>{{ card.cardKeywords }}</td>
         <td>
-          <button class="edit-btn" @click="() => TogglePopup('buttonTrigger')">
-            Edit Card
+          <button class="edit-btn" @click="ShowEditForm = !ShowEditForm">
+            Edit
           </button>
+        </td>
+        <td>
+        <form v-if="ShowEditForm" @submit. prevent="editForm">
+          Front:
+          <input type="text" class="form-control" v-model="card.front" />
+        </form>
         </td>
       </tr>
     </table>
@@ -73,6 +78,7 @@ export default {
   },
   data() {
     return {
+      ShowEditForm: false,
       card: {
         cardId: 0,
         deckId: this.$route.params.deckId, // right now, GetCards() is taking this number literally,
@@ -99,7 +105,7 @@ export default {
   },
   components: {
     Popup,
-    CardForm
+    CardForm,
   },
 };
 </script>
