@@ -144,7 +144,8 @@ namespace Capstone.DAO
                 cmd.Parameters.AddWithValue("@description", deck.Description);
                 cmd.Parameters.AddWithValue("@is_public", deck.IsPublic);
                 cmd.Parameters.AddWithValue("@deck_keywords", deck.DeckKeywords);
-                cmd.Parameters.AddWithValue("@creator_id", deck.CreatorId);
+                cmd.Parameters.AddWithValue("@creator_id", 1);
+                
 
 
                 newDeckId = Convert.ToInt32(cmd.ExecuteScalar());

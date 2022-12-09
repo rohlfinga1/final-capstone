@@ -7,7 +7,7 @@
         Add New Deck
       </button>
       
-      <form v-if="showAddDeck" @submit="submitForm">
+      <form v-if="showAddDeck" @submit.prevent="submitForm">
         Deck Name:
         <input type="text" class="form-control" v-model="newDeck.name" />
         Description:
@@ -60,7 +60,7 @@ export default {
         description: "",
         deckKeywords: "",
         deckId: "0",
-        creatorId: "0",
+        creatorId: this.$store.state.user.userId,
       },
       errorMsg: "",
     };
@@ -84,17 +84,17 @@ export default {
     },
 
     submitForm() {
-      const newDeck = {
-        name: this.name,
-        description: this.description,
-        deckKeywords: this.deckKeywords,
-        isPublic: this.isPublic,
+      const tempDeck = {
+        name: this.newDeck.name,
+        description: this.newDeck.description,
+        deckKeywords: this.newDeck.deckKeywords,
+        isPublic: this.newDeck.isPublic,
       };
 
-      if (this.deckId == 0) {
+      if (this.newDeck.deckId == 0) {
         this.showAddDeck = false; // take away the form so the user can't click the 'save' button 823,492 times while waiting for the Promise to resolve
         deckCardService
-          .AddDeck(newDeck)
+          .AddDeck(tempDeck)
           .then(() => {
             this.retrieveDecks();
             //reset new deck object
@@ -103,7 +103,7 @@ export default {
               description: "",
               deckKeywords: "",
               deckId: "0",
-              creatorId: "0",
+              creatorId: this.$store.state.user.userId,
             };
           })
           .catch((error) => {
