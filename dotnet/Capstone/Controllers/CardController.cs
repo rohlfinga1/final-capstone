@@ -57,6 +57,26 @@ namespace Capstone.Controllers
             }
         }
 
+        //[HttpGet("/study/")]
+        //public ActionResult<List<Card>> GetStudyCardsByDeckId(int[] deckIdArray)
+        //{
+        //    List<Card> StudyCards = cardDao.GetStudyCardsByDeckId(deckIdArray);
+
+        //    if (StudyCards == null)
+        //    {
+        //        return StatusCode(500);
+        //    }
+        //    else if (StudyCards.Count == 0)
+        //    {
+        //        return NotFound();
+        //    }
+        //    else
+        //    {
+        //        return StudyCards;
+        //    }
+
+        //}
+
         [HttpGet("{id}")]
         public ActionResult<Card> RetrieveCard(int id)
         {
