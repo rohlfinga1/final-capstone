@@ -12,11 +12,13 @@ export default
       return axios.post('/deck', newDeck);
 
   },
+
+   //about cards
   getCards(deckId) {
       return axios.get(`/deck/${deckId}/card`);
   },
 
-  //about cards
+ 
 
 
   getCard(deckId, cardId) {

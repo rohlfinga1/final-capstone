@@ -1,23 +1,23 @@
 <template>
-  <form v-on:submit.prevent="submitForm" class="cardForm">
+  <form @submit.prevent="submitForm" class="cardForm">
     <div class="status-message error" v-show="errorMsg !== ''">{{errorMsg}}</div>
     <div class="form-group">
       <label for="front">Question:  </label>
-      <input id="front" type="text" name="front" v-model="card.front" />
+      <input id="front" type="text" name="front" v-model="newCard.front" />
     </div>
     <br/>
      <div class="form-group">
       <label for="back">Answer:  </label>
-      <input type="text" name="back" v-model="card.back" />
+      <input type="text" name="back" v-model="newCard.back" />
     </div>
     <br/>
     <div class="form-group">
       <label for="cardKeywords">Tags:  </label>
-      <input id="cardKeywords" type="text" name="cardKeywords" v-model="card.cardKeywords" />
+      <input id="cardKeywords" type="text" name="cardKeywords" v-model="newCard.cardKeywords" />
     </div>
     <br/>
     <div class="actions">
-      <button class="btn btn-submit">Submit</button>
+      <button class="btn btn-submit" >Submit</button>
     </div>
   </form>
 </template>
@@ -29,7 +29,7 @@ export default {
   name: "card-form",
   data() {
     return {
-      card: {
+      newCard: {
         front: "",
         back: "",
         cardKeywords: "",
@@ -40,7 +40,7 @@ export default {
     };
   },
   created() {
-    if (this.card.cardId != 0) {
+    /*if (this.newCard.cardId != 0) {
       deckCardService
         .getCard(this.$route.params.deckId, this.card.cardId)
         .then(response => {
@@ -54,50 +54,29 @@ export default {
             this.$router.push({ name: 'Home' });
           }
         });
-    }
+    }*/
   },
   methods: {
     submitForm() {
-      const newCard = {
-        front: this.card.front,
-        back: this.card.back,
-        cardKeywords: this.card.cardKeywords,
+      const tempCard = {
+        front: this.newCard.front,
+        back: this.newCard.back,
+        cardKeywords: this.newCard.cardKeywords,
         deckId: Number(this.$route.params.deckId),
-        cardId: this.card.cardId
+        cardId: this.newCard.cardId
       };
-      if (this.card.cardId === 0) {
-        // add
         deckCardService
-          .addCard(newCard)
+          .addCard(tempCard)
           .then(response => {
             if (response.status === 201) {
-              alert("line 74")
-              this.$router.push(`/deck/${newCard.deckId}/card`);
+              
+              this.$router.go();
             }
           })
           .catch(error => {
-            alert("line 80")
+            
             this.handleErrorResponse(error, "adding");
           });
-      } else {
-        // update
-        newCard.front = this.card.front;
-        newCard.back = this.card.back;
-        newCard.cardKeywords = this.card.cardKeywords;
-        newCard.deckId = Number(this.$route.params.deckId);
-        newCard.cardId = this.card.cardId;
-        deckCardService
-          .updateCard(newCard)
-          .then(response => {
-            if (response.status === 200) {
-              alert("line 75")
-              this.$router.push(`/deck/${newCard.deckId}/card`);
-            }
-          })
-          .catch(error => {
-            this.handleErrorResponse(error, "updating");
-          });
-      }
     },
     cancelForm() {
       this.$router.push(`/deck/${this.$route.params.deckId}/card`);
