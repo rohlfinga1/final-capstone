@@ -89,41 +89,41 @@ export default {
         description: this.newDeck.description,
         deckKeywords: this.newDeck.deckKeywords,
         isPublic: this.newDeck.isPublic,
+        creatorId: this.$store.state.user.userId,
       };
+      console.log(tempDeck);
 
-      if (this.newDeck.deckId == 0) {
-        this.showAddDeck = false; // take away the form so the user can't click the 'save' button 823,492 times while waiting for the Promise to resolve
-        deckCardService
-          .AddDeck(tempDeck)
-          .then(() => {
-            this.retrieveDecks();
-            //reset new deck object
-            this.newDeck = {
-              name: "",
-              description: "",
-              deckKeywords: "",
-              deckId: "0",
-              creatorId: this.$store.state.user.userId,
-            };
-          })
-          .catch((error) => {
-            if (error.response) {
-              //if the error object has a response, I know I made it to the server
-              this.errorMsg =
-                "Error adding a new deck, response received from the server was " +
-                error.response.statusText +
-                ".";
-            } else if (error.request) {
-              //we never got a response, so there was a problem reaching the server
-              this.errorMsg =
-                "Error adding a new deck, could not reach the server.";
-            } else {
-              //no request, no response, something has gone terribly wrong in the application
-              this.errorMsg =
-                "Error adding a new deck, request could not be created.";
-            }
-          });
-      }
+      this.showAddDeck = false; // take away the form so the user can't click the 'save' button 823,492 times while waiting for the Promise to resolve
+      deckCardService
+        .AddDeck(tempDeck)
+        .then(() => {
+          this.retrieveDecks();
+          //reset new deck object
+          this.newDeck = {
+            name: "",
+            description: "",
+            deckKeywords: "",
+            deckId: "0",
+            creatorId: this.$store.state.user.userId,
+          };
+        })
+        .catch((error) => {
+          if (error.response) {
+            //if the error object has a response, I know I made it to the server
+            this.errorMsg =
+              "Error adding a new deck, response received from the server was " +
+              error.response.statusText +
+              ".";
+          } else if (error.request) {
+            //we never got a response, so there was a problem reaching the server
+            this.errorMsg =
+              "Error adding a new deck, could not reach the server.";
+          } else {
+            //no request, no response, something has gone terribly wrong in the application
+            this.errorMsg =
+              "Error adding a new deck, request could not be created.";
+          }
+        });
     },
     randomBackgroundColor() {
       return "#" + this.generateHexCode();
