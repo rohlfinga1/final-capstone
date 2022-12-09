@@ -33,7 +33,7 @@ export default new Vuex.Store({
       deckId: 0,
       front: '',
       back: '',
-      keywords: ''
+      keywords: '',
     }
   },
 
