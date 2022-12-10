@@ -74,7 +74,7 @@ const router = new Router({
       }
     },
     {
-      path: '/study',
+      path: '/card', // this route was '/study'
       name: 'StudySession',
       component: StudySession,
       meta:{
