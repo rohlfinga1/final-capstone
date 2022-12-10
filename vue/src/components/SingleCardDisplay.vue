@@ -1,5 +1,5 @@
 <template>
-  <div class="card" v-bind:key="this.$route.params.cardId" v-bind:card="card">
+  <div class="card" v-bind:key="this.$route.params.card.cardId" v-bind:card="card">
     <div class="content">
       <div class="front">
         <h2>{{ card.front }}</h2>
@@ -37,13 +37,13 @@ export default {
       }
     };
   },
+  props: ["cards"],
   methods: {
     retrieveCard() {
       deckCardService
         .getCard(this.$route.params.deckId, this.$route.params.cardId)
         .then((response) => {
-          this.$store.commit("SET_CURRENT_CARD", response.data);
-          //this.showFront = true;
+          this.card = response.data;
         })
         .catch((error) => {
           if (error.response && error.response.status === 404) {

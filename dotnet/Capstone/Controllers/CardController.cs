@@ -18,20 +18,10 @@ namespace Capstone.Controllers
             this.cardDao = cardDao;
         }
 
-        [HttpGet("study/")]
-        public ActionResult<List<Card>> GetAllCards(ICollection<int> deckIdCollection = null)
+        [HttpGet()]
+        public ActionResult<List<Card>> GetAllCards()
         {
-            List<Card> allCards = new List<Card>();
-
-            if (deckIdCollection != null)
-            {
-                allCards = cardDao.GetStudyCardsByDeckId(deckIdCollection);
-            }
-            else
-            {
-                allCards = cardDao.GetAllCards();
-            }
-            
+            List<Card> allCards = cardDao.GetAllCards();
             // null, empty list, or full list
             if (allCards == null)
             {
