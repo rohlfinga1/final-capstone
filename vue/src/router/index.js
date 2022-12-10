@@ -8,7 +8,7 @@ import store from '../store/index'
 import AccountPage from '../views/AccountPage.vue'
 import DeckEditor from '../views/DeckEditor.vue'
 import StudySession from '../views/StudySession.vue'
-import SearchCards from '../components/SearchCards.vue'
+import Results from '../views/Results.vue'
 
 Vue.use(Router)
 
@@ -82,9 +82,9 @@ const router = new Router({
       }
     },
     {
-      path: '/card/keyword/:searchInput',
-      name: 'SearchCards',
-      component: SearchCards,
+      path: '/search',
+      name: 'results',
+      component: Results,
       meta:{
         requiresAuth: true
       }

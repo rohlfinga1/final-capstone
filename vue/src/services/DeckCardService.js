@@ -18,8 +18,8 @@ export default
       return axios.get(`/deck/${deckId}/card`);
   },
 
-  getSearchResults(keyword) {
-    return axios.get(`/card/keyword/${keyword}`);
+  getSearchResults(searchInput) {
+    return axios.get(`/search?searchInput=${searchInput}`);
   },
 
 
