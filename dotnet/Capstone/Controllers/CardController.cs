@@ -18,11 +18,20 @@ namespace Capstone.Controllers
             this.cardDao = cardDao;
         }
 
-        [HttpGet()]
-        public ActionResult<List<Card>> GetAllCards()
+        [HttpGet("study/")]
+        public ActionResult<List<Card>> GetAllCards(ICollection<int> deckIdCollection = null)
         {
-            List<Card> allCards = cardDao.GetAllCards();
+            List<Card> allCards = new List<Card>();
 
+            if (deckIdCollection != null)
+            {
+                allCards = cardDao.GetStudyCardsByDeckId(deckIdCollection);
+            }
+            else
+            {
+                allCards = cardDao.GetAllCards();
+            }
+            
             // null, empty list, or full list
             if (allCards == null)
             {
@@ -72,24 +81,30 @@ namespace Capstone.Controllers
             }
         }
 
-        //[HttpGet("/study/")]
-        //public ActionResult<List<Card>> GetStudyCardsByDeckId(int[] deckIdArray)
+        //[HttpGet("/study")]
+        //public ActionResult<List<Card>> GetStudyCardsByDeckId(List<int> deckIdList = null)
         //{
-        //    List<Card> StudyCards = cardDao.GetStudyCardsByDeckId(deckIdArray);
-
-        //    if (StudyCards == null)
+        //    List<Card> studyCards = new List<Card>();
+        //    if (deckIdList != null)
         //    {
-        //        return StatusCode(500);
+        //        foreach (int deckId in deckIdList)
+        //        {
+        //            List<Card> cardsToAdd = cardDao.GetStudyCardsByDeckId(deckId);
+        //            if (cardsToAdd == null)
+        //            {
+        //                return StatusCode(500);
+        //            }
+        //            else
+        //            {
+        //                foreach (Card cardToAdd in cardsToAdd)
+        //                {
+        //                    studyCards.Add(cardToAdd);
+        //                }
+        //            }
+        //        }
+        //        return studyCards;
         //    }
-        //    else if (StudyCards.Count == 0)
-        //    {
-        //        return NotFound();
-        //    }
-        //    else
-        //    {
-        //        return StudyCards;
-        //    }
-
+        //    return BadRequest();
         //}
 
         [HttpGet("{id}")]

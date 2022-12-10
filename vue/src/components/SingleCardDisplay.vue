@@ -1,5 +1,5 @@
 <template>
-  <div class="card" v-bind:key="this.$route.params.cardId">
+  <div class="card" v-bind:key="this.$route.params.cardId" v-bind:card="card">
     <div class="content">
       <div class="front">
         <h2>{{ card.front }}</h2>
@@ -28,6 +28,13 @@ export default {
     return {
       showFront: true,
       errorMsg: "",
+      card: {
+        cardId: 0,
+        deckId: 0,
+        front: '',
+        back: '',
+        keywords: ''
+      }
     };
   },
   methods: {
