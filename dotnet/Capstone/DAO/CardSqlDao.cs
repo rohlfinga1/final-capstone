@@ -102,35 +102,36 @@ namespace Capstone.DAO
         }
 
         //study function
-        //public List<Card> GetStudyCardsByDeckId(int[] deckIdArray)
-        //{
-        //    List<Card> studyList = new List<Card>();
+        public List<Card> GetStudyCardsByDeckId(ICollection<int> deckIdCollection)
+        {
+            List<Card> studyList = new List<Card>();
 
-        //    try
-        //    {
-        //        using (SqlConnection conn = new SqlConnection(connectionString))
-        //        {
-        //            conn.Open();
-        //            for (int i = 0; i < deckIdArray.Length; i++)
-        //            {
-        //                SqlCommand cmd = new SqlCommand("SELECT * FROM textcard WHERE deck_id = @deck_id", conn);
-        //                cmd.Parameters.AddWithValue("@deck_id", deckIdArray[i]);
-        //                SqlDataReader reader = cmd.ExecuteReader();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    foreach (int deckId in deckIdCollection)
+                    {
+                        SqlCommand cmd = new SqlCommand("SELECT * FROM textcard WHERE deck_id = @deck_id", conn);
+                        cmd.Parameters.AddWithValue("@deck_id", deckId);
+                        SqlDataReader reader = cmd.ExecuteReader();
 
-        //                while (reader.Read())
-        //                {
-        //                    studyList.Add(CreateCardFromReader(reader));
-        //                }
-        //            } 
-        //        }
-        //    }
-        //    catch (SqlException ex)
-        //    {
-        //        Console.Error.WriteLine(ex.Message);
-        //    }
+                        while (reader.Read())
+                        {
+                            studyList.Add(CreateCardFromReader(reader));
+                        }
+                    }
+                   
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.Error.WriteLine(ex.Message);
+            }
 
-        //    return studyList;
-        //}
+            return studyList;
+        }
 
         public Card GetCard(int cardId)
         {

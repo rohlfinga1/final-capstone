@@ -18,7 +18,9 @@
                 <button class="end-btn">End Session</button>
             </div>
         </div>
-        <single-card-display class="card-display"/>
+        <div>
+            <single-card-display class="card-display"/>
+        </div>
     </div>
 </template>
 

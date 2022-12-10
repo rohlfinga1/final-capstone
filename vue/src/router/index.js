@@ -82,7 +82,7 @@ const router = new Router({
       }
     },
     {
-      path: '/card/keyword/:searchInput',//'/card/keyword/:deckKeyword'
+      path: '/card/keyword/:searchInput',
       name: 'SearchCards',
       component: SearchCards,
       meta:{

@@ -20,7 +20,7 @@ namespace Capstone.DAO
         List<Card> GetAllCardsByDeckId(int deckId);
         List<Card> GetCardsByKeywords(string cardKeyword);
 
-        // List<Card> GetStudyCardsByDeckId(int[] deckIdArray);
+        List<Card> GetStudyCardsByDeckId(ICollection<int> deckIdCollection);
 
     }
 }

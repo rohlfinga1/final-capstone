@@ -1,35 +1,56 @@
 <template>
   <div>
     <h2>Search Results</h2>
-    <table>
-      <tr>
-        <th>Front</th>
-        <th>Back</th>
-        <th>Keywords</th>
-      </tr>
-      <tr
-        class="card-row"
+    <div
+        class="search"
         v-for="card in this.$store.state.searchResults"
-        v-bind:key="card.cardKeyword"
+        v-bind:key="card.cardId"
       >
-        <!-- For every card in the textcard table by deck_id, assign each data point to the appropriate column -->
-        <td>{{ card.front }}</td>
-        <td>{{ card.back }}</td>
-        <td>{{ card.cardKeywords }}</td>
-      </tr>
-    </table>
-
+      <single-card-display v-for="card in cards" v-bind:card="card" v-bind:key="card.cardId"/>
+    </div>
   </div>
 </template>
 
 <script>
+import deckCardService from '../services/DeckCardService.js';
+import SingleCardDisplay from './SingleCardDisplay.vue';
+
 export default {
   name: "SearchCards",
   props: ["searchResults"],
-  components: {},
+    data() {
+    return {
+      card: {
+        cardId: 0,
+        deckId: 0,
+        front: '',
+        back: '',
+        keywords: ''
+      },
+      errorMsg: "",
+    };
+  },
+  created() {
+    this.retrieveResults();
+  },
+  methods: {
+    retrieveResults() {
+      //we need to look at this one!
+      this.$store.commit("SET_SEARCH_RESULT", []);//reset before pulling decks
+      deckCardService.getSearchResults(this.$route.params.card.keywords).then(response => {
+        console.log(response.data);
+        this.$store.commit("SET_SEARCH_RESULT", response.data);
+                       
+      }).catch((error) => {
+        alert(error);
+      });
+    },
+  },
+  components: {
+    SingleCardDisplay
+  },
 };
 </script>
 
 <style>
 </style>
-SingleCardDisplay
