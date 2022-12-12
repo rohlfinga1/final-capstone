@@ -8,14 +8,10 @@ import store from '../store/index'
 import AccountPage from '../views/AccountPage.vue'
 import DeckEditor from '../views/DeckEditor.vue'
 import StudySession from '../views/StudySession.vue'
-<<<<<<< HEAD
 import SearchCards from '../components/SearchCards.vue'
 import TESTStudySession from '../views/TESTStudySession.vue'
 // import Results from '../views/Results.vue'
-=======
-import Results from '../views/Results.vue'
 import Public from '../views/Public.vue'
->>>>>>> 59ab13f9b1cce837c47dc78873e0d815c25f22f0
 
 Vue.use(Router)
 
