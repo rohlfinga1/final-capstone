@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import EditDeck from '../components/EditCardOverview.vue';
+import EditDeck from '../components/EditDeckBootstrapTest.vue';
 
 export default {
   components: { EditDeck },
