@@ -5,8 +5,7 @@
     <div class="form-group">
       <label for="front">Question:  </label>
       
-      <input id="front" type="text" name="front" v-model="newCard.
-front" value="Test"/>
+      <input id="front" type="text" name="front" v-model="newCard.front" value="Test"/>
     </div>
     <br/>
      <div class="form-group">
@@ -16,8 +15,7 @@ front" value="Test"/>
     <br/>
     <div class="form-group">
       <label for="cardKeywords">Tags:  </label>
-      <input id="cardKeywords" type="text" name="cardKeywords" 
-v-model="newCard.cardKeywords" />
+      <input id="cardKeywords" type="text" name="cardKeywords" v-model="newCard.cardKeywords" />
     </div>
     <br/>
     <div class="actions">
@@ -30,39 +28,37 @@ v-model="newCard.cardKeywords" />
 import cardService from "../services/CardService.js";
 
 export default {
-  name: "card-form",
+  name: "edit-card-form",
+  props:['card'],
   data() {
     return {
-      newCard: {
-        front: "",
-        back: "",
-        cardKeywords: "",
-        //deckId: this.$route.params.deckId,
-        cardId: {
-          type: Number,
-          default: 0
-        }
-      },
+      newCard: this.props.card,
+      // newCard: {
+      //   front: this.$route.params.front,
+      //   back: this.$route.params.back,
+      //   cardKeywords: this.$route.params.cardKeywords,
+      //   deckId: this.$route.params.deckId,
+      //   cardId: this.$route.params.cardId
+      // },
       errorMsg: ""
     };
   },
   created() {
-    if (this.newCard.cardId != 0) {
-      cardService
-        .getCard(this.card.cardId)//this.$route.params.deckId,
-        .then(response => {
-          this.card = response.data;
-        })
-        .catch(error => {
-          if (error.response && error.response.status === 404) {
-            alert(
-              "Card not available. This card may have been deleted or you have entered an invalid card ID."
-            );
-            this.$router.push({ name: 'Home' });
-          }
-        });
-    }
-  },
+      // cardService
+      //   .getCard(this.$route.params.deckId, this.card.cardId)
+      //   .then(response => {
+      //     this.card = response.data;
+      //   })
+      //   .catch(error => {
+      //     if (error.response && error.response.status === 404) {
+      //       alert(
+      //         "Card not available. This card may have been deleted or you have entered an invalid card ID."
+      //       );
+      //       this.$router.push({ name: 'Home' });
+      //     }
+      //   });
+    },
+  
   methods: {
     submitForm() {
       const tempCard = {
@@ -73,7 +69,7 @@ export default {
         cardId: this.newCard.cardId
       };
         cardService
-          .addCard(tempCard)
+          .updateCard(tempCard)
           .then(response => {
             if (response.status === 201) {
               
