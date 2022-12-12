@@ -9,6 +9,7 @@ import AccountPage from '../views/AccountPage.vue'
 import DeckEditor from '../views/DeckEditor.vue'
 import StudySession from '../views/StudySession.vue'
 import SearchCards from '../components/SearchCards.vue'
+import TESTStudySession from '../views/TESTStudySession.vue'
 
 Vue.use(Router)
 
@@ -77,6 +78,14 @@ const router = new Router({
       path: '/card', // this route was '/study'
       name: 'StudySession',
       component: StudySession,
+      meta:{
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/cardTEST', // Joe: added a test route, will delete this once things are working properly
+      name: 'TESTStudySession',
+      component: TESTStudySession,
       meta:{
         requiresAuth: true
       }
