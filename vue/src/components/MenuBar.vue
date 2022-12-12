@@ -7,7 +7,7 @@
       <ul>
         <li>
           <div>
-            <form @submit.prevent="processResults">
+            <form @submit.prevent="retrieveResults">
               <input
                 id="front"
                 type="text"
@@ -21,7 +21,7 @@
                   query: { searchInput: searchInput },
                 }"
                 class="link"
-                ><button class="btn btn-submit">Search</button></router-link
+                ><button class="btn btn-submit" @click="retrieveResults">Search</button></router-link
               >
             </form>
           </div>
@@ -49,7 +49,7 @@
 </template>
 
 <script>
-//import deckCardService from "../services/DeckCardService.js";
+import deckCardService from "../services/DeckCardService.js";
 
 export default {
   name: "menu-bar",
@@ -58,22 +58,24 @@ export default {
       searchInput: "",
     };
   },
-//   methods: {
-//     processResults() {
-//       const searchResult = this.searchInput;
-//       this.$store.commit("SET_SEARCH_RESULTS", []);
-//       deckCardService
-//         .getSearchResults(searchResult)
-//         .then((response) => {
-//           console.log(response.data);
-//           this.$store.commit("SET_SEARCH_RESULTS", response.data);
-//         })
-//         .catch((error) => {
-//           alert(error);
-//         });
-//       this.route.replace({ name: "SearchCards", params: { searchResult } });
-//     },
-//   },
+  created() {
+    this.retrieveResults();
+  },
+  methods: {
+    retrieveResults() {
+      //we need to look at this one!
+      deckCardService
+        .getSearchResults(this.searchInput)
+        .then((response) => {
+          if (response.status == 200) {
+            this.$store.commit("SET_SEARCH_RESULT", response.data);
+          }
+        })
+        .catch((error) => {
+          alert(error);
+        });
+    },
+  },
 };
 </script>
 
@@ -137,5 +139,12 @@ nav ul li {
   text-align: center;
   line-height: 50px;
   text-decoration: none;
+}
+
+.btn {
+  text-emphasis: none;
+  background: white;
+  color: #03446a;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 </style>
