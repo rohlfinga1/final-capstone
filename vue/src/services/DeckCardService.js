@@ -12,6 +12,10 @@ export default
       return axios.post('/deck', newDeck);
 
   },
+  getPublicDecks(){
+    return axios.get('/deck/public');
+    
+  },
 
    //about cards
   getCards(deckId) {
