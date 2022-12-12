@@ -9,6 +9,7 @@ import AccountPage from '../views/AccountPage.vue'
 import DeckEditor from '../views/DeckEditor.vue'
 import StudySession from '../views/StudySession.vue'
 import Results from '../views/Results.vue'
+import Public from '../views/Public.vue'
 
 Vue.use(Router)
 
@@ -87,6 +88,14 @@ const router = new Router({
       component: Results,
       meta:{
         requiresAuth: true
+      }
+    },
+    {
+      path: '/public',
+      name: 'public',
+      component: Public,
+      meta:{
+        requiresAuth: false
       }
     },
     // {
