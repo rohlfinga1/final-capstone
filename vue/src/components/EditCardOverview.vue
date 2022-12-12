@@ -45,7 +45,7 @@
         </td>   
       </tr>
     </table>
-    <button class="edit-btn" v-if="ShowEditForm">submit</button>
+    <button type="submit" form:id="editForm" class="edit-btn" v-if="ShowEditForm" @click="">Submit</button>
     <div class="popup">
       <popup
         v-if="popupTriggers.buttonTrigger"
@@ -107,6 +107,25 @@ export default {
           alert(error);
         });
     },
+    UpdateCards() {
+      const updateCard = {
+        front: this.card.front,
+        back: this.card.back,
+        cardKeywords: this.card.cardKeywords,
+        deckId: this.card.deckId,
+        cardId: this.card.cardId
+      }
+      DeckCardService.updateCard(updateCard)
+        .then((response)=> {
+          if (response.status == 201){
+            this.$router.go();
+          }
+        })
+         .catch(error => {
+            
+            this.handleErrorResponse(error, "editing");
+          });
+    }
   },
   components: {
     Popup,
