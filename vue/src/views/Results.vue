@@ -1,15 +1,15 @@
 <template>
   <div>
-    <h2>Search Results</h2>
-    <search-cards/>
+    <h2>Cards</h2>
+    <cards-display/>
   </div>
 </template>
 
 <script>
-import SearchCards from '../components/SearchCards.vue'
+import CardsDisplay from '../components/CardsDisplay.vue'
 
 export default {
-  components: { SearchCards },
+  components: { CardsDisplay },
 
 }
 </script>

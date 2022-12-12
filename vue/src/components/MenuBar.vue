@@ -5,7 +5,7 @@
     </div>
     <nav>
       <ul>
-        <li>
+        <!-- <li>
           <div>
             <form @submit.prevent="retrieveResults">
               <input
@@ -25,16 +25,16 @@
               >
             </form>
           </div>
-        </li>
+        </li> -->
         <!--<li><router-link v-bind:to="{ name: 'login' }" v-if="token==''">LOGIN</router-link></li> possibly switch v-bind for v-model   @click="processResults"-->
         <li>
-          <router-link v-bind:to="{ name: 'myDecks' }" class="link"
-            >MY DECKS</router-link
+          <router-link v-bind:to="{ name: 'publicDecks' }" class="link"
+            >DECKS</router-link
           >
         </li>
         <li>
-          <router-link v-bind:to="{ name: 'public' }" class="link"
-            >PUBLIC DECKS</router-link
+          <router-link v-bind:to="{ name: 'StudySession' }" class="link"
+            >CARDS</router-link
           >
         </li>
         <li>
@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import deckCardService from "../services/DeckCardService.js";
+import deckCardService from "../services/DeckService.js";
 
 export default {
   name: "menu-bar",

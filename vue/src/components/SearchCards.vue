@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import deckCardService from "../services/DeckCardService.js";
+import cardService from "../services/CardService.js";
 import SingleCardDisplay from "./SingleCardDisplay.vue";
 
 export default {
@@ -34,7 +34,7 @@ export default {
   methods: {
     retrieveResults() {
       //we need to look at this one!
-      deckCardService
+      cardService
         .getSearchResults(this.$route.query.searchInput)
         .then((response) => {
           this.$store.commit("SET_SEARCH_RESULT", response.data);

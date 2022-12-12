@@ -8,11 +8,12 @@ namespace Capstone.Models
     public class Deck
     {
         public int DeckId { get; set; }
-        public int CreatorId { get; set; }
+        public int CreatorId { get; set; } = 0;
+        public string Creator { get; set; } = "";
         public string Name { get; set; }
         public string Description { get; set; }
-        public bool IsPublic { get; set; }
+        public bool IsPublic { get; set; } = false;
+        public DateTime DateMade { get; set; } 
         public string DeckKeywords { get; set; }
-
     }
 }
