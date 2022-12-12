@@ -33,7 +33,7 @@
           >
         </li>
         <li>
-          <router-link v-bind:to="{ name: 'public-decks' }" class="link"
+          <router-link v-bind:to="{ name: 'public' }" class="link"
             >PUBLIC DECKS</router-link
           >
         </li>
