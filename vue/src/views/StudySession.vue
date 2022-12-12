@@ -1,34 +1,30 @@
 <template>
     <div class="root">
         <div class="everything">
+            <h1 style="font-family: Arial">DECK TITLE</h1>
             <div class="right-wrong-count">
                 <div class="correct-count"><h3>Correct: {{totalCorrect}}</h3></div>
                 <div class="wrong-count"><h3>Incorrect: {{totalWrong}}</h3></div>
                 <div class="cards-remaining-count"><h3>Cards Remaining: {{cardsLeft}}</h3></div>
             </div>
             <div class="card-and-btn-block">
+                <button class="left-arrow" v-on:click="goBack"><i class="arrow left"></i></button>
                 <button class="wrong-btn" v-on:click="markWrong">Wrong</button>
-                <div class="card-content"
+                <div class="card-content" v-on:click="flip"
                 :class="{ 'card-content-correct': currentCard.correct,
                 'card-content-wrong': currentCard.wrong}"
                  v-show="flipped == false">
                     {{currentCard.front}}
                 </div>
-                <div class="card-content"
+                <div class="card-content" v-on:click="flip"
                 :class="{ 'card-content-correct': currentCard.correct,
                 'card-content-wrong': currentCard.wrong}"
                 v-show="flipped == true">
                     {{currentCard.back}}
                 </div>
                 <button class="correct-btn" v-on:click="markCorrect">Correct</button>
-            </div>
-            
-            <div class="flip-right-wrong">
-                <button class="left-arrow" v-on:click="goBack"><i class="arrow left"></i></button>
-                <button class="flip-btn" v-on:click="flip" >FLIP</button>
                 <button class="right-arrow" v-on:click="goNext"><i class="arrow right"></i></button>
             </div>
-
             <div class="edit-and-end">
                 <button class="edit-btn">Edit</button>
                 <button class="end-btn" @click="() => TogglePopup('buttonTrigger')">End Session</button>
@@ -192,18 +188,28 @@ button {
     font-size: 20px;
 }
 .arrow {
-  border: solid black;
-  border-width: 0 3px 3px 0;
-  display: inline-block;
-  padding: 3px;
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
 }
 .right {
-  transform: rotate(-45deg);
-  -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
 }
 .left {
-  transform: rotate(135deg);
-  -webkit-transform: rotate(135deg);
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+}
+.left-arrow {
+    position: absolute;
+    top: 37.5%;
+    left: -13.5%;
+}
+.right-arrow {
+    position: absolute;
+    top: 37.5%;
+    right: -13.5%;
 }
 .left-arrow:hover {
     cursor: pointer;
@@ -230,7 +236,7 @@ button {
     border-color: rgb(0, 0, 0);
     background-color: white;
     border-radius: 8px;
-    width: 600px;
+    width: 800px;
     height: 300px;
     text-align: center;
     font-size: 24px;
@@ -314,34 +320,34 @@ button {
     display: inline-block;
     position: absolute;
     left: 50%;
-    top: 60%;
+    top: 48%;
     transform: translate(-50%);
 }
 .edit-btn {
     margin-right: 50px;
     width: 200px;
     height: 50px;
-    background-color: orange;
+    background-color: cornflowerblue;
 }
 .edit-btn:hover {
     cursor: pointer;
-    background-color: rgb(255, 205, 111);
+    background-color: rgb(153, 181, 231);
 }
 .end-btn {
     margin-left: 50px;
     width: 200px;
     height: 50px;
-    background-color: red;
+    background-color: cornflowerblue;
 }
 .end-btn:hover {
-    background-color: rgb(253, 145, 145);
+    background-color: rgb(153, 181, 231);
     cursor: pointer;
 }
 .end-btn-2 {
-    background-color: red;
+    background-color: cornflowerblue;
 }
 .end-btn-2:hover {
-    background-color: rgb(253, 145, 145);
+    background-color: rgb(153, 181, 231);
     cursor: pointer;
 }
 .right-wrong-count {
@@ -349,6 +355,7 @@ button {
     display: flex;
     position: absolute;
     left: 49%;
+    top: 40%;
     transform: translate(-50%);
     margin: 10px;
 }
