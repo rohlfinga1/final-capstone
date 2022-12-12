@@ -29,40 +29,26 @@
           Cancel
         </button>
       </form>
-      <h2>My Decks</h2>
-      <div id="myCreated"
+
+      <div
         class="decks"
-        v-for="deck in filterMyDecksOnly"
-        v-bind:key="deck.id"
+        v-for="deck in $store.state.decks"
+        v-bind:key="deck.deckId"
         v-bind:style="{ 'background-color': deck.backgroundColor }"
       >
         <p class="eachDeck">
           {{ deck.name }}<br /><br />
           {{ deck.description }}<br />
-          {{ deck.creatorId }}
-        </p>
-      
-      </div >
-      <h2>Public Decks</h2>
-            <div id="publicDecks"
-        class="decks"
-         
-        v-for="deck in filterPublicOnly"
-        v-bind:key="deck.id"
-        v-bind:style="{ 'background-color': deck.backgroundColor }"
-      >
-        <p class="eachDeck">
-          {{ deck.name }}<br /><br />
-          {{ deck.description }}<br />
-          {{ deck.creatorId }}
+          {{ deck.creator }}
         </p>
       </div>
-
+  
+ 
  </div>
 </template>
 
 <script>
-import deckCardService from "../services/DeckCardService";
+import deckService from "../services/DeckService";
 
 export default {
   name: "myDecks",
@@ -70,10 +56,13 @@ export default {
     return {
       showAddDeck: false,
       newDeck: {
-        name: "",
-        description: "",
-        deckKeywords: "",
-        deckId: "0",
+        name: '',
+        description:'',
+        deckId: 0,
+        deckKeywords:'',
+        creator: '',
+        deckDate: '',
+        isPublic: false,
         creatorId: this.$store.state.user.userId,
       },
       errorMsg: "",
@@ -88,7 +77,7 @@ export default {
       const userId = this.$store.state.user.userId;
       //console.log(this.$store.state.user.userId);
       this.$store.commit("SET_DECKS", []);//reset before pulling decks
-      deckCardService.getUserDecks(userId).then(response => {
+      deckService.getUserDecks(userId).then(response => {
         console.log(response.data);
         this.$store.commit("SET_DECKS", response.data);
                        
@@ -96,28 +85,33 @@ export default {
       alert(error);
     });
     },
-    
+
     submitForm() {
       const tempDeck = {
         name: this.newDeck.name,
         description: this.newDeck.description,
         deckKeywords: this.newDeck.deckKeywords,
         isPublic: this.newDeck.isPublic,
+        deckDate: this.newDeck.deckDate,
+        // creator: this.newDeck.creator,
         creatorId: this.$store.state.user.userId,
       };
       console.log(tempDeck);
 
       this.showAddDeck = false; // take away the form so the user can't click the 'save' button 823,492 times while waiting for the Promise to resolve
-      deckCardService
+      deckService
         .AddDeck(tempDeck)
         .then(() => {
           this.retrieveDecks();
           //reset new deck object
           this.newDeck = {
-            name: "",
-            description: "",
-            deckKeywords: "",
-            deckId: "0",
+            name: '',
+            description:'',
+            deckId: 0,
+            deckKeywords:'',
+            creator: '',
+            deckDate: '',
+            isPublic: false,
             creatorId: this.$store.state.user.userId,
           };
         })
@@ -148,32 +142,6 @@ export default {
       return bg;
     },
   },
-  computed:{
-    filterPublicOnly() {
-      const publicDecks = this.$store.state.decks.filter(d => {
-        return (d.isPublic && (d.creatorId != this.$store.state.user.userId))
-      });
-      
-      return publicDecks;
-    },
-    filterMyDecksOnly() {
-      const myDecksOnly = this.$store.state.decks.filter(d => {
-        return d.creatorId == this.$store.state.user.userId
-      });
-      
-      return myDecksOnly;
-    },
-  }
-  // filteredDecks() {
-  // let tempDecks = this.$store.state.decks
-
-  // tempDecks = tempDecks.filter((deck) => {
-  // return (deck.creatorId == this.deck.creatorId)
-  // })
-
-  // return tempDecks;
-  // }
-  // }
 };
 </script>
 

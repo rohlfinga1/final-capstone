@@ -8,13 +8,14 @@ namespace Capstone.DAO
 {
     public interface IDeckDao
     {
+        List<Deck> GetDecksForUser(int userId);
+        List<Deck> GetAllPublicDecks();
+        List<Deck> GetMyDecksByKeywords(int userId, string deckKeyword);
+        List<Deck> GetPublicDecksByKeywords(string deckKeyword);
         Deck GetDeck(int deckId);
         Deck CreateDeck(Deck deck);
         Deck UpdateDeck(int deckId, Deck deck);
+        Deck UpdateDeckAsAdmin(int deckId, Deck deck);
         bool DeleteDeck(int deckId);
-        List<Deck> GetAllDecks();
-
-        List<Deck> GetAllPublicDecks();
-        List<Deck> GetDecksForUser(int userId);
     }
 }

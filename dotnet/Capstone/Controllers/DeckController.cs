@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Capstone.DAO;
 using Capstone.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Capstone.Controllers
 {
     [Route("[controller]")]
     [ApiController]
+    [Authorize]
     public class DeckController : ControllerBase
     {
         private IDeckDao deckDao;
@@ -18,47 +20,83 @@ namespace Capstone.Controllers
             this.deckDao = deckDao;
         }
 
-        [HttpGet()]
-        public ActionResult<List<Deck>> GetAllDecks()
+        [HttpGet("/{userId}/deck")]  //new GetMethod for mydecks+public
+        public ActionResult<List<Deck>> GetUserDecks(int userId)
         {
-            List<Deck> allDecks = deckDao.GetAllDecks();
-
-            // null, empty list, or full list
-            if (allDecks == null)
+            List<Deck> userDecks = deckDao.GetDecksForUser(userId);
+          
+            if (userDecks == null)
             {
-                return StatusCode(500);
+                userDecks = new List<Deck>();
             }
-            else if (allDecks.Count == 0)
+
+            //  empty list, or full list
+            if (userDecks.Count == 0)
             {
                 return NotFound();
             }
-            else
-            {
-                return allDecks;
-            }
+
+            return userDecks;
         }
 
-        //[HttpGet("user/{creatorId}")]
-        //public ActionResult<List<Deck>> GetAllDecksByCreatorId(int creatorId)
-        //{
-        //    List<Deck> allDecksByCreator = deckDao.GetAllDecksByCreatorId(creatorId);
+        [HttpGet("/{userId}/decksearch/{searchInput}")]
+        public ActionResult<List<Deck>> SearchMyDecks(int userId, string searchInput)
+        {
+            List<Deck> decks;
 
-        //    // null, empty list, or full list
-        //    if (allDecksByCreator == null)
-        //    {
-        //        return StatusCode(500);
-        //    }
-        //    else if (allDecksByCreator.Count == 0)
-        //    {
-        //        return NotFound();
-        //    }
-        //    else
-        //    {
-        //        return allDecksByCreator;
-        //    }
-        //}
+            if (searchInput == "")
+            {
+                decks = deckDao.GetDecksForUser(userId);
+            }
+            else
+            {
+                decks = deckDao.GetMyDecksByKeywords(userId, searchInput);
+            }
 
-        [HttpGet("public")]
+            if (decks == null)
+            {
+                decks = new List<Deck>();
+            }
+
+            //  empty list, or full list
+            if (decks.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return decks;
+        }
+
+        [AllowAnonymous]
+        [HttpGet("/decksearch/{searchInput}")]
+        public ActionResult<List<Deck>> SearchPublicCards(string searchInput)
+        {
+            List<Deck> decks;
+            if (searchInput == "")
+            {
+                decks = deckDao.GetAllPublicDecks();
+            }
+            else
+            {
+                decks = deckDao.GetPublicDecksByKeywords(searchInput);
+            }
+
+            if (decks == null)
+            {
+                decks = new List<Deck>();
+            }
+
+            //  empty list, or full list
+            if (decks.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return decks;
+        }
+
+        [AllowAnonymous]
+        [HttpGet()]
         public ActionResult<List<Deck>> GetAllPublicDecks()
         {
             List<Deck> allPublicDecks = deckDao.GetAllPublicDecks();
@@ -78,30 +116,7 @@ namespace Capstone.Controllers
             }
         }
 
-
-        [HttpGet("{userId}/public")]  //new GetMethod for mydecks+public
-        public ActionResult<List<Deck>> GetUserDecks(int userId)
-        {
-            List<Deck> allPublicDecks = deckDao.GetAllPublicDecks();
-            if (allPublicDecks == null)
-            {
-                allPublicDecks = new List<Deck>();
-            }
-            List<Deck> userDecks = deckDao.GetDecksForUser(userId);
-            if (userDecks == null)
-            {
-                userDecks = new List<Deck>();
-            }
-
-            List<Deck> userAllDecks = allPublicDecks.Concat(userDecks).Distinct().ToList();//combined lists added duplicate filter
-            //  empty list, or full list
-            if (userAllDecks.Count == 0)
-            {
-                return NotFound();
-            }
-
-            return userAllDecks;
-        }
+        
 
         [HttpGet("{id}")]
         public ActionResult<Deck> RetrieveDeck(int id)
@@ -118,11 +133,19 @@ namespace Capstone.Controllers
             }
         }
 
-        [HttpPost()]
+        [HttpPost("/{deck.creatorId}/deck")]
         public ActionResult<Deck> AddDeck(Deck deck)
         {
-            Deck added = deckDao.CreateDeck(deck);
-            return Created($"/{added.DeckId}", added);
+            if (deck.CreatorId != 0)
+            {
+                Deck added = deckDao.CreateDeck(deck);
+                return Created($"/{added.DeckId}", added);
+            }
+            else
+            {
+                return Unauthorized();
+            }
+            
         }
 
         [HttpPut("{id}")]
@@ -135,6 +158,21 @@ namespace Capstone.Controllers
             }
 
             Deck updatedDeck = deckDao.UpdateDeck(id, deck);
+
+            return updatedDeck;
+        }
+
+        // do we need this to authorize role admin?
+        [HttpPut("{id}")]
+        public ActionResult<Deck> UpdateDeckAsAdmin(int deckId, Deck deck)
+        {
+            Deck existingDeck = deckDao.GetDeck(deckId);
+            if (existingDeck == null) // if the deck does not exist
+            {
+                return NotFound();
+            }
+
+            Deck updatedDeck = deckDao.UpdateDeckAsAdmin(deckId, deck);
 
             return updatedDeck;
         }

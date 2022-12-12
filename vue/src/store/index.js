@@ -25,17 +25,22 @@ export default new Vuex.Store({
       name: '',
       description:'',
       deckId: 0,
-      deckKeywords:''
+      deckKeywords:'',
+      creator: '',
+      creatorId: 0,
+      deckDate: '',
+      isPublic: false
     },
     cards: [],
     card: {
       cardId: 0,
-      deckId: 0,
       front: '',
       back: '',
-      keywords: ''
+      keywords: '',
+      creator: '',
+      creatorId: 0,
+      cardDate: ''
     },
-    searchResults: []
   },
 
   mutations: {
@@ -60,16 +65,16 @@ export default new Vuex.Store({
       state.decks = data;
     },
 
+    SET_CURRENT_DECK(state, data) {
+      state.deck = data;
+    },
+
     SET_CARDS(state, data){
       state.cards = data;
     },
     
     SET_CURRENT_CARD(state, data) {
       state.card = data;
-    },
-
-    SET_SEARCH_RESULT(state, data) {
-      state.searchResults = data;
     },
   }
 })

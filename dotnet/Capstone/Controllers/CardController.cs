@@ -5,44 +5,94 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Capstone.DAO;
 using Capstone.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Capstone.Controllers
 {
     [Route("[controller]")]
     [ApiController]
+    [Authorize]
     public class CardController : ControllerBase
     {
         private ICardDao cardDao;
-        public CardController(ICardDao cardDao)
+        private IDeckDao deckDao;
+        public CardController(ICardDao cardDao, IDeckDao deckDao)
         {
             this.cardDao = cardDao;
+            this.deckDao = deckDao;
         }
 
-        [HttpGet("/search/")]
-        public ActionResult<List<Card>> GetAllCards(string searchInput = "")
+        [HttpGet("/{userId}/card")]
+        public ActionResult<List<Card>> GetUserCards(int userId)
         {
-            List<Card> cards = new List<Card>();
-            if (searchInput == "")
-            {
-                cards = cardDao.GetAllCards();
-            }
-            else
-            {
-                cards = cardDao.GetCardsByKeywords(searchInput);
-            }
-            // null, empty list, or full list
+            List<Card> cards = cardDao.GetMyCards(userId);
+
             if (cards == null)
             {
-                return StatusCode(500);
+                cards = new List<Card>();
             }
-            else if (cards.Count == 0)
+
+            // null, empty list, or full list
+            if (cards.Count == 0)
             {
                 return NotFound();
             }
+            return cards;
+        }
+
+        [HttpGet("/{userId}/cardsearch/{searchInput}")]
+        public ActionResult<List<Card>> SearchMyCards(int userId, string searchInput)
+        {
+            List<Card> cards;
+
+            if (searchInput == "")
+            {
+                cards = cardDao.GetMyCards(userId);
+            }
             else
             {
-                return cards;
+                cards = cardDao.GetMyCardsByKeywords(userId, searchInput);
             }
+
+            // null, empty list, or full list
+            if (cards == null)
+            {
+                cards = new List<Card>();
+            }
+
+            if (cards.Count == 0)
+            {
+                return NotFound();
+            }
+            return cards;
+
+        }
+
+        [AllowAnonymous]
+        [HttpGet("/cardsearch/{searchInput}")]
+        public ActionResult<List<Card>> SearchPublicCards(string searchInput)
+        {
+            List<Card> cards;
+            if (searchInput == "")
+            {
+                cards = cardDao.GetPublicCards();
+            }
+            else
+            {
+                cards = cardDao.GetPublicCardsByKeywords(searchInput);
+            }
+
+            // null, empty list, or full list
+            if (cards == null)
+            {
+                cards = new List<Card>();
+            }
+
+            if (cards.Count == 0)
+            {
+                return NotFound();
+            }
+            return cards;
         }
 
         [HttpGet("/deck/{deckId}/card")]
@@ -64,45 +114,25 @@ namespace Capstone.Controllers
             }
         }
 
-        // GET /api/cards/{id}: Provides a Cat Card with the given ID.
-        //[HttpGet("keyword/{searchInput}")]
-        //public ActionResult<List<Card>> GetCardsByKeywords(string searchInput)
-        //{
-        //    List<Card> filteredCards = cardDao.GetCardsByKeywords(searchInput);
-        //    if (filteredCards != null)
-        //    {
-        //        return filteredCards;
-        //    }
-        //    else
-        //    {
-        //        return NotFound();
-        //    }
-        //}
-
-        [HttpGet("/study")]
-        public ActionResult<List<Card>> GetStudyCardsByDeckId(List<int> deckIdList = null)
+        [AllowAnonymous]
+        [HttpGet()]
+        public ActionResult<List<Card>> GetAllPublicCards()
         {
-            List<Card> studyCards = new List<Card>();
-            if (deckIdList != null)
+            List<Card> allPublicCards = cardDao.GetPublicCards();
+
+            // null, empty list, or full list
+            if (allPublicCards == null)
             {
-                foreach (int deckId in deckIdList)
-                {
-                    List<Card> cardsToAdd = cardDao.GetStudyCardsByDeckId(deckIdList);
-                    if (cardsToAdd == null)
-                    {
-                        return StatusCode(500);
-                    }
-                    else
-                    {
-                        foreach (Card cardToAdd in cardsToAdd)
-                        {
-                            studyCards.Add(cardToAdd);
-                        }
-                    }
-                }
-                return studyCards;
+                return StatusCode(500);
             }
-            return BadRequest();
+            else if (allPublicCards.Count == 0)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return allPublicCards;
+            }
         }
 
         [HttpGet("{id}")]
@@ -120,23 +150,35 @@ namespace Capstone.Controllers
             }
         }
 
-        [HttpPost("/deck/{deckId}/card")]
+        [HttpPost()]
         public ActionResult<Card> AddCard(Card card)
         {
             Card added = cardDao.CreateCard(card);
             return Created($"/{added.CardId}", added);
         }
 
-        [HttpPut("/deck/{card.deckId}/card/{cardId}")]
-        public ActionResult<Card> UpdateExistingCard(int cardId, Card card)
+        [HttpPost("/deck/{deckId}/card/{cardId}")]
+        public ActionResult<bool> AddCardToDeck(int deckId, int cardId)
         {
-            Card existingCard = cardDao.GetCard(cardId);
+            Card card = cardDao.GetCard(cardId);
+            Deck deck = deckDao.GetDeck(deckId);
+            if (card == null || deck == null)
+            {
+                return NotFound();
+            }
+            return cardDao.AddCardToDeck(deckId, cardId);
+        }
+
+        [HttpPut("{id}")]
+        public ActionResult<Card> UpdateExistingCard(int id, Card card)
+        {
+            Card existingCard = cardDao.GetCard(id);
             if (existingCard == null)
             {
                 return NotFound();
             }
 
-            Card updatedCard = cardDao.UpdateCard(cardId, card);
+            Card updatedCard = cardDao.UpdateCard(id, card);
 
             return updatedCard;
         }
@@ -152,6 +194,28 @@ namespace Capstone.Controllers
             }
 
             bool result = cardDao.DeleteCard(id);
+
+            if (result)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return StatusCode(500);
+            }
+        }
+
+        [HttpDelete("/deck/{deckId}/card/{cardId}")]
+        public ActionResult DeleteCardFromDeck(int deckId, int cardId)
+        {
+            Card card = cardDao.GetCard(cardId);
+            Deck deck = deckDao.GetDeck(deckId);
+            if (card == null || deck == null)
+            {
+                return NotFound();
+            }
+
+            bool result = cardDao.DeleteCardFromDeck(deckId, cardId);
 
             if (result)
             {
