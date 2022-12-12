@@ -41,7 +41,7 @@
             Edit Card
           </button>
           <div class="popup">
-      <edit-card-popup
+        <edit-card-popup
         v-if="editPopupTriggers.editButtonTrigger"
         :EditTogglePopup="() => EditTogglePopup('editButtonTrigger')"
         :card="card"

@@ -2,6 +2,28 @@
   <div class="popup">
       <div class="popup-inner">
           <slot><edit-card-form :card="card" /></slot>
+		<form @submit.prevent="submitForm" class="cardForm">
+    <div class="status-message error" v-show="errorMsg !== ''">{{errorMsg}}</div>
+    <div class="form-group">
+      <label for="front">Question:  </label>
+      
+      <input id="front" type="text" name="front" v-model="newCard.front" />
+    </div>
+    <br/>
+     <div class="form-group">
+      <label for="back">Answer:  </label>
+      <input type="text" name="back" v-model="newCard.back" value="test"/>
+    </div>
+    <br/>
+    <div class="form-group">
+      <label for="cardKeywords">Tags:  </label>
+      <input id="cardKeywords" type="text" name="cardKeywords" v-model="newCard.cardKeywords" />
+    </div>
+    <br/>
+    <div class="actions">
+      <button class="btn btn-submit" >Submit</button>
+    </div>
+  </form>
       <button class="popup-close" @click="EditTogglePopup()">
           Cancel (close popup)
       </button>
