@@ -29,10 +29,25 @@
           Cancel
         </button>
       </form>
-
-      <div
+      <h2>My Decks</h2>
+      <div id="myCreated"
         class="decks"
-        v-for="deck in $store.state.decks"
+        v-for="deck in filterMyDecksOnly"
+        v-bind:key="deck.id"
+        v-bind:style="{ 'background-color': deck.backgroundColor }"
+      >
+        <p class="eachDeck">
+          {{ deck.name }}<br /><br />
+          {{ deck.description }}<br />
+          {{ deck.creatorId }}
+        </p>
+      
+      </div >
+      <h2>Public Decks</h2>
+            <div id="publicDecks"
+        class="decks"
+         
+        v-for="deck in filterPublicOnly"
         v-bind:key="deck.id"
         v-bind:style="{ 'background-color': deck.backgroundColor }"
       >
@@ -42,8 +57,7 @@
           {{ deck.creatorId }}
         </p>
       </div>
-  
- 
+
  </div>
 </template>
 
@@ -82,7 +96,7 @@ export default {
       alert(error);
     });
     },
-
+    
     submitForm() {
       const tempDeck = {
         name: this.newDeck.name,
@@ -134,7 +148,22 @@ export default {
       return bg;
     },
   },
-  // computed:{
+  computed:{
+    filterPublicOnly() {
+      const publicDecks = this.$store.state.decks.filter(d => {
+        return (d.isPublic && (d.creatorId != this.$store.state.user.userId))
+      });
+      
+      return publicDecks;
+    },
+    filterMyDecksOnly() {
+      const myDecksOnly = this.$store.state.decks.filter(d => {
+        return d.creatorId == this.$store.state.user.userId
+      });
+      
+      return myDecksOnly;
+    },
+  }
   // filteredDecks() {
   // let tempDecks = this.$store.state.decks
 
