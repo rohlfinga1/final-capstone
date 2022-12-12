@@ -78,6 +78,7 @@ namespace Capstone.Controllers
             }
         }
 
+
         [HttpGet("{userId}/public")]  //new GetMethod for mydecks+public
         public ActionResult<List<Deck>> GetUserDecks(int userId)
         {
