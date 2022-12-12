@@ -26,7 +26,7 @@
         v-for="card in this.$store.state.cards"
         v-bind:key="card.cardId"
       >
-        <!-- For every card in the textcard table by deck_id, assign each data point to the appropriate column -->
+        <!-- For every card in the text card table by deck_id, assign each data point to the appropriate column -->
         <td v-if="ShowEditForm == false">{{ card.front }}</td>
         <td v-if="ShowEditForm == false">{{ card.back }}</td>
         <td v-if="ShowEditForm == false">{{ card.cardKeywords }}</td>
