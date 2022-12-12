@@ -79,31 +79,31 @@ namespace Capstone.Controllers
         //    }
         //}
 
-        //[HttpGet("/study")]
-        //public ActionResult<List<Card>> GetStudyCardsByDeckId(List<int> deckIdList = null)
-        //{
-        //    List<Card> studyCards = new List<Card>();
-        //    if (deckIdList != null)
-        //    {
-        //        foreach (int deckId in deckIdList)
-        //        {
-        //            List<Card> cardsToAdd = cardDao.GetStudyCardsByDeckId(deckId);
-        //            if (cardsToAdd == null)
-        //            {
-        //                return StatusCode(500);
-        //            }
-        //            else
-        //            {
-        //                foreach (Card cardToAdd in cardsToAdd)
-        //                {
-        //                    studyCards.Add(cardToAdd);
-        //                }
-        //            }
-        //        }
-        //        return studyCards;
-        //    }
-        //    return BadRequest();
-        //}
+        [HttpGet("/study")]
+        public ActionResult<List<Card>> GetStudyCardsByDeckId(List<int> deckIdList = null)
+        {
+            List<Card> studyCards = new List<Card>();
+            if (deckIdList != null)
+            {
+                foreach (int deckId in deckIdList)
+                {
+                    List<Card> cardsToAdd = cardDao.GetStudyCardsByDeckId(deckIdList);
+                    if (cardsToAdd == null)
+                    {
+                        return StatusCode(500);
+                    }
+                    else
+                    {
+                        foreach (Card cardToAdd in cardsToAdd)
+                        {
+                            studyCards.Add(cardToAdd);
+                        }
+                    }
+                }
+                return studyCards;
+            }
+            return BadRequest();
+        }
 
         [HttpGet("{id}")]
         public ActionResult<Card> RetrieveCard(int id)
