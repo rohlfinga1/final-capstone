@@ -27,8 +27,7 @@ v-model="newCard.cardKeywords" />
 </template>
 
 <script>
-//import deckService from "../services/DeckService.js";
-import cardService from '../services/CardService.js'
+import deckCardService from "../services/DeckCardService.js";
 
 export default {
   name: "card-form",
@@ -38,22 +37,19 @@ export default {
         front: "",
         back: "",
         cardKeywords: "",
-        //deckId: this.$route.params.deckId,
+        deckId: this.$route.params.deckId,
         cardId: {
           type: Number,
           default: 0
-        },
-        creator: '',
-        creatorId: 0,
-        cardDate: {}
+        }
       },
       errorMsg: ""
     };
   },
   created() {
     if (this.newCard.cardId != 0) {
-      cardService
-        .getCard(this.card.cardId)//this.$route.params.deckId, 
+      deckCardService
+        .getCard(this.$route.params.deckId, this.card.cardId)
         .then(response => {
           this.card = response.data;
         })
@@ -73,13 +69,10 @@ export default {
         front: this.newCard.front,
         back: this.newCard.back,
         cardKeywords: this.newCard.cardKeywords,
-        //deckId: Number(this.$route.params.deckId),
-        cardId: this.newCard.cardId,
-        creator: '',
-        creatorId: 0,
-        cardDate: {}
+        deckId: Number(this.$route.params.deckId),
+        cardId: this.newCard.cardId
       };
-        cardService
+        deckCardService
           .addCard(tempCard)
           .then(response => {
             if (response.status === 201) {
