@@ -43,6 +43,8 @@ export default {
             correct: 0,
             wrong: 0,
             flipped: false,
+            isRight: false,
+            isWrong: false,
             currentCard: {},
             index: 0,
             cards: [
@@ -103,12 +105,6 @@ export default {
             this.currentCard.wrong = true;
             this.currentCard.scored = true;
         },
-        makeGreen() {
-
-        },
-        makeRed() {
-            
-        }
     },
     computed : {
         // in here, I need to auto-update the correct/incorrect count
@@ -192,6 +188,28 @@ button {
     border-style: solid;
     border-color: rgb(0, 0, 0);
     background-color: white;
+    border-radius: 8px;
+    width: 600px;
+    height: 300px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+}
+.card-content-correct {
+    border-style: solid;
+    border-color: rgb(0, 0, 0);
+    background-color: rgb(199, 255, 199);
+    border-radius: 8px;
+    width: 600px;
+    height: 300px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+}
+.card-content-wrong {
+    border-style: solid;
+    border-color: rgb(0, 0, 0);
+    background-color: rgb(255, 175, 175);
     border-radius: 8px;
     width: 600px;
     height: 300px;

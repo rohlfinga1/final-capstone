@@ -45,7 +45,7 @@
         </td>   
       </tr>
     </table>
-    <button type="submit" form:id="editForm" class="edit-btn" v-if="ShowEditForm" @click="">Submit</button>
+    <button type="submit" form:id="editForm" class="edit-btn" v-if="ShowEditForm" >Submit</button>
     <div class="popup">
       <popup
         v-if="popupTriggers.buttonTrigger"
