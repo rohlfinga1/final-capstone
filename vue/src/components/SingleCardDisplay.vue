@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import deckCardService from "../services/DeckCardService.js";
+//import deckCardService from "../services/DeckCardService.js";
 
 export default {
   name: "single-card-display",
@@ -37,24 +37,24 @@ export default {
       }
     };
   },
-  props: ["cards"],
-  methods: {
-    retrieveCard() {
-      deckCardService
-        .getCard(this.$route.params.deckId, this.$route.params.cardId)
-        .then((response) => {
-          this.card = response.data;
-        })
-        .catch((error) => {
-          if (error.response && error.response.status === 404) {
-            alert(
-              "Card not available. This card may have been deleted or you have entered an invalid card ID."
-            );
-            this.$router.push({ name: "Home" });
-          }
-        });
-    },
-  },
+  props: ["searchResults"],
+  // methods: {
+  //   retrieveCard() {
+  //     deckCardService
+  //       .getCard(this.$route.params.deckId, this.$route.params.cardId)
+  //       .then((response) => {
+  //         this.card = response.data;
+  //       })
+  //       .catch((error) => {
+  //         if (error.response && error.response.status === 404) {
+  //           alert(
+  //             "Card not available. This card may have been deleted or you have entered an invalid card ID."
+  //           );
+  //           this.$router.push({ name: "Home" });
+  //         }
+  //       });
+  //   },
+  // },
 };
 </script>
 

@@ -18,22 +18,30 @@ namespace Capstone.Controllers
             this.cardDao = cardDao;
         }
 
-        [HttpGet()]
-        public ActionResult<List<Card>> GetAllCards()
+        [HttpGet("/search/")]
+        public ActionResult<List<Card>> GetAllCards(string searchInput = "")
         {
-            List<Card> allCards = cardDao.GetAllCards();
+            List<Card> cards = new List<Card>();
+            if (searchInput == "")
+            {
+                cards = cardDao.GetAllCards();
+            }
+            else
+            {
+                cards = cardDao.GetCardsByKeywords(searchInput);
+            }
             // null, empty list, or full list
-            if (allCards == null)
+            if (cards == null)
             {
                 return StatusCode(500);
             }
-            else if (allCards.Count == 0)
+            else if (cards.Count == 0)
             {
                 return NotFound();
             }
             else
             {
-                return allCards;
+                return cards;
             }
         }
 
@@ -57,19 +65,19 @@ namespace Capstone.Controllers
         }
 
         // GET /api/cards/{id}: Provides a Cat Card with the given ID.
-        [HttpGet("keyword/{searchInput}")]
-        public ActionResult<List<Card>> GetCardsByKeywords(string searchInput)
-        {
-            List<Card> filteredCards = cardDao.GetCardsByKeywords(searchInput);
-            if (filteredCards != null)
-            {
-                return filteredCards;
-            }
-            else
-            {
-                return NotFound();
-            }
-        }
+        //[HttpGet("keyword/{searchInput}")]
+        //public ActionResult<List<Card>> GetCardsByKeywords(string searchInput)
+        //{
+        //    List<Card> filteredCards = cardDao.GetCardsByKeywords(searchInput);
+        //    if (filteredCards != null)
+        //    {
+        //        return filteredCards;
+        //    }
+        //    else
+        //    {
+        //        return NotFound();
+        //    }
+        //}
 
         //[HttpGet("/study")]
         //public ActionResult<List<Card>> GetStudyCardsByDeckId(List<int> deckIdList = null)
