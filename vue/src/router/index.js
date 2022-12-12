@@ -8,7 +8,9 @@ import store from '../store/index'
 import AccountPage from '../views/AccountPage.vue'
 import DeckEditor from '../views/DeckEditor.vue'
 import StudySession from '../views/StudySession.vue'
-import Results from '../views/Results.vue'
+import SearchCards from '../components/SearchCards.vue'
+import TESTStudySession from '../views/TESTStudySession.vue'
+// import Results from '../views/Results.vue'
 import Public from '../views/Public.vue'
 
 Vue.use(Router)
@@ -83,9 +85,20 @@ const router = new Router({
       }
     },
     {
-      path: '/search',
-      name: 'results',
-      component: Results,
+      path: '/cardTEST', // Joe: added a test route, will delete this once things are working properly
+      name: 'TESTStudySession',
+      component: TESTStudySession,
+      meta:{
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/card/keyword/:searchInput',
+      name: 'SearchCards',
+      component: SearchCards,
+      // path: '/search',
+      // name: 'results',
+      // component: Results,
       meta:{
         requiresAuth: true
       }
