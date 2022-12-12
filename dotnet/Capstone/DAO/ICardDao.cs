@@ -8,19 +8,18 @@ namespace Capstone.DAO
 {
     public interface ICardDao
     {
-        Card GetCard(int cardId);
-
-        Card CreateCard(Card card);
-
-        Card UpdateCard(int cardId, Card card);
-
-        bool DeleteCard(int cardId);
-
-        List<Card> GetAllCards();
+        List<Card> GetMyCards(int userId);
+        List<Card> GetPublicCards();
         List<Card> GetAllCardsByDeckId(int deckId);
-        List<Card> GetCardsByKeywords(string cardKeyword);
+        List<Card> GetPublicCardsByKeywords(string cardKeyword);
+        List<Card> GetMyCardsByKeywords(int userId, string cardKeyword);
 
-        List<Card> GetStudyCardsByDeckId(ICollection<int> deckIdCollection);
+        Card GetCard(int cardId);
+        Card CreateCard(Card card);
+        bool AddCardToDeck(int deckId, int cardId);
+        Card UpdateCard(int cardId, Card card);
+        bool DeleteCard(int cardId);
+        bool DeleteCardFromDeck(int deckId, int cardId);
 
     }
 }

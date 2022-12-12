@@ -1,19 +1,22 @@
 <template>
   <div>
-      <h2>Search Results</h2>
-      <search-cards/>
-    </div>
+    <h2>Cards</h2>
+    <cards-display/>
+  </div>
 </template>
 
 <script>
-import SearchCards from '../components/SearchCards.vue'
+import CardsDisplay from '../components/CardsDisplay.vue'
 
 export default {
-  components: { SearchCards },
+  components: { CardsDisplay },
 
 }
 </script>
 
 <style>
-
+h2 {
+  text-align: center;
+  font-family: 'Courier New', Courier, monospace;
+}
 </style>

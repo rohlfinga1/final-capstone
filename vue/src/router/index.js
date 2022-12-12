@@ -8,10 +8,9 @@ import store from '../store/index'
 import AccountPage from '../views/AccountPage.vue'
 import DeckEditor from '../views/DeckEditor.vue'
 import StudySession from '../views/StudySession.vue'
-import SearchCards from '../components/SearchCards.vue'
-import TESTStudySession from '../views/TESTStudySession.vue'
-// import Results from '../views/Results.vue'
-import Public from '../views/Public.vue'
+import Results from '../views/Results.vue'
+import PublicCardSearch from '../views/PublicCardSearch.vue'
+import ViewCardsInDeck from '../views/ViewCardsInDeck.vue'
 
 Vue.use(Router)
 
@@ -29,7 +28,7 @@ const router = new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/',// changed this to false does not require auth
+      path: '/', // changed this to false does not require auth
       name: 'homepage',
       component: Home,
       meta: {
@@ -61,15 +60,24 @@ const router = new Router({
       }
     },
     {
-      path: "/deck",
-      name: "myDecks",
-      component: AccountPage,
+      path: "/deck", // view public deck?
+      name: "publicDecks", //"DeckEditor",
+      component: Home, //DeckEditor,
+      meta:{
+        requiresAuth: true
+      }
+    },
+
+    {
+      path: "/:userId/deck", // authenticated home
+      name: "my-decks", // "myDecks",
+      component: AccountPage, // AccountPage,
       meta:{
         requiresAuth: true
       }
     },
     {
-      path: "/deck/:deckId/card",
+      path: "/deck/:deckId", //view 1 deck
       name: "DeckEditor",
       component: DeckEditor,
       meta:{
@@ -77,7 +85,57 @@ const router = new Router({
       }
     },
     {
-      path: '/card', // this route was '/study'
+      path: '/decksearch/:input', // search public decks
+      name: 'publicDeckSearch',
+      component: Home,
+      meta:{
+        requiresAuth: false
+      }
+    },
+    {
+      path: ':userId/decksearch/:input', // search user decks
+      name: 'authDeckSearch',
+      component: AccountPage,
+      meta:{
+        requiresAuth: true
+      }
+    },
+    {
+      path: "/deck/:deckId/card", //view 1 deck
+      name: "deck-of-cards",
+      component: ViewCardsInDeck,
+      meta:{
+        requiresAuth: true
+      }
+    },
+    {
+      path: "/:userId/card", // get my cards
+      name: "myCards",
+      component: Results,
+      meta:{
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/cardsearch/:searchInput', // search public cards
+      name: 'public-card-search',
+      component: PublicCardSearch,
+      meta:{
+        requiresAuth: true
+      }
+    },
+    
+    {
+      path: ':userId/cardsearch/:input', // search user cards
+      name: 'authCardSearch',
+      component: Results,
+      meta:{
+        requiresAuth: false
+      }
+    },
+    
+    {
+      path: '/card', // this route was '/study'; get public cards, post card
       name: 'StudySession',
       component: StudySession,
       meta:{
@@ -85,30 +143,11 @@ const router = new Router({
       }
     },
     {
-      path: '/cardTEST', // Joe: added a test route, will delete this once things are working properly
-      name: 'TESTStudySession',
-      component: TESTStudySession,
+      path: '/card/:cardId', // this route was '/study'; get, post, put, delete card
+      name: 'ViewCard',
+      component: StudySession,
       meta:{
         requiresAuth: true
-      }
-    },
-    {
-      path: '/card/keyword/:searchInput',
-      name: 'SearchCards',
-      component: SearchCards,
-      // path: '/search',
-      // name: 'results',
-      // component: Results,
-      meta:{
-        requiresAuth: true
-      }
-    },
-    {
-      path: '/public',
-      name: 'public',
-      component: Public,
-      meta:{
-        requiresAuth: false
       }
     },
     // {

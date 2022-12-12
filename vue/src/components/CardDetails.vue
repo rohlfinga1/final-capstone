@@ -15,7 +15,7 @@
 
 <script>
 export default {
-  name: "single-card-display",
+  name: "card-details",
   data() {
     return {
       showFront: true,

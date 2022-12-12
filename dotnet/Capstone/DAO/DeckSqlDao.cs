@@ -10,14 +10,15 @@ namespace Capstone.DAO
     public class DeckSqlDao : IDeckDao
     {
         private readonly string connectionString;
+
         public DeckSqlDao(string connString)
         {
             connectionString = connString;
         }
 
-        public List<Deck> GetAllDecks()
+        public List<Deck> GetDecksForUser(int userId)
         {
-            List<Deck> deckList = null;
+            List<Deck> userDecks = null;
 
             try
             {
@@ -25,21 +26,23 @@ namespace Capstone.DAO
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("SELECT * FROM deck", conn);
+                    SqlCommand cmd = new SqlCommand("SELECT deck_id, creator_id, users.username, name, description, is_public, date_made, deck_keywords " +
+                        "FROM deck JOIN users ON creator_id = user_id WHERE is_public = 1 OR creator_id = @user_id; ", conn);
+                    cmd.Parameters.AddWithValue("@user_id", userId);
                     SqlDataReader reader = cmd.ExecuteReader();
-                    deckList = new List<Deck>();
+                    userDecks = new List<Deck>();
                     while (reader.Read())
                     {
-                        deckList.Add(CreateDeckFromReader(reader));
+                        userDecks.Add(CreateDeckFromReader(reader));
                     }
                 }
             }
-            catch(SqlException ex)
+            catch (SqlException ex)
             {
                 Console.Error.WriteLine(ex.Message);
             }
 
-            return deckList;
+            return userDecks;
         }
 
         public List<Deck> GetAllPublicDecks()
@@ -52,7 +55,8 @@ namespace Capstone.DAO
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("SELECT * FROM deck WHERE is_public = 1;", conn);
+                    SqlCommand cmd = new SqlCommand("SELECT deck_id, creator_id, users.username, name, description, is_public, date_made, deck_keywords" +
+                        " FROM deck JOIN users ON creator_id = user_id WHERE is_public = 1;", conn);
                     SqlDataReader reader = cmd.ExecuteReader();
                     publicDeckList = new List<Deck>();
                     while (reader.Read())
@@ -69,6 +73,67 @@ namespace Capstone.DAO
             return publicDeckList;
         }
 
+        public List<Deck> GetMyDecksByKeywords(int userId, string deckKeyword)
+        {
+            List<Deck> deckList = null;
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string wildKeyword = "%" + deckKeyword + "%";
+                    SqlCommand cmd = new SqlCommand("SELECT DISTINCT deck_id, creator_id, users.username, name, description, is_public, date_made, deck_keywords " +
+                        "FROM deck JOIN users ON creator_id = user_id " +
+                        "WHERE deck_keywords LIKE @wild_keyword AND creator_id = @user_id;", conn);
+                    cmd.Parameters.AddWithValue("@wild_keyword", wildKeyword);
+                    cmd.Parameters.AddWithValue("@user_id", userId);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    deckList = new List<Deck>();
+                    while (reader.Read())
+                    {
+                        deckList.Add(CreateDeckFromReader(reader));
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.Error.WriteLine(ex.Message);
+            }
+
+            return deckList;
+        }
+
+        public List<Deck> GetPublicDecksByKeywords(string deckKeyword)
+        {
+            List<Deck> deckList = null;
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string wildKeyword = "%" + deckKeyword + "%";
+                    SqlCommand cmd = new SqlCommand("SELECT DISTINCT deck_id, creator_id, users.username, name, description, is_public, date_made, deck_keywords " +
+                        "FROM deck JOIN users ON creator_id = user_id " +
+                        "WHERE deck_keywords LIKE @wild_keyword AND is_public = 1;", conn);
+                    cmd.Parameters.AddWithValue("@wild_keyword", wildKeyword);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    deckList = new List<Deck>();
+                    while (reader.Read())
+                    {
+                        deckList.Add(CreateDeckFromReader(reader));
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.Error.WriteLine(ex.Message);
+            }
+
+            return deckList;
+        }
+
         public Deck GetDeck(int deckId)
         {
             // establish the SQL connection
@@ -79,7 +144,8 @@ namespace Capstone.DAO
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("SELECT * FROM deck WHERE deck_id = @deck_id;", conn);
+                    SqlCommand cmd = new SqlCommand("SELECT deck_id, creator_id, users.username, name, description, is_public, date_made, deck_keywords" +
+                        " FROM deck JOIN users ON creator_id = user_id WHERE deck_id = @deck_id;", conn);
                     cmd.Parameters.AddWithValue("@deck_id", deckId);
 
                     SqlDataReader reader = cmd.ExecuteReader();
@@ -97,36 +163,7 @@ namespace Capstone.DAO
 
             return deck;
         }
-
-        //public List<Deck> GetAllDecksByCreatorId(int creatorId)
-        //{
-        //    List<Deck> deckList = null;
-
-        //    try
-        //    {
-        //        using (SqlConnection conn = new SqlConnection(connectionString))
-        //        {
-        //            conn.Open();
-
-        //            SqlCommand cmd = new SqlCommand("SELECT * FROM deck WHERE creator_id = @creator_id", conn);
-        //            cmd.Parameters.AddWithValue("@creator_id", creatorId);
-        //            SqlDataReader reader = cmd.ExecuteReader();
-        //            deckList = new List<Deck>();
-        //            while (reader.Read())
-        //            {
-        //                deckList.Add(CreateDeckFromReader(reader));
-        //            }
-        //        }
-        //    }
-        //    catch (SqlException ex)
-        //    {
-        //        Console.Error.WriteLine(ex.Message);
-        //    }
-
-        //    return deckList;
-        //}
-
-        //public Deck CreateDeck(string name, bool isPublic, string description, string deckKeywords)
+        
         public Deck CreateDeck(Deck deck)
         {
             int newDeckId;
@@ -135,17 +172,18 @@ namespace Capstone.DAO
                 conn.Open();
 
                 SqlCommand cmd = new SqlCommand("INSERT INTO deck (name, description, " +
-                                                "is_public, deck_keywords, creator_id) " +
+                                                "is_public, deck_keywords, creator_id, date_made) " +
                                                 "OUTPUT INSERTED.deck_id " +
                                                 "VALUES (@name, @description, " +
-                                                "@is_public, @deck_keywords, @creator_id);", conn);
+                                                "@is_public, @deck_keywords, @creator_id, @date_made);", conn);
                 
                 cmd.Parameters.AddWithValue("@name", deck.Name);
                 cmd.Parameters.AddWithValue("@description", deck.Description);
                 cmd.Parameters.AddWithValue("@is_public", deck.IsPublic);
                 cmd.Parameters.AddWithValue("@deck_keywords", deck.DeckKeywords);
                 cmd.Parameters.AddWithValue("@creator_id", deck.CreatorId);
-                
+                cmd.Parameters.AddWithValue("@date_made", DateTime.Today);
+
 
 
                 newDeckId = Convert.ToInt32(cmd.ExecuteScalar());
@@ -162,7 +200,8 @@ namespace Capstone.DAO
                 conn.Open();
 
                 SqlCommand cmd = new SqlCommand("UPDATE deck " +
-                                                "SET creator_id = @creator_id, name = @name, description = @description, is_public = @is_public, deck_keywords = @deck_keywords " +
+                                                "SET creator_id = @creator_id, name = @name, description = @description, is_public = @is_public, " +
+                                                "deck_keywords = @deck_keywords, date_made = @date_made " +
                                                 "WHERE deck_id = @deck_id;", conn);
                 cmd.Parameters.AddWithValue("@deck_id", deck.DeckId);
                 cmd.Parameters.AddWithValue("@creator_id", deck.CreatorId);
@@ -170,12 +209,40 @@ namespace Capstone.DAO
                 cmd.Parameters.AddWithValue("@description", deck.Description);
                 cmd.Parameters.AddWithValue("@is_public", deck.IsPublic);
                 cmd.Parameters.AddWithValue("@deck_keywords", deck.DeckKeywords);
+                cmd.Parameters.AddWithValue("@date_made", deck.DateMade);
 
                 cmd.ExecuteNonQuery();
             }
 
             Deck checkDeck = GetDeck(deckId);
 
+
+            return checkDeck;
+        }
+
+        // do we need this to authorize role admin?
+        public Deck UpdateDeckAsAdmin(int deckId, Deck deck)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+
+                SqlCommand cmd = new SqlCommand("UPDATE deck " +
+                                                "SET creator_id = @creator_id, name = @name, description = @description, is_public = @is_public, " +
+                                                "deck_keywords = @deck_keywords, date_made = @date_made " +
+                                                "WHERE deck_id = @deck_id;", conn);
+                cmd.Parameters.AddWithValue("@deck_id", deck.DeckId);
+                cmd.Parameters.AddWithValue("@creator_id", deck.CreatorId);
+                cmd.Parameters.AddWithValue("@name", deck.Name);
+                cmd.Parameters.AddWithValue("@description", deck.Description);
+                cmd.Parameters.AddWithValue("@is_public", deck.IsPublic);
+                cmd.Parameters.AddWithValue("@deck_keywords", deck.DeckKeywords);
+                cmd.Parameters.AddWithValue("@date_made", deck.DateMade);
+
+                cmd.ExecuteNonQuery();
+            }
+
+            Deck checkDeck = GetDeck(deckId);
 
             return checkDeck;
         }
@@ -209,40 +276,14 @@ namespace Capstone.DAO
             Deck deck = new Deck();
             deck.DeckId = Convert.ToInt32(reader["deck_id"]);
             deck.CreatorId = Convert.ToInt32(reader["creator_id"]);
+            deck.Creator = Convert.ToString(reader["username"]);
             deck.Name = Convert.ToString(reader["name"]);
             deck.Description = Convert.ToString(reader["description"]);
             deck.IsPublic = Convert.ToBoolean(reader["is_public"]);
             deck.DeckKeywords = Convert.ToString(reader["deck_keywords"]);
+            deck.DateMade = Convert.ToDateTime(reader["date_made"]);
 
             return deck;
-        }
-
-        public List<Deck> GetDecksForUser(int userId)
-        {
-            List<Deck> userDecks = null;
-
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(connectionString))
-                {
-                    conn.Open();
-
-                    SqlCommand cmd = new SqlCommand("SELECT * FROM deck WHERE creator_id = @userId;", conn);
-                    cmd.Parameters.AddWithValue("@userId", userId);
-                    SqlDataReader reader = cmd.ExecuteReader();
-                    userDecks = new List<Deck>();
-                    while (reader.Read())
-                    {
-                        userDecks.Add(CreateDeckFromReader(reader));
-                    }
-                }
-            }
-            catch (SqlException ex)
-            {
-                Console.Error.WriteLine(ex.Message);
-            }
-
-            return userDecks;
         }
     }
 }

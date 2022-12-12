@@ -3,7 +3,9 @@
     <button class="add-btn" @click="() => TogglePopup('buttonTrigger')">
       Add Card
     </button>
-    <button class="edit-btn" @click="ShowEditForm = !ShowEditForm"> Edit Deck</button>  
+    <button class="edit-btn" @click="ShowEditForm = !ShowEditForm">
+      Edit Deck
+    </button>
     <div class="popup">
       <popup
         v-if="popupTriggers.buttonTrigger"
@@ -40,9 +42,13 @@
         </td>
         <td v-if="ShowEditForm">
           <form id="editForm" v-if="ShowEditForm" @submit.prevent="editForm">
-            <input type="text" class="form-control" v-model="card.cardKeywords" />
+            <input
+              type="text"
+              class="form-control"
+              v-model="card.cardKeywords"
+            />
           </form>
-        </td>   
+        </td>
       </tr>
     </table>
     <button type="submit" form:id="editForm" class="edit-btn" v-if="ShowEditForm" >Submit</button>
@@ -59,7 +65,8 @@
 </template>
 
 <script>
-import DeckCardService from "../services/DeckCardService.js";
+import deckService from "../services/DeckService.js";
+import cardService from "../services/CardService.js";
 import { ref } from "vue";
 import Popup from "./Popup.vue";
 import CardForm from "./CardForm.vue";
@@ -84,22 +91,46 @@ export default {
   data() {
     return {
       ShowEditForm: false,
-      card: {
-        cardId: 0,
+      deck: {
+        name: "",
+        description: "",
         deckId: this.$route.params.deckId, // right now, GetCards() is taking this number literally,
         // but we want it to auto-increment
+        deckKeywords: "",
+        creator: "",
+        creatorId: 0,
+        deckDate: "",
+        isPublic: false,
+      },
+      card: {
+        cardId: 0,
         front: "",
         back: "",
         cardKeywords: "",
+        creator: "",
+        creatorId: 0,
+        cardDate: "",
       },
     };
   },
   created() {
-    this.GetCards();
+    this.getSingleDeck(this.deck.deckId);
+    this.GetCards(this.deck.deckId);
   },
   methods: {
-    GetCards() {
-      DeckCardService.getCards(this.card.deckId)
+    getSingleDeck(deckId) {
+      deckService
+        .getDeck(deckId)
+        .then((response) => {
+          this.$store.commit("SET_DECK", response.data);
+        })
+        .catch((error) => {
+          alert(error);
+        });
+    },
+    GetCards(deckId) {
+      cardService
+        .getCardsByDeckId(deckId)
         .then((response) => {
           this.$store.commit("SET_CARDS", response.data);
         })
@@ -107,25 +138,6 @@ export default {
           alert(error);
         });
     },
-    UpdateCards() {
-      const updateCard = {
-        front: this.card.front,
-        back: this.card.back,
-        cardKeywords: this.card.cardKeywords,
-        deckId: this.card.deckId,
-        cardId: this.card.cardId
-      }
-      DeckCardService.updateCard(updateCard)
-        .then((response)=> {
-          if (response.status == 201){
-            this.$router.go();
-          }
-        })
-         .catch(error => {
-            
-            this.handleErrorResponse(error, "editing");
-          });
-    }
   },
   components: {
     Popup,

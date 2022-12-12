@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import deckCardService from "../services/DeckCardService.js";
+import cardService from "../services/CardService.js";
 
 export default {
   name: "card-form",
@@ -34,11 +34,14 @@ export default {
         front: "",
         back: "",
         cardKeywords: "",
-        deckId: this.$route.params.deckId,
+        // deckId: this.$route.params.deckId,
         cardId: {
           type: Number,
           default: 0
-        }
+        },
+        creator: '',
+        creatorId: 0,
+        cardDate: {}
       },
       errorMsg: ""
     };
@@ -62,15 +65,18 @@ export default {
     // }
   },
   methods: {
-    submitForm() {
+    submitForm() { //currently does not add card to deck
       const tempCard = {
         front: this.newCard.front,
         back: this.newCard.back,
         cardKeywords: this.newCard.cardKeywords,
-        deckId: Number(this.$route.params.deckId),
-        cardId: this.newCard.cardId
+        //deckId: Number(this.$route.params.deckId),
+        cardId: this.newCard.cardId,
+        creator: this.newCard.creator,
+        creatorId: this.newCard.creatorId,
+        cardDate: this.newCard.cardDate
       };
-        deckCardService
+        cardService
           .addCard(tempCard)
           .then(response => {
             if (response.status === 201) {

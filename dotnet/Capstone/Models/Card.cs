@@ -8,17 +8,11 @@ namespace Capstone.Models
     public class Card
     {
         public string Front { get; set; }
-
         public string Back { get; set; }
-
         public string CardKeywords { get; set; }
-
         public int CardId { get; set; }
-
-        public int DeckId { get; set; }
-
-       
-
-
+        public DateTime DateMade { get; set; }
+        public string Creator { get; set; } = "";
+        public int CreatorId { get; set; } = 0;
     }
 }
