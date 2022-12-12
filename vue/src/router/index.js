@@ -8,9 +8,10 @@ import store from '../store/index'
 import AccountPage from '../views/AccountPage.vue'
 import DeckEditor from '../views/DeckEditor.vue'
 import StudySession from '../views/StudySession.vue'
-import Results from '../views/Results.vue'
+import AuthCardSearch from '../views/AuthCardSearch.vue'
 import PublicCardSearch from '../views/PublicCardSearch.vue'
 import ViewCardsInDeck from '../views/ViewCardsInDeck.vue'
+//import JoinCardAndDeck from '../components/JoinCardAndDeck.vue'
 
 Vue.use(Router)
 
@@ -93,7 +94,7 @@ const router = new Router({
       }
     },
     {
-      path: ':userId/decksearch/:input', // search user decks
+      path: '/:userId/decksearch/:input', // search user decks
       name: 'authDeckSearch',
       component: AccountPage,
       meta:{
@@ -108,29 +109,29 @@ const router = new Router({
         requiresAuth: true
       }
     },
-    {
-      path: "/:userId/card", // get my cards
-      name: "myCards",
-      component: Results,
-      meta:{
-        requiresAuth: true
-      }
-    },
+    // {
+    //   path: "/:userId/card", // get my cards
+    //   name: "myCards",
+    //   component: AuthCardSearch,
+    //   meta:{
+    //     requiresAuth: true
+    //   }
+    // },
     {
       path: '/cardsearch/:searchInput', // search public cards
       name: 'public-card-search',
       component: PublicCardSearch,
       meta:{
-        requiresAuth: true
+        requiresAuth: false
       }
     },
     
     {
-      path: ':userId/cardsearch/:input', // search user cards
-      name: 'authCardSearch',
-      component: Results,
+      path: '/:userId/cardsearch/:input', // search user cards
+      name: 'auth-card-search',
+      component: AuthCardSearch,
       meta:{
-        requiresAuth: false
+        requiresAuth: false//true
       }
     },
     
@@ -159,9 +160,12 @@ const router = new Router({
     //   }
     // },
     // {
-    //   path: '/deck/:deckId/card/:cardId/edit',
-    //   name: 'EditCard',
-    //   component: EditCard
+    //   path: '/deck/:deckId/card/:cardId',
+    //   name: 'join-card-and-deck',
+    //   component: JoinCardAndDeck,
+    //   meta:{
+    //      requiresAuth: true
+    //   }
     // }
   ]
 })

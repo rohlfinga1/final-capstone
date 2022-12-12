@@ -28,7 +28,7 @@ export default new Vuex.Store({
       deckKeywords:'',
       creator: '',
       creatorId: 0,
-      deckDate: '',
+      dateMade: Date,
       isPublic: false
     },
     cards: [],
@@ -39,7 +39,7 @@ export default new Vuex.Store({
       keywords: '',
       creator: '',
       creatorId: 0,
-      cardDate: ''
+      dateMade: Date
     },
   },
 
