@@ -113,17 +113,15 @@ export default new Vuex.Store({
     SET_CURRENT_CARD(state, data) {
       state.card = data;
     },
-    MARK_CORRECT(state, cardToMark) {
-      cardToMark.correct = true;
-      cardToMark.wrong = false;
+    MARK_CORRECT(state, data) {
+      state.card = data;
     },
-    MARK_WRONG(state, cardToMark) {
-      cardToMark.wrong = true;
-      cardToMark.correct = false;
+    MARK_WRONG(state, data) {
+      state.card = data;
     },
-    MARK_SCORED(state, cardToMark) {
-      cardToMark.scored = true;
-    },
+    MARK_SCORED(state, data) {
+      state.card = data;
+    }
 
     // SET_CARD_ID(state, data) {
     //   state.cardID = data;
