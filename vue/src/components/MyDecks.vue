@@ -21,55 +21,24 @@
         Cancel
       </button>
     </form>
-
-    
-    
-    
-    
-    
-    
-    
-
-<<<<<<< HEAD
-
-    <div
-      class="decks"
-      v-for="deck in $store.state.decks"
-      v-bind:key="deck.deckId"
-      v-bind:style="{ 'background-color': deck.backgroundColor }"
-    >
-      <p class="eachDeck">
-        {{ deck.name }}<br /><br />
-        {{ deck.description }}<br />
-        {{ deck.creator }}
-        <button v-on:click="showEditDeck = !showEditDeck">Edit</button>
-      </p>
-        <form v-if="showEditDeck">
-          Deck Name:
-          <input type="text" value="{deck.name}" class="form-control" v-model="deck.name"/>
-          Description:
-          <input type="text" class="form-control" v-model="deck.description"/>
-        </form>
-      
-    </div>
-  </div>
-=======
-      <div
+    <router-link                            
+      :to="{name: 'deck-of-cards', params:{deckId: deck.deckId}}"
         class="decks"
         v-for="deck in $store.state.decks"
         v-bind:key="deck.deckId"
         v-bind:style="{ 'background-color': deck.backgroundColor }"
+      
       >
         <p class="eachDeck">
           {{ deck.name }}<br /><br />
           {{ deck.description }}<br />
+          
           Creator ID: {{ deck.creatorId }}
         </p>
-      </div>
+      </router-link>
   
  
  </div>
->>>>>>> 2470a9c059e7cccbf9a17488fc890f70f6edd6a4
 </template>
 
 <script>
