@@ -13,13 +13,10 @@ namespace Capstone.DAO
         List<Card> GetAllCardsByDeckId(int deckId);
         List<Card> GetPublicCardsByKeywords(string cardKeyword);
         List<Card> GetMyCardsByKeywords(int userId, string cardKeyword);
-
         Card GetCard(int cardId);
         Card CreateCard(Card card);
-        bool AddCardToDeck(int deckId, int cardId);
         Card UpdateCard(int cardId, Card card);
         bool DeleteCard(int cardId);
-        bool DeleteCardFromDeck(int deckId, int cardId);
 
     }
 }

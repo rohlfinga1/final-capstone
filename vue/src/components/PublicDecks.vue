@@ -1,6 +1,20 @@
 <template>
   <div id="PublicDecksPage">
-    <h1>Public Decks</h1>
+    <div class="search-bar">
+      <form @submit.prevent="retrievePublicResults">
+        <input
+          class="form-item"
+          id="front"
+          type="text"
+          name="keyword"
+          placeholder="Search"
+          v-model="searchInput"
+        />
+        <button class="form-item btn btn-submit" @click="retrievePublicResults">
+          Search
+        </button>
+      </form>
+    </div>
     <div
       class="decks"
       v-for="deck in $store.state.decks"
@@ -18,10 +32,13 @@
 
 <script>
 import deckService from "../services/DeckService";
+import cardService from "../services/CardService.js";
+
 export default {
   name: "publicDecks",
   data() {
     return {
+      searchInput: "",
       showAddDeck: false,
       newDeck: {
         name: "",
@@ -42,17 +59,30 @@ export default {
   methods: {
     retrievePublicDecks() {
       //we need to look at this one!
-      this.$store.commit("SET_DECKS", []); //reset before pulling decks
+      this.$store.commit("SET_PUBLIC_DECKS", []); //reset before pulling decks
       deckService
         .getPublicDecks()
         .then((response) => {
           console.log(response.data);
-          this.$store.commit("SET_DECKS", response.data);
+          this.$store.commit("SET_PUBLIC_DECKS", response.data);
         })
         .catch((error) => {
           alert(error);
         });
     },
+    retrievePublicResults() {
+        cardService
+          .getPublicCardSearchResults(this.searchInput)
+          .then((response) => {
+            if (response.status == 200) {
+              this.$store.commit("SET_PUBLIC_CARDS", response.data);
+              this.$router.push({path: `/cardsearch/${this.searchInput}`});
+            }
+          })
+          .catch((error) => {
+            alert(error);
+          });
+      }
   },
 };
 </script>
@@ -124,5 +154,14 @@ export default {
 h1 {
   font-weight: bold;
   text-align: center;
+}
+.search-bar {
+  display: flex;
+  align-items: center;
+  float: right;
+}
+
+.form-item {
+  margin: 10px;
 }
 </style>

@@ -3,7 +3,9 @@
 
     <h1>Home</h1>
     <p>Study APP</p>
+
     <public-decks/>
+    
     
     <router-link to="Login"> Let's Log In! </router-link>
   </div>
@@ -12,9 +14,13 @@
 <script>
 import PublicDecks from '../components/PublicDecks.vue';
 
+
 export default {
-  components: { PublicDecks },
+  components: { PublicDecks},
 
   name: "home"
 };
 </script>
+
+<style>
+</style>

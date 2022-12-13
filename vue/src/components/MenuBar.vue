@@ -5,27 +5,6 @@
     </div>
     <nav>
       <ul>
-        <!-- <li>
-          <div>
-            <form @submit.prevent="retrieveResults">
-              <input
-                id="front"
-                type="text"
-                name="keyword"
-                placeholder="Search"
-                v-model="searchInput"
-              />
-              <router-link
-                v-bind:to="{
-                  name: 'results',
-                  query: { searchInput: searchInput },
-                }"
-                class="link"
-                ><button class="btn btn-submit" @click="retrieveResults">Search</button></router-link
-              >
-            </form>
-          </div>
-        </li> -->
         <!--<li><router-link v-bind:to="{ name: 'login' }" v-if="token==''">LOGIN</router-link></li> possibly switch v-bind for v-model   @click="processResults"-->
         <li>
           <router-link v-bind:to="{ name: 'publicDecks' }" class="link"
@@ -42,40 +21,14 @@
             >LOG OUT</router-link
           >
         </li>
-        <!--v-else="token"-->
       </ul>
     </nav>
   </header>
 </template>
 
 <script>
-import deckCardService from "../services/DeckService.js";
-
 export default {
   name: "menu-bar",
-  data() {
-    return {
-      searchInput: "",
-    };
-  },
-  created() {
-    this.retrieveResults();
-  },
-  methods: {
-    retrieveResults() {
-      //we need to look at this one!
-      deckCardService
-        .getSearchResults(this.searchInput)
-        .then((response) => {
-          if (response.status == 200) {
-            this.$store.commit("SET_SEARCH_RESULT", response.data);
-          }
-        })
-        .catch((error) => {
-          alert(error);
-        });
-    },
-  },
 };
 </script>
 
