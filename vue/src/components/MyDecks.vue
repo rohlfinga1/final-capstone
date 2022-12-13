@@ -30,6 +30,7 @@
     
     
 
+<<<<<<< HEAD
 
     <div
       class="decks"
@@ -52,6 +53,23 @@
       
     </div>
   </div>
+=======
+      <div
+        class="decks"
+        v-for="deck in $store.state.decks"
+        v-bind:key="deck.deckId"
+        v-bind:style="{ 'background-color': deck.backgroundColor }"
+      >
+        <p class="eachDeck">
+          {{ deck.name }}<br /><br />
+          {{ deck.description }}<br />
+          Creator ID: {{ deck.creatorId }}
+        </p>
+      </div>
+  
+ 
+ </div>
+>>>>>>> 2470a9c059e7cccbf9a17488fc890f70f6edd6a4
 </template>
 
 <script>

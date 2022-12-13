@@ -4,6 +4,7 @@
       { {errorMsg}}
     </div>
     <div class="form-group">
+<<<<<<< HEAD
       <label for="front">Question: </label>
 
       <input
@@ -13,6 +14,11 @@
         v-model="newCard.front"
         value="Test"
       />
+=======
+      <label for="front">Question:  </label>
+      
+      <input id="front" type="text" name="front" v-model="newCard.front" value="Test"/>
+>>>>>>> 2470a9c059e7cccbf9a17488fc890f70f6edd6a4
     </div>
     <br />
     <div class="form-group">
@@ -21,6 +27,7 @@
     </div>
     <br />
     <div class="form-group">
+<<<<<<< HEAD
       <label for="cardKeywords">Tags: </label>
       <input
         id="cardKeywords"
@@ -28,6 +35,10 @@
         name="cardKeywords"
         v-model="newCard.cardKeywords"
       />
+=======
+      <label for="cardKeywords">Tags:  </label>
+      <input id="cardKeywords" type="text" name="cardKeywords" v-model="newCard.cardKeywords" />
+>>>>>>> 2470a9c059e7cccbf9a17488fc890f70f6edd6a4
     </div>
     <br />
     <div class="actions">
@@ -37,12 +48,14 @@
 </template>
 
 <script>
-import deckCardService from "../services/DeckCardService.js";
+import cardService from "../services/CardService.js";
 
 export default {
-  name: "card-form",
+  name: "edit-card-form",
+  props:['card'],
   data() {
     return {
+<<<<<<< HEAD
       newCard: {
         front: "",
         back: "",
@@ -73,6 +86,35 @@ export default {
         });
     }
   },
+=======
+      newCard: this.props.card,
+      // newCard: {
+      //   front: this.$route.params.front,
+      //   back: this.$route.params.back,
+      //   cardKeywords: this.$route.params.cardKeywords,
+      //   deckId: this.$route.params.deckId,
+      //   cardId: this.$route.params.cardId
+      // },
+      errorMsg: ""
+    };
+  },
+  created() {
+      // cardService
+      //   .getCard(this.$route.params.deckId, this.card.cardId)
+      //   .then(response => {
+      //     this.card = response.data;
+      //   })
+      //   .catch(error => {
+      //     if (error.response && error.response.status === 404) {
+      //       alert(
+      //         "Card not available. This card may have been deleted or you have entered an invalid card ID."
+      //       );
+      //       this.$router.push({ name: 'Home' });
+      //     }
+      //   });
+    },
+  
+>>>>>>> 2470a9c059e7cccbf9a17488fc890f70f6edd6a4
   methods: {
     submitForm() {
       const tempCard = {
@@ -82,6 +124,7 @@ export default {
         deckId: Number(this.$route.params.deckId),
         cardId: this.newCard.cardId,
       };
+<<<<<<< HEAD
       deckCardService
         .addCard(tempCard)
         .then((response) => {
@@ -92,6 +135,20 @@ export default {
         .catch((error) => {
           this.handleErrorResponse(error, "adding");
         });
+=======
+        cardService
+          .updateCard(tempCard)
+          .then(response => {
+            if (response.status === 201) {
+              
+              this.$router.go();
+            }
+          })
+          .catch(error => {
+            
+            this.handleErrorResponse(error, "adding");
+          });
+>>>>>>> 2470a9c059e7cccbf9a17488fc890f70f6edd6a4
     },
     cancelForm() {
       this.$router.push(`/deck/${this.$route.params.deckId}/card`);

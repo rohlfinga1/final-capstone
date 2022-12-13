@@ -6,7 +6,7 @@ export default
     return axios.get(`/${userId}/deck`);//new method for my decks and public
   },
   getPublicDecks(){
-    return axios.get('/deck');
+    return axios.get('/deck'); // /public
   },
   
   getAuthenticatedDeckSearchResults(userId, searchInput) {

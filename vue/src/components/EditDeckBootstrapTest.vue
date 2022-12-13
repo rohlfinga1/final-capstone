@@ -1,72 +1,219 @@
 <template>
-  <div id="app">
-    <b-table :items="cards" :fields="fields">
-      <template slot="front" slot-scope="row">
-          <b-form-input v-if="cards[row.item.index].isEdit" type="text" v-model="cards[row.item.index].front"></b-form-input>
-          <span v-else>{{row.item.front}}</span>
-      </template>
-      <template #cell(back)="data">
-        <b-form-select v-if="cards[data.index].isEdit" v-model="cards[data.index].back"></b-form-select>
-        <span v-else>{{data.value}}</span>
-      </template>
-      <template #cell(keywords)="data">
-          <b-form-input v-if="cards[data.index].isEdit" type="number" v-model="cards[data.index].keywords"></b-form-input>
-          <span v-else>{{data.value}}</span>
-      </template>
-      <template #cell(edit)="data">
-        <b-button @click="editRowHandler(data)">
-          <span v-if="!cards[data.index].isEdit">Edit</span>
-          <span v-else>Submit</span>
-        </b-button>
-      </template>
-    </b-table>
-     <pre>
-      {{items}}
-    </pre>
+  <div>
+    <button class="add-btn" @click="() => TogglePopup('buttonTrigger')">
+      Add Card
+    </button>
+    <div class="popup">
+      <popup
+        v-if="popupTriggers.buttonTrigger"
+        :TogglePopup="() => TogglePopup('buttonTrigger')"
+      >
+        <h3>Add Card</h3>
+        <!--<card-form v-bind:cardID="parseInt($route.params.cardID)" />-->
+      </popup>
+      </div>
+    <div class="popup">
+      <edit-card-popup
+        v-if="editPopupTriggers.editButtonTrigger"
+        :EditTogglePopup="() => EditTogglePopup('editButtonTrigger')"
+      >
+        <h3>Edit Card</h3>
+        <!--<card-form v-bind:cardID="parseInt($route.params.cardID)" />-->
+      </edit-card-popup>
+    </div>
+    <table>
+      <tr>
+        <th>Front</th>
+        <th>Back</th>
+        <th>Keywords</th>
+      </tr>
+      <tr
+        class="card-row"
+        v-for="card in this.$store.state.cards"
+        v-bind:key="card.cardId"
+      >
+        <!-- For every card in the textcard table by deck_id, assign each data point to the appropriate column -->
+        <td>{{ card.front }}</td>
+        <td>{{ card.back }}</td>
+        <td>{{ card.cardKeywords }}</td>
+        <td>
+          <button class="edit-btn" @click="() => EditTogglePopup('editButtonTrigger')">
+            Edit Card
+          </button>
+          <div class="popup">
+        <edit-card-popup
+        v-if="editPopupTriggers.editButtonTrigger"
+        :EditTogglePopup="() => EditTogglePopup('editButtonTrigger')"
+        :card="card"
+      >
+        <h3>Card Editor</h3>
+        <edit-card-form />
+      </edit-card-popup>
+    </div>
+        </td>
+      </tr>
+    </table>
+    <div class="popup">
+      <popup
+        v-if="popupTriggers.buttonTrigger"
+        :TogglePopup="() => TogglePopup('buttonTrigger')"
+      >
+        <h3>Card Creator</h3>
+        <card-form />
+      </popup>
+    </div>
+    
   </div>
 </template>
+
 <script>
-import { mapState } from 'vuex';
+import deckService from "../services/DeckService.js";
+import cardService from "../services/CardService.js";
+import { ref } from "vue";
+import Popup from "./Popup.vue";
+import CardForm from "./CardForm.vue";
+import EditCardPopup from "./EditCardPopup.vue";
+import EditCardForm from "./EditCardForm.vue"
 
 export default {
   name: "edit-deck",
-  components: {},
-  data() {
+  props: ["cards"],
+  setup() {
+    const popupTriggers = ref({
+      buttonTrigger: false,
+    });
+    const TogglePopup = (trigger) => {
+      popupTriggers.value[trigger] = !popupTriggers.value[trigger];
+    };
+
+    const editPopupTriggers = ref({
+      editButtonTrigger: false,
+    });
+    const EditTogglePopup = (trigger) => {
+      editPopupTriggers.value[trigger] = !editPopupTriggers.value[trigger];
+    };
+
+
     return {
-        cards: [],
-        fields: [
-            { key: "front", label: "Front"},
-            { key: "back", label: "Back" },
-            { key: "keywords", label: "Keywords" },
-            { key: 'edit', label: ''}
-        ],
-       
+      Popup,
+      popupTriggers,
+      TogglePopup,
+      EditCardPopup,
+      editPopupTriggers,
+      EditTogglePopup
     };
   },
-  computed: mapState(['cards']),
-
-  mounted() {
-      this.items = this.items.map(item => ({...item, isEdit: false}));
+  data() {
+    return {
+      deck: {
+        name: "",
+        description: "",
+        deckId: this.$route.params.deckId, // right now, GetCards() is taking this number literally,
+        // but we want it to auto-increment
+        deckKeywords: "",
+        creator: "",
+        creatorId: 0,
+        deckDate: "",
+        isPublic: false,
+      },
+      card: {
+        cardId: 0,
+        deckId: this.$route.params.deckId, // right now, GetCards() is taking this number literally,
+        // but we want it to auto-increment
+        front: "",
+        back: "",
+        cardKeywords: "",
+      },
+    };
+  },
+  created() {
+    this.getSingleDeck(this.deck.deckId);
+    this.GetCards(this.deck.deckId);
   },
   methods: {
-      editRowHandler(data) {
-        this.items[data.index].isEdit = !this.items[data.index].isEdit;
+    getSingleDeck(deckId) {
+      deckService
+        .getDeck(deckId)
+        .then((response) => {
+          this.$store.commit("SET_DECK", response.data);
+        })
+        .catch((error) => {
+          alert(error);
+        });
+    },
+    GetCards(deckId) {
+      cardService
+        .getCardsByDeckId(deckId)
+        .then((response) => {
+          this.$store.commit("SET_CARDS", response.data);
+        })
+        .catch((error) => {
+          alert(error);
+        });
+    },
+    UpdateCards() {
+      const updateCard = {
+        front: this.card.front,
+        back: this.card.back,
+        cardKeywords: this.card.cardKeywords,
+        deckId: this.card.deckId,
+        cardId: this.card.cardId
       }
+      cardService.updateCard(updateCard)
+        .then((response)=> {
+          if (response.status == 201){
+            this.$router.go();
+          }
+        })
+         .catch(error => {
+            
+            this.handleErrorResponse(error, "editing");
+          });
     }
-  }
+  },
+  components: {
+    Popup,
+    CardForm,
+    EditCardPopup,
+    EditCardForm
+  },
+};
 </script>
+
 <style>
-#app {
+table {
+  align-self: center;
+  justify-self: center;
+  table-layout: fixed;
+  width: 80%;
+  border-collapse: collapse;
+  border: 3px solid gray;
   text-align: center;
-  margin: 60px;
 }
-thead, tbody, tfoot, tr, td, th {
-  text-align: left;
-  width: 100px;
-  vertical-align: middle;
+tbody tr:nth-child(odd) {
+  background-color: #e9e9e9;
 }
-pre {
-  text-align: left;
-  color: #d63384;
+tbody tr:nth-child(even) {
+  background-color: #979797;
+}
+.edit-btn {
+  background-color: rgb(129, 230, 129);
+  border-style: solid, black;
+}
+.edit-btn:hover {
+  background-color: whitesmoke;
+}
+
+.add-btn {
+  background-color: rgb(160, 190, 245);
+  border-style: solid, black;
+  height: 50px;
+  width: 200px;
+  font-size: 20px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+.add-btn:hover {
+  background-color: whitesmoke;
 }
 </style>
