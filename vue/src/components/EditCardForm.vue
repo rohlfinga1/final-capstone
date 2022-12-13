@@ -19,11 +19,6 @@ import cardService from "../services/CardService.js";
 
 export default {
   name: "edit-card-form",
-  props:{
-    cardId: {
-      type: Number,
-      }
-  },
   data() {
     return {
       //newCard: this.props.card,
@@ -32,17 +27,17 @@ export default {
          back: "",
          cardKeywords: "",
          deckId: "",
-         cardId: Number("")
+         cardId: null
        },
       errorMsg: ""
     };
   },
   created() {
-    if (this.cardID != 0) {
+    if (this.cardId != 0) {
       cardService
-        .getCard(this.cardId)
+        .getCard(this.$route.params.cardId)
         .then(response => {
-          this.card = response.data;
+          this.newCard = response.data;
         })
         .catch(error => {
           if (error.response && error.response.status === 404) {
