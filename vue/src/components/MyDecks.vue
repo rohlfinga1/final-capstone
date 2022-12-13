@@ -2,31 +2,22 @@
   <div id="MyDecksPage">
     <div class="Nav">
       <h1>My Decks</h1>
-      </div>
-      <button class="addDeck" v-on:click="showAddDeck = !showAddDeck">
-        Add New Deck
-      </button>
-      
-      <form v-if="showAddDeck" @submit.prevent="submitForm">
-        Deck Name:
-        <input type="text" class="form-control" v-model="newDeck.name" />
-        Description:
-        <input type="text" class="form-control" v-model="newDeck.description" />
-        Deck Keywords:
+    </div>
+    <button class="addDeck" v-on:click="showAddDeck = !showAddDeck">
+      Add New Deck
+    </button>
+    <div class="search-bar">
+      <form @submit.prevent="retrieveResults">
         <input
+          class="form-item"
+          id="front"
           type="text"
-          class="form-control"
-          v-model="newDeck.deckKeywords"
+          name="keyword"
+          placeholder="Search"
+          v-model="searchInput"
         />
-        Is this Public:
-        <input
-          type="checkbox"
-          class="form-control"
-          v-model="newDeck.isPublic"
-        />
-        <button class="btn btn-submit" @click="submitForm">Save</button>
-        <button class="btn btn-cancel" v-on:click="showAddDeck = !showAddDeck">
-          Cancel
+        <button class="form-item btn btn-submit" @click="retrieveResults">
+          Search
         </button>
       </form>
     <div>
@@ -65,19 +56,22 @@
 
 <script>
 import deckService from "../services/DeckService";
+import cardService from "../services/CardService.js";
 
 export default {
   name: "myDecks",
   data() {
     return {
+      searchInput: "",
+      userId: this.$store.state.user.userId,
       showAddDeck: false,
       newDeck: {
-        name: '',
-        description:'',
+        name: "",
+        description: "",
         deckId: 0,
-        deckKeywords:'',
-        creator: '',
-        deckDate: '',
+        deckKeywords: "",
+        creator: "",
+        deckDate: "",
         isPublic: false,
         creatorId: this.$store.state.user.userId,
       },
@@ -92,16 +86,33 @@ export default {
       //we need to look at this one!
       const userId = this.$store.state.user.userId;
       //console.log(this.$store.state.user.userId);
-      this.$store.commit("SET_DECKS", []);//reset before pulling decks
-      deckService.getUserDecks(userId).then(response => {
-        console.log(response.data);
-        this.$store.commit("SET_DECKS", response.data);
-                       
-    }).catch((error) => {
-      alert(error);
-    });
+      this.$store.commit("SET_USER_DECKS", []); //reset before pulling decks
+      deckService
+        .getUserDecks(userId)
+        .then((response) => {
+          console.log(response.data);
+          this.$store.commit("SET_USER_DECKS", response.data);
+        })
+        .catch((error) => {
+          alert(error);
+        });
     },
-
+    retrieveResults() {
+      //we need to look at this one!
+      cardService
+        .getAuthenticatedCardSearchResults(this.userId, this.searchInput)
+        .then((response) => {
+          if (response.status == 200) {
+            this.$store.commit("SET_CARDS", response.data);
+            this.$router.push({
+              path: `/${this.userId}/cardsearch/${this.searchInput}`,
+            });
+          }
+        })
+        .catch((error) => {
+          alert(error);
+        });
+    },
     submitForm() {
       const tempDeck = {
         name: this.newDeck.name,
@@ -121,12 +132,12 @@ export default {
           this.retrieveDecks();
           //reset new deck object
           this.newDeck = {
-            name: '',
-            description:'',
+            name: "",
+            description: "",
             deckId: 0,
-            deckKeywords:'',
-            creator: '',
-            deckDate: '',
+            deckKeywords: "",
+            creator: "",
+            deckDate: "",
             isPublic: false,
             creatorId: this.$store.state.user.userId,
           };
@@ -258,5 +269,15 @@ h1 {
 .deck:hover:not(.router-link-active),
 .addDeck:hover {
   font-weight: bold;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  float: right;
+}
+
+.form-item {
+  margin: 10px;
 }
 </style>
