@@ -192,6 +192,7 @@ namespace Capstone.DAO
             return card;
         }
 
+        
         public Card CreateCard(Card card)
         {
             int newCardId;
@@ -217,30 +218,7 @@ namespace Capstone.DAO
             return GetCard(newCardId);
         }
 
-        public bool AddCardToDeck(int deckId, int cardId)
-        {
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(connectionString))
-                {
-                    conn.Open();
-
-                    SqlCommand cmd = new SqlCommand("INSERT INTO deck_textcard (deck_id, textcard_id) VALUES(@deck_id, @textcard_id); ", conn);
-                    cmd.Parameters.AddWithValue("@deck_id", deckId);
-                    cmd.Parameters.AddWithValue("@textcard_id", cardId);
-
-                    cmd.ExecuteNonQuery();
-                }
-                
-            }
-            catch (SqlException ex)
-            {
-                Console.Error.WriteLine(ex.Message);
-                return false;
-            }
-
-            return true;
-        }
+        
 
         public Card UpdateCard(int cardId, Card card)
         {
@@ -290,29 +268,7 @@ namespace Capstone.DAO
             }
         }
 
-        public bool DeleteCardFromDeck(int deckId, int cardId)
-        {
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(connectionString))
-                {
-                    conn.Open();
-
-                    SqlCommand cmd = new SqlCommand("DELETE FROM deck_textcard WHERE deck_id = @deck_id AND textcard_id = @textcard_id;", conn);
-                    cmd.Parameters.AddWithValue("@deck_id", deckId);
-                    cmd.Parameters.AddWithValue("@textcard_id", cardId);
-
-                    cmd.ExecuteNonQuery();
-                }
-            }
-            catch (SqlException ex)
-            {
-                Console.Error.WriteLine(ex.Message);
-                return false;
-            }
-            return true;
-
-        }
+        
 
         private Card CreateCardFromReader(SqlDataReader reader)
         {

@@ -1,12 +1,13 @@
 <template>
   <div>
     <myDecks />
+    
   </div>
 </template>
 
 <script>
 import MyDecks from "../components/MyDecks.vue";
-//import deckService from "../services/DeckService.js";
+
 
 export default {
   name: "my-decks",
@@ -48,4 +49,8 @@ export default {
 </script>
 
 <style>
+/* div {
+  display: flex;
+  flex-direction: column;
+} */
 </style>

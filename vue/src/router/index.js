@@ -65,7 +65,7 @@ const router = new Router({
       name: "publicDecks", //"DeckEditor",
       component: Home, //DeckEditor,
       meta:{
-        requiresAuth: true
+        requiresAuth: false
       }
     },
 

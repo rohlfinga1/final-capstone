@@ -33,6 +33,9 @@ export default new Vuex.Store({
       dateMade: Date,
       isPublic: false
     },
+    userCards: [],
+    publicCards: [],
+    //searchCards: [],
     cards: [],
     card: {
       cardId: 0,
@@ -42,6 +45,11 @@ export default new Vuex.Store({
       creator: '',
       creatorId: 0,
       dateMade: Date
+    },
+    cardDeckIds: [],   // could this be used for modifying decks & creating cards? needs route
+    cardDeckId: {
+      cardId: 0,
+      deckId: 0
     },
   },
 
@@ -79,12 +87,31 @@ export default new Vuex.Store({
       state.deck = data;
     },
 
+    // SET_DECK_ID(state, data) {
+    //   state.deckID = data;
+    // },
+
     SET_CARDS(state, data){
       state.cards = data;
+    },
+
+    SET_USER_CARDS(state, data) {
+      state.userCards = data;
+    },
+
+    SET_PUBLIC_CARDS(state, data) {
+      state.publicCards = data;
     },
     
     SET_CURRENT_CARD(state, data) {
       state.card = data;
     },
+
+    // SET_CARD_ID(state, data) {
+    //   state.cardID = data;
+    //   console.log(`${this.cardID}`)
+    // },
+
+    
   }
 })
