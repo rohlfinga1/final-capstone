@@ -10,8 +10,9 @@ import DeckEditor from '../views/DeckEditor.vue'
 import StudySession from '../views/StudySession.vue'
 import AuthCardSearch from '../views/AuthCardSearch.vue'
 import PublicCardSearch from '../views/PublicCardSearch.vue'
-import ViewCardsInDeck from '../views/ViewCardsInDeck.vue'
+import EditCardOverview from '../components/EditCardOverview.vue'
 import EditCard from '../views/EditCard.vue'
+import MyDecks from '../components/MyDecks.vue'
 //import JoinCardAndDeck from '../components/JoinCardAndDeck.vue'
 
 Vue.use(Router)
@@ -73,7 +74,7 @@ const router = new Router({
     {
       path: "/:userId/deck", // authenticated home
       name: "my-decks", // "myDecks",
-      component: AccountPage, // AccountPage,
+      component: MyDecks, // AccountPage,
       meta:{
         requiresAuth: true
       }
@@ -103,9 +104,9 @@ const router = new Router({
       }
     },
     {
-      path: '/deck/:deckId', //view 1 deck
+      path: '/deck/:deckId/card', //view 1 deck
       name: 'deck-of-cards',
-      component: ViewCardsInDeck,
+      component: EditCardOverview,
       meta:{
         requiresAuth: true
       }
@@ -123,7 +124,7 @@ const router = new Router({
       name: 'public-card-search',
       component: PublicCardSearch,
       meta:{
-        requiresAuth: false
+        requiresAuth: true
       }
     },
     

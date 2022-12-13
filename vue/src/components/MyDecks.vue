@@ -38,7 +38,8 @@
 
     <div>
       <h2>My Decks</h2>
-      <div
+      <router-link
+      :to="{ name: 'DeckEditor', params: {deckId: deck.deckId}}"
         class="decks"
         v-for="deck in filterMyDecksOnly"
         v-bind:key="deck.deckId"
@@ -47,15 +48,17 @@
         <p class="eachDeck">
           {{ deck.name }}<br /><br />
           {{ deck.description }}<br />
+        
 
           Creator ID: {{ deck.creatorId }}
         </p>
-      </div>
+      </router-link>
     </div>
     <div>
       <h2>Public Decks</h2>
 
-      <div
+      <router-link
+      :to="{ name: 'DeckEditor', params: {deckId: deck.deckId}}"
         id="publicDecks"
         class="decks"
         v-for="deck in filterPublicOnly"
@@ -67,13 +70,13 @@
           {{ deck.description }}<br />
           {{ deck.creatorId }}
         </p>
-      </div>
+      </router-link>
     </div>
   </div>
 </template>
 
 <script>
-import deckService from "../services/DeckService.js";
+import deckService from "../services/DeckService";
 import cardService from "../services/CardService.js";
 
 export default {
@@ -89,8 +92,8 @@ export default {
         description: "",
         deckId: 0,
         deckKeywords: "",
-        creator: "",
-        deckDate: "",
+        //creator: "",
+        dateMade: "",
         isPublic: false,
         creatorId: this.$store.state.user.userId,
       },
@@ -106,12 +109,12 @@ export default {
       //we need to look at this one!
       const userId = this.$store.state.user.userId;
       //console.log(this.$store.state.user.userId);
-      this.$store.commit("SET_USER_DECKS", []); //reset before pulling decks
+      this.$store.commit("SET_DECKS", []); //reset before pulling decks
       deckService
         .getUserDecks(userId)
         .then((response) => {
           console.log(response.data);
-          this.$store.commit("SET_USER_DECKS", response.data);
+          this.$store.commit("SET_DECKS", response.data);
         })
         .catch((error) => {
           alert(error);
@@ -139,7 +142,7 @@ export default {
         description: this.newDeck.description,
         deckKeywords: this.newDeck.deckKeywords,
         isPublic: this.newDeck.isPublic,
-        deckDate: this.newDeck.deckDate,
+        dateMade: this.newDeck.dateMade,
         // creator: this.newDeck.creator,
         creatorId: this.$store.state.user.userId,
       };
@@ -157,7 +160,7 @@ export default {
             deckId: 0,
             deckKeywords: "",
             creator: "",
-            deckDate: "",
+            dateMade: "",
             isPublic: false,
             creatorId: this.$store.state.user.userId,
           };
