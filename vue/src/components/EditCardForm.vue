@@ -26,8 +26,10 @@ export default {
          front: "",
          back: "",
          cardKeywords: "",
-         deckId: "",
-         cardId: null
+         cardId: null,
+         creator: '',
+         creatorId: 0,
+         cardDate: {}
        },
       errorMsg: ""
     };
@@ -55,8 +57,10 @@ export default {
         front: this.newCard.front,
         back: this.newCard.back,
         cardKeywords: this.newCard.cardKeywords,
-        deckId: Number(this.$route.params.deckId),
         cardId: this.newCard.cardId,
+        creator: this.newCard.creator,
+        creatorId: this.newCard.creatorId,
+        cardDate: this.newCard.cardDate
       };
         cardService
           .updateCard(tempCard)
