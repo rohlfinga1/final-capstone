@@ -1,27 +1,37 @@
 <template>
   <form @submit.prevent="submitForm" class="editCardForm">
-    <div class="status-message error" v-show="errorMsg !== ''">{
-{errorMsg}}</div>
-    <div class="form-group">
-      <label for="front">Question:  </label>
-      
-      <input id="front" type="text" name="front" v-model="newCard.
-front" value="Test"/>
+    <div class="status-message error" v-show="errorMsg !== ''">
+      { {errorMsg}}
     </div>
-    <br/>
-     <div class="form-group">
-      <label for="back">Answer:  </label>
+    <div class="form-group">
+      <label for="front">Question: </label>
+
+      <input
+        id="front"
+        type="text"
+        name="front"
+        v-model="newCard.front"
+        value="Test"
+      />
+    </div>
+    <br />
+    <div class="form-group">
+      <label for="back">Answer: </label>
       <input type="text" name="back" v-model="newCard.back" />
     </div>
-    <br/>
+    <br />
     <div class="form-group">
-      <label for="cardKeywords">Tags:  </label>
-      <input id="cardKeywords" type="text" name="cardKeywords" 
-v-model="newCard.cardKeywords" />
+      <label for="cardKeywords">Tags: </label>
+      <input
+        id="cardKeywords"
+        type="text"
+        name="cardKeywords"
+        v-model="newCard.cardKeywords"
+      />
     </div>
-    <br/>
+    <br />
     <div class="actions">
-      <button class="btn btn-submit" >Submit</button>
+      <button class="btn btn-submit">Submit</button>
     </div>
   </form>
 </template>
@@ -40,25 +50,25 @@ export default {
         deckId: this.$route.params.deckId,
         cardId: {
           type: Number,
-          default: 0
-        }
+          default: 0,
+        },
       },
-      errorMsg: ""
+      errorMsg: "",
     };
   },
   created() {
     if (this.newCard.cardId != 0) {
       deckCardService
         .getCard(this.$route.params.deckId, this.card.cardId)
-        .then(response => {
+        .then((response) => {
           this.card = response.data;
         })
-        .catch(error => {
+        .catch((error) => {
           if (error.response && error.response.status === 404) {
             alert(
               "Card not available. This card may have been deleted or you have entered an invalid card ID."
             );
-            this.$router.push({ name: 'Home' });
+            this.$router.push({ name: "Home" });
           }
         });
     }
@@ -70,20 +80,18 @@ export default {
         back: this.newCard.back,
         cardKeywords: this.newCard.cardKeywords,
         deckId: Number(this.$route.params.deckId),
-        cardId: this.newCard.cardId
+        cardId: this.newCard.cardId,
       };
-        deckCardService
-          .addCard(tempCard)
-          .then(response => {
-            if (response.status === 201) {
-              
-              this.$router.go();
-            }
-          })
-          .catch(error => {
-            
-            this.handleErrorResponse(error, "adding");
-          });
+      deckCardService
+        .addCard(tempCard)
+        .then((response) => {
+          if (response.status === 201) {
+            this.$router.go();
+          }
+        })
+        .catch((error) => {
+          this.handleErrorResponse(error, "adding");
+        });
     },
     cancelForm() {
       this.$router.push(`/deck/${this.$route.params.deckId}/card`);
@@ -91,19 +99,15 @@ export default {
     handleErrorResponse(error, verb) {
       if (error.response) {
         this.errorMsg =
-          "Error " + verb + " card. Response received was '" +
-          error +
-          "'.";
+          "Error " + verb + " card. Response received was '" + error + "'.";
       } else if (error.request) {
-        this.errorMsg =
-          "Error " + verb + " card. Server could not be reached.";
+        this.errorMsg = "Error " + verb + " card. Server could not be reached.";
       } else {
         this.errorMsg =
           "Error " + verb + " card. Request could not be created.";
       }
-    }
+    },
   },
-  
 };
 </script>
 

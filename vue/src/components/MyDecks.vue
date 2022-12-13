@@ -2,49 +2,56 @@
   <div id="MyDecksPage">
     <div class="Nav">
       <h1>My Decks</h1>
-      </div>
-      <button class="addDeck" v-on:click="showAddDeck = !showAddDeck">
-        Add New Deck
-      </button>
-      
-      <form v-if="showAddDeck" @submit.prevent="submitForm">
-        Deck Name:
-        <input type="text" class="form-control" v-model="newDeck.name" />
-        Description:
-        <input type="text" class="form-control" v-model="newDeck.description" />
-        Deck Keywords:
-        <input
-          type="text"
-          class="form-control"
-          v-model="newDeck.deckKeywords"
-        />
-        Is this Public:
-        <input
-          type="checkbox"
-          class="form-control"
-          v-model="newDeck.isPublic"
-        />
-        <button class="btn btn-submit" @click="submitForm">Save</button>
-        <button class="btn btn-cancel" v-on:click="showAddDeck = !showAddDeck">
-          Cancel
-        </button>
-      </form>
+    </div>
+    <button class="addDeck" v-on:click="showAddDeck = !showAddDeck">
+      Add New Deck
+    </button>
 
-      <div
-        class="decks"
-        v-for="deck in $store.state.decks"
-        v-bind:key="deck.deckId"
-        v-bind:style="{ 'background-color': deck.backgroundColor }"
-      >
-        <p class="eachDeck">
-          {{ deck.name }}<br /><br />
-          {{ deck.description }}<br />
-          {{ deck.creator }}
-        </p>
-      </div>
-  
- 
- </div>
+    <form v-if="showAddDeck" @submit.prevent="submitForm">
+      Deck Name:
+      <input type="text" class="form-control" v-model="newDeck.name" />
+      Description:
+      <input type="text" class="form-control" v-model="newDeck.description" />
+      Deck Keywords:
+      <input type="text" class="form-control" v-model="newDeck.deckKeywords" />
+      Is this Public:
+      <input type="checkbox" class="form-control" v-model="newDeck.isPublic" />
+      <button class="btn btn-submit" @click="submitForm">Save</button>
+      <button class="btn btn-cancel" v-on:click="showAddDeck = !showAddDeck">
+        Cancel
+      </button>
+    </form>
+
+    
+    
+    
+    
+    
+    
+    
+
+
+    <div
+      class="decks"
+      v-for="deck in $store.state.decks"
+      v-bind:key="deck.deckId"
+      v-bind:style="{ 'background-color': deck.backgroundColor }"
+    >
+      <p class="eachDeck">
+        {{ deck.name }}<br /><br />
+        {{ deck.description }}<br />
+        {{ deck.creator }}
+        <button v-on:click="showEditDeck = !showEditDeck">Edit</button>
+      </p>
+        <form v-if="showEditDeck">
+          Deck Name:
+          <input type="text" value="{deck.name}" class="form-control" v-model="deck.name"/>
+          Description:
+          <input type="text" class="form-control" v-model="deck.description"/>
+        </form>
+      
+    </div>
+  </div>
 </template>
 
 <script>
@@ -54,20 +61,22 @@ export default {
   name: "myDecks",
   data() {
     return {
+      showEditDeck: false,
       showAddDeck: false,
       newDeck: {
-        name: '',
-        description:'',
+        name: "",
+        description: "",
         deckId: 0,
-        deckKeywords:'',
-        creator: '',
-        deckDate: '',
+        deckKeywords: "",
+        creator: "",
+        deckDate: "",
         isPublic: false,
         creatorId: this.$store.state.user.userId,
       },
       errorMsg: "",
     };
   },
+  props: ["decks"],
   created() {
     this.retrieveDecks();
   },
@@ -76,14 +85,16 @@ export default {
       //we need to look at this one!
       const userId = this.$store.state.user.userId;
       //console.log(this.$store.state.user.userId);
-      this.$store.commit("SET_DECKS", []);//reset before pulling decks
-      deckService.getUserDecks(userId).then(response => {
-        console.log(response.data);
-        this.$store.commit("SET_DECKS", response.data);
-                       
-    }).catch((error) => {
-      alert(error);
-    });
+      this.$store.commit("SET_DECKS", []); //reset before pulling decks
+      deckService
+        .getUserDecks(userId)
+        .then((response) => {
+          console.log(response.data);
+          this.$store.commit("SET_DECKS", response.data);
+        })
+        .catch((error) => {
+          alert(error);
+        });
     },
 
     submitForm() {
@@ -105,12 +116,12 @@ export default {
           this.retrieveDecks();
           //reset new deck object
           this.newDeck = {
-            name: '',
-            description:'',
+            name: "",
+            description: "",
             deckId: 0,
-            deckKeywords:'',
-            creator: '',
-            deckDate: '',
+            deckKeywords: "",
+            creator: "",
+            deckDate: "",
             isPublic: false,
             creatorId: this.$store.state.user.userId,
           };
@@ -133,6 +144,7 @@ export default {
           }
         });
     },
+
     randomBackgroundColor() {
       return "#" + this.generateHexCode();
     },
