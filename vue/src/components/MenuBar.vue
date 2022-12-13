@@ -7,13 +7,18 @@
       <ul>
         <!--<li><router-link v-bind:to="{ name: 'login' }" v-if="token==''">LOGIN</router-link></li> possibly switch v-bind for v-model   @click="processResults"-->
         <li>
-          <router-link v-bind:to="{ name: 'publicDecks' }" class="link"
-            >DECKS</router-link
+          <router-link v-bind:to="{ name: 'Home' }" class="link"
+            >HOME</router-link
+          >
+        </li>
+        <li>
+          <router-link v-bind:to="{ name: 'my-decks' }" class="link"
+            >ACCOUNT</router-link
           >
         </li>
         <li>
           <router-link v-bind:to="{ name: 'StudySession' }" class="link"
-            >CARDS</router-link
+            >STUDY</router-link
           >
         </li>
         <li>

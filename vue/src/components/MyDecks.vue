@@ -108,12 +108,12 @@ export default {
       //we need to look at this one!
       const userId = this.$store.state.user.userId;
       //console.log(this.$store.state.user.userId);
-      this.$store.commit("SET_DECKS", []); //reset before pulling decks
+      this.$store.commit("SET_USER_DECKS", []); //reset before pulling decks
       deckService
         .getUserDecks(userId)
         .then((response) => {
           console.log(response.data);
-          this.$store.commit("SET_DECKS", response.data);
+          this.$store.commit("SET_USER_DECKS", response.data);
         })
         .catch((error) => {
           alert(error);
