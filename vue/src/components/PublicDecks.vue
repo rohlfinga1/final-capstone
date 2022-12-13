@@ -1,6 +1,20 @@
 <template>
   <div id="PublicDecksPage">
-    <h1>Public Decks</h1>
+    <div class="search-bar">
+      <form @submit.prevent="retrievePublicResults">
+        <input
+          class="form-item"
+          id="front"
+          type="text"
+          name="keyword"
+          placeholder="Search Public Cards"
+          v-model="searchInput"
+        />
+        <button class="form-item btn btn-submit" @click="retrievePublicResults">
+          Search
+        </button>
+      </form>
+    </div>
     <div
       class="decks"
       v-for="deck in $store.state.decks"
@@ -18,10 +32,13 @@
 
 <script>
 import deckService from "../services/DeckService";
+import cardService from "../services/CardService.js";
+
 export default {
   name: "publicDecks",
   data() {
     return {
+      searchInput: "",
       showAddDeck: false,
       newDeck: {
         name: "",
@@ -53,6 +70,19 @@ export default {
           alert(error);
         });
     },
+    retrievePublicResults() {
+        cardService
+          .getPublicCardSearchResults(this.searchInput)
+          .then((response) => {
+            if (response.status == 200) {
+              this.$store.commit("SET_CARDS", response.data);
+              this.$router.push({path: `/cardsearch/${this.searchInput}`});
+            }
+          })
+          .catch((error) => {
+            alert(error);
+          });
+      }
   },
 };
 </script>
@@ -124,5 +154,14 @@ export default {
 h1 {
   font-weight: bold;
   text-align: center;
+}
+.search-bar {
+  display: flex;
+  align-items: center;
+  float: right;
+}
+
+.form-item {
+  margin: 10px;
 }
 </style>

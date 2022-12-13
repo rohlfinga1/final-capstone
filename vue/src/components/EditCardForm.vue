@@ -61,7 +61,7 @@ export default {
         back: this.newCard.back,
         cardKeywords: this.newCard.cardKeywords,
         deckId: Number(this.$route.params.deckId),
-        cardId: this.newCard.cardId
+        cardId: this.newCard.cardId,
       };
         cardService
           .updateCard(tempCard)
@@ -82,19 +82,15 @@ export default {
     handleErrorResponse(error, verb) {
       if (error.response) {
         this.errorMsg =
-          "Error " + verb + " card. Response received was '" +
-          error +
-          "'.";
+          "Error " + verb + " card. Response received was '" + error + "'.";
       } else if (error.request) {
-        this.errorMsg =
-          "Error " + verb + " card. Server could not be reached.";
+        this.errorMsg = "Error " + verb + " card. Server could not be reached.";
       } else {
         this.errorMsg =
           "Error " + verb + " card. Request could not be created.";
       }
-    }
+    },
   },
-  
 };
 </script>
 
