@@ -44,7 +44,10 @@ export default new Vuex.Store({
       keywords: '',
       creator: '',
       creatorId: 0,
-      dateMade: Date
+      dateMade: Date,
+      correct: false,
+      wrong: false,
+      scored: false
     },
     cardDeckIds: [],   // could this be used for modifying decks & creating cards? needs route
     cardDeckId: {
@@ -109,6 +112,17 @@ export default new Vuex.Store({
     
     SET_CURRENT_CARD(state, data) {
       state.card = data;
+    },
+    MARK_CORRECT(state, cardToMark) {
+      cardToMark.correct = true;
+      cardToMark.wrong = false;
+    },
+    MARK_WRONG(state, cardToMark) {
+      cardToMark.wrong = true;
+      cardToMark.correct = false;
+    },
+    MARK_SCORED(state, cardToMark) {
+      cardToMark.scored = true;
     },
 
     // SET_CARD_ID(state, data) {
