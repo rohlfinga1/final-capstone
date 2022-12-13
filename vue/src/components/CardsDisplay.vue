@@ -1,8 +1,6 @@
 <template>
   <section class="card-overview">
-    <!--<join-card-and-deck v-bind:key="card.cardId" v-show="showSelectAddingDeckForm = !showSelectAddingDeckForm"/>v-on:submit="!showAddForm"
-    <delete-card-from-deck v-bind:key="card.cardId" v-show="showSelectDeletingDeckForm = !showSelectDeletingDeckForm"/>v-show="showAddForm == true"-->
-    <div class="card">
+    <!-- <div class="card">
       <div class="form-content">
         <br/>
         <ul v-for="deck in selectedDecks" v-bind:key="deck.deckId">
@@ -15,7 +13,7 @@
             type="text"
             name="deck"
             value="cardID"
-            v-model="this.$store.state.cardID"
+            v-bind:key="cardID"
           />
           <br />
           <label for="deck">Enter deck ID to select deck: </label>
@@ -24,7 +22,7 @@
             type="text"
             name="deck"
             value="deckID"
-            v-model="this.$store.state.deckID"
+            v-bind:key="deckID"
           />
           <br />
           <br />
@@ -37,17 +35,6 @@
           </button>
         </form>
       </div>
-    </div>
-    <!-- <div class="form-block" v-show="showDeleteForm == true">
-      <form v-on:submit="!showDeleteForm">
-        <section v-for="deck in selectedDecks" v-bind:key="deck.deckId">
-          <button @click="selectThisDeckForDeleting(deck.deckId)">
-            {{ deck.name }}
-          </button>
-          <br />
-        </section>
-        <button class="btn btn-submit">Done</button>
-      </form>
     </div> -->
     <div v-for="card in selectedCards" v-bind:key="card.cardId">
       <section>
@@ -56,11 +43,10 @@
       <div class="card-details" v-bind:card="card" v-bind:key="card.cardId">
         <button
           class="addbtn"
-          v-if="showAddForm == false"
           @click="selectThisCardForAdding(card.cardId)"
         >
           Add to A Deck
-        </button>
+        </button><!--v-if="showAddForm == false"-->
 
         <p>Card {{ card.cardId }} &nbsp; Date Created: {{ card.cardDate }}</p>
         <p>Creator ID: {{ card.creatorId }}</p>
@@ -68,26 +54,17 @@
       </div>
     </div>
   </section>
-  <!-- <button
-        v-if="showDeleteForm == false"
-        @click="selectThisCardForDeleting(card.cardId)"
-      >
-        Delete From A Deck
-      </button> -->
 </template>
 
 <script>
 import CardDetails from "./CardDetails.vue";
-//import cardService from "../services/CardService";
 import cardDeckIdService from "../services/CardDeckIdService"
-//import JoinCardAndDeck from "./JoinCardAndDeck.vue";
-//import DeleteCardFromDeck from "./DeleteCardFromDeck.vue"
-//import Popup from './Popup.vue'
 
 export default {
   name: "cards-display",
   props: {
     cards: [],
+    userDecks: [],
     decks: [],
     cardID: {},
     deckID: {},
@@ -96,7 +73,6 @@ export default {
   data() {
     return {
       hideForm: false,
-      //showAddForm: false,
       showDeleteForm: false,
       userId: this.$store.state.user.userId,
       card: {
@@ -127,28 +103,17 @@ export default {
       });
     },
     selectedDecks() {
-      return this.$store.state.decks.filter((deck) => {
+      return this.$store.state.userDecks.filter((deck) => {
         return deck.creatorId === this.userId;
       });
     },
   },
   components: {
     CardDetails,
-    //JoinCardAndDeck,
-    //DeleteCardFromDeck
-    //Popup
+
   },
-  // created() {
-  //   this.selectThisCardForAdding(cardId);
-  //   this.selectThisCardForDeleting(cardId);
-  //   this.selectThisDeckForAdding(deckId);
-  //   this.selectThisDeckForDeleting(deckId);
-  //   this.addCardDeck(deckID, cardID);
-  //   this.deleteCardDeck(deckID, cardID)
-  // },
   methods: {
     selectThisCardForAdding(cardId) {
-      //this.showAddForm = true;
       console.log(`${cardId}`);
       this.$store.commit("SET_CARD_ID", cardId);
     },
