@@ -28,11 +28,11 @@
         <td>{{ card.back }}</td>
         <td>{{ card.cardKeywords }}</td>
         <td>
-          <router-link
-            :to="{ name: 'EditCard', params: {cardID: $route.params.cardID} }"
+          <button
+            v-on:click="viewEditCard(card.cardId)"
             class="btn editCard">
             Edit Card
-          </router-link>
+          </button>
         </td>
       </tr>
     </table>
@@ -66,9 +66,6 @@ export default {
     const TogglePopup = (trigger) => {
       popupTriggers.value[trigger] = !popupTriggers.value[trigger];
     };
-
-
-
     return {
       Popup,
       popupTriggers,
@@ -103,6 +100,9 @@ export default {
     this.GetCards(this.deck.deckId);
   },
   methods: {
+    viewEditCard(cardId) {
+      this.$router.push(`/editcard/${cardId}`);
+    },
     getSingleDeck(deckId) {
       deckService
         .getDeck(deckId)

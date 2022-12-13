@@ -1,26 +1,16 @@
 <template>
-  <form @submit.prevent="submitForm" class="editCardForm">
-    <div class="status-message error" v-show="errorMsg !== ''">{
-{errorMsg}}</div>
+ <form v-on:submit.prevent="submitForm" class="editCardForm">
+    <div class="status-message error" v-show="errorMsg !== ''">{{errorMsg}}</div>
     <div class="form-group">
-      <label for="front">Question:  </label>
-      
-      <input id="front" type="text" name="front" v-model="newCard.front" value="Test"/>
-    </div>
-    <br/>
-     <div class="form-group">
+      <label for="front">Question: </label>
+      <input id="front" type="text" class="form-control" v-model="newCard.front" autocomplete="off" />
       <label for="back">Answer:  </label>
-      <input type="text" name="back" v-model="newCard.back" />
+      <input id="back" type="text" class="form-control" v-model="newCard.back"/>
+      <label for="cardKeywords">Keywords:  </label>
+      <input id="cardKeywords" type="text" class="form-control" v-model="newCard.cardKeywords" />
     </div>
-    <br/>
-    <div class="form-group">
-      <label for="cardKeywords">Tags:  </label>
-      <input id="cardKeywords" type="text" name="cardKeywords" v-model="newCard.cardKeywords" />
-    </div>
-    <br/>
-    <div class="actions">
-      <button class="btn btn-submit" >Submit</button>
-    </div>
+    <button class="btn btn-submit">Submit</button>
+    <button class="btn btn-cancel" v-on:click="cancelForm" type="button">Cancel</button>
   </form>
 </template>
 
@@ -29,36 +19,41 @@ import cardService from "../services/CardService.js";
 
 export default {
   name: "edit-card-form",
-  props:['card'],
+  props:{
+    cardId: {
+      type: Number,
+      }
+  },
   data() {
     return {
-      newCard: this.props.card,
-      // newCard: {
-      //   front: this.$route.params.front,
-      //   back: this.$route.params.back,
-      //   cardKeywords: this.$route.params.cardKeywords,
-      //   deckId: this.$route.params.deckId,
-      //   cardId: this.$route.params.cardId
-      // },
+      //newCard: this.props.card,
+       newCard: {
+         front: "",
+         back: "",
+         cardKeywords: "",
+         deckId: "",
+         cardId: Number("")
+       },
       errorMsg: ""
     };
   },
   created() {
-      // cardService
-      //   .getCard(this.$route.params.deckId, this.card.cardId)
-      //   .then(response => {
-      //     this.card = response.data;
-      //   })
-      //   .catch(error => {
-      //     if (error.response && error.response.status === 404) {
-      //       alert(
-      //         "Card not available. This card may have been deleted or you have entered an invalid card ID."
-      //       );
-      //       this.$router.push({ name: 'Home' });
-      //     }
-      //   });
-    },
-  
+    if (this.cardID != 0) {
+      cardService
+        .getCard(this.cardId)
+        .then(response => {
+          this.card = response.data;
+        })
+        .catch(error => {
+          if (error.response && error.response.status === 404) {
+            alert(
+              "Card not available. This card may have been deleted or you have entered an invalid card ID."
+            );
+            this.$router.push({ name: 'Home' });
+          }
+        });
+    }
+  },
   methods: {
     submitForm() {
       const tempCard = {
