@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import deckService from "../services/DeckService";
+import deckService from "../services/DeckService.js";
 import cardService from "../services/CardService.js";
 
 export default {
