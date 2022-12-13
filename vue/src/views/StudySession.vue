@@ -52,8 +52,11 @@
 import SingleCardDisplay from '../components/SingleCardDisplay.vue'
 import { ref } from "vue";
 import Popup from "../components/Popup.vue";
+import CardService from '../services/CardService.js';
 
 export default {
+    name: "study-session",
+    props: ["cards"],
     setup() {
         const popupTriggers = ref({
             buttonTrigger: false,
@@ -70,43 +73,22 @@ export default {
   },
     data() {
         return {
-            sessionOver: false,
-            correct: 0,
-            wrong: 0,
             flipped: false,
-            currentCard: {},
-            index: 0,
-            cards: [
-                {
-                    front: "front1",
-                    back: "back1",
-                    correct: false,
-                    wrong: false,
-                    scored: false
-                },
-                {
-                    front: "front2",
-                    back: "back2",
-                    correct: false,
-                    wrong: false,
-                    scored: false
-                },
-                {
-                    front: "front3",
-                    back: "back3",
-                    correct: false,
-                    wrong: false,
-                    scored: false
-                }
-            ]
+            currentCard: {
+                front: '',
+                back: '',
+                correct: false,
+                wrong: false,
+                scored: false
+            },
+            index: 0
         }
     },
+    created(){
+        this.getCards(this.$store.state.cardDeckId.deckId);
+        this.currentCard = this.$store.state.cards[0];
+    },
     methods : {
-        endSession() {
-            if (this.sessionOver) {
-                return 1;
-            }
-        },
         flip() {
             if (this.flipped == false){
                 this.flipped = true;
@@ -116,10 +98,10 @@ export default {
             }
         },
         goBack() {
-            if (this.currentCard != this.cards[0])
+            if (this.currentCard != this.$store.state.cards[0])
             {
                 this.index = this.cards.indexOf(this.currentCard);
-                this.currentCard = this.cards[this.index - 1];
+                this.currentCard = this.$store.state.cards[this.index - 1];
                 this.flipped = false;
             }
         },
@@ -131,6 +113,8 @@ export default {
                 this.flipped = false;
             }
         },
+        // these next two methods are about altering data on the card in the
+        // store, which means I need to make mutations for them
         markCorrect() {
             this.currentCard.correct = true;
             this.currentCard.wrong = false;
@@ -141,6 +125,13 @@ export default {
             this.currentCard.wrong = true;
             this.currentCard.scored = true;
         },
+        getCards(deckId) {
+            CardService.getCardsByDeckId(deckId).then((response) => {
+                this.$store.commit("SET_CARDS", response.data);
+            }).catch((error) => {
+                alert(error);
+            });
+        }
     },
     computed : {
         // in here, I need to auto-update the correct/incorrect count
@@ -176,9 +167,6 @@ export default {
     components: {
         SingleCardDisplay,
         Popup
-    },
-    created(){
-        this.currentCard = this.cards[0];
     }
 }
 </script>

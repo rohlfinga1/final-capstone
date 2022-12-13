@@ -1,16 +1,36 @@
 <template>
- <form v-on:submit.prevent="submitForm" class="editCardForm">
-    <div class="status-message error" v-show="errorMsg !== ''">{{errorMsg}}</div>
+  <form v-on:submit.prevent="submitForm" class="editCardForm">
+    <div class="status-message error" v-show="errorMsg !== ''">
+      {{ errorMsg }}
+    </div>
     <div class="form-group">
       <label for="front">Question: </label>
-      <input id="front" type="text" class="form-control" v-model="newCard.front" autocomplete="off" />
-      <label for="back">Answer:  </label>
-      <input id="back" type="text" class="form-control" v-model="newCard.back"/>
-      <label for="cardKeywords">Keywords:  </label>
-      <input id="cardKeywords" type="text" class="form-control" v-model="newCard.cardKeywords" />
+      <input
+        id="front"
+        type="text"
+        class="form-control"
+        v-model="newCard.front"
+        autocomplete="off"
+      />
+      <label for="back">Answer: </label>
+      <input
+        id="back"
+        type="text"
+        class="form-control"
+        v-model="newCard.back"
+      />
+      <label for="cardKeywords">Keywords: </label>
+      <input
+        id="cardKeywords"
+        type="text"
+        class="form-control"
+        v-model="newCard.cardKeywords"
+      />
     </div>
     <button class="btn btn-submit">Submit</button>
-    <button class="btn btn-cancel" v-on:click="cancelForm" type="button">Cancel</button>
+    <button class="btn btn-cancel" v-on:click="cancelForm" type="button">
+      Cancel
+    </button>
   </form>
 </template>
 
@@ -22,29 +42,32 @@ export default {
   data() {
     return {
       //newCard: this.props.card,
-       newCard: {
-         front: "",
-         back: "",
-         cardKeywords: "",
-         deckId: "",
-         cardId: null
-       },
-      errorMsg: ""
+      // deckId: this.$route.params.
+      newCard: {
+        front: "",
+        back: "",
+        cardKeywords: "",
+        cardId: 0,
+        //creator: '',
+        creatorId: this.$store.state.user.userId,
+        cardDate: "",
+      },
+      errorMsg: "",
     };
   },
   created() {
     if (this.cardId != 0) {
       cardService
         .getCard(this.$route.params.cardId)
-        .then(response => {
+        .then((response) => {
           this.newCard = response.data;
         })
-        .catch(error => {
+        .catch((error) => {
           if (error.response && error.response.status === 404) {
             alert(
               "Card not available. This card may have been deleted or you have entered an invalid card ID."
             );
-            this.$router.push({ name: 'Home' });
+            this.$router.push({ name: "Home" });
           }
         });
     }
@@ -55,24 +78,24 @@ export default {
         front: this.newCard.front,
         back: this.newCard.back,
         cardKeywords: this.newCard.cardKeywords,
-        deckId: Number(this.$route.params.deckId),
         cardId: this.newCard.cardId,
+        //creator: this.newCard.creator,
+        creatorId: this.newCard.creatorId,
+        cardDate: this.newCard.cardDate,
       };
-        cardService
-          .updateCard(tempCard)
-          .then(response => {
-            if (response.status === 201) {
-              
-              this.$router.go();
-            }
-          })
-          .catch(error => {
-            
-            this.handleErrorResponse(error, "adding");
-          });
+      cardService
+        .updateCard(tempCard.cardId, tempCard)
+        .then((response) => {
+          if (response.status === 200) {
+            this.$router.back();
+          }
+        })
+        .catch((error) => {
+          this.handleErrorResponse(error, "updating");
+        });
     },
     cancelForm() {
-      this.$router.push(`/deck/${this.$route.params.deckId}/card`);
+      this.$router.back();
     },
     handleErrorResponse(error, verb) {
       if (error.response) {
@@ -84,6 +107,7 @@ export default {
         this.errorMsg =
           "Error " + verb + " card. Request could not be created.";
       }
+      
     },
   },
 };

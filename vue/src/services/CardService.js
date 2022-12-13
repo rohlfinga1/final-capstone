@@ -22,12 +22,12 @@ export default
     return axios.get(`/card/${cardId}`)
   },
 
-  addCard(card) {
-    return axios.post(`/card`, card);
+  addCard(card, deckId) {
+    return axios.post(`/editdeck/${deckId}`, card);
   },
 
   updateCard(cardId, card) {
-    return axios.put(`/card/${cardId}`, card);
+    return axios.put(`/editcard/${cardId}`, card);
   },
 
   deleteCard(cardId) {

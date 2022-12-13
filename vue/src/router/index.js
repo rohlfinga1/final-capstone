@@ -138,7 +138,7 @@ const router = new Router({
     },
     
     {
-      path: '/card', // this route was '/study'; get public cards, post card
+      path: '/studysession', // this route was '/study'; get public cards, post card
       name: 'StudySession',
       component: StudySession,
       meta:{
@@ -146,7 +146,7 @@ const router = new Router({
       }
     },
     {
-      path: '/card/:cardId', // this route was '/study'; get, post, put, delete card
+      path: '/studysession/:cardId', // this route was '/study'; get, post, put, delete card
       name: 'ViewCard',
       component: StudySession,
       meta:{

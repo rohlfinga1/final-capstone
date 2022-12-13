@@ -39,7 +39,7 @@ namespace Capstone.Controllers
             return userDecks;
         }
 
-        [HttpGet("{userId}/decksearch/{searchInput}")]
+        [HttpGet("/{userId}/decksearch/{searchInput}")]
         public ActionResult<List<Deck>> SearchMyDecks(int userId, string searchInput)
         {
             List<Deck> decks;
@@ -133,7 +133,7 @@ namespace Capstone.Controllers
             }
         }
 
-        [HttpPost("{deck.creatorId}/deck")]
+        [HttpPost("/{deck.creatorId}/deck")]
         public ActionResult<Deck> AddDeck(Deck deck)
         {
             if (deck.CreatorId != 0)
