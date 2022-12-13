@@ -7,7 +7,7 @@
           id="front"
           type="text"
           name="keyword"
-          placeholder="Search"
+          placeholder="Search Public Cards"
           v-model="searchInput"
         />
         <button class="form-item btn btn-submit" @click="retrievePublicResults">
@@ -59,12 +59,12 @@ export default {
   methods: {
     retrievePublicDecks() {
       //we need to look at this one!
-      this.$store.commit("SET_PUBLIC_DECKS", []); //reset before pulling decks
+      this.$store.commit("SET_DECKS", []); //reset before pulling decks
       deckService
         .getPublicDecks()
         .then((response) => {
           console.log(response.data);
-          this.$store.commit("SET_PUBLIC_DECKS", response.data);
+          this.$store.commit("SET_DECKS", response.data);
         })
         .catch((error) => {
           alert(error);
@@ -75,7 +75,7 @@ export default {
           .getPublicCardSearchResults(this.searchInput)
           .then((response) => {
             if (response.status == 200) {
-              this.$store.commit("SET_PUBLIC_CARDS", response.data);
+              this.$store.commit("SET_CARDS", response.data);
               this.$router.push({path: `/cardsearch/${this.searchInput}`});
             }
           })

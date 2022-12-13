@@ -13,13 +13,14 @@
           id="front"
           type="text"
           name="keyword"
-          placeholder="Search"
+          placeholder="Search My Cards"
           v-model="searchInput"
         />
         <button class="form-item btn btn-submit" @click="retrieveResults">
           Search
         </button>
       </form>
+    </div>
     <div>
       <h2>My Decks</h2>
       <div
@@ -35,10 +36,12 @@
         </p>
       </div>
     </div>
-    <div >
+    <div>
       <h2>Public Decks</h2>
-      <div id="publicDecks" class="decks"
-       v-for="deck in filterPublicOnly"
+      <div
+        id="publicDecks"
+        class="decks"
+        v-for="deck in filterPublicOnly"
         v-bind:key="deck.id"
         v-bind:style="{ 'background-color': deck.backgroundColor }"
       >
@@ -49,9 +52,7 @@
         </p>
       </div>
     </div>
-  
- 
- </div>
+  </div>
 </template>
 
 <script>
@@ -171,20 +172,20 @@ export default {
   },
   computed: {
     filterMyDecksOnly() {
-      const myDecksOnly = this.$store.state.decks.filter(deck => {
-        return deck.creatorId == this.$store.state.user.userId
+      const myDecksOnly = this.$store.state.decks.filter((deck) => {
+        return deck.creatorId == this.$store.state.user.userId;
       });
       console.log(`mydecksonly ${myDecksOnly}`);
       return myDecksOnly;
     },
     filterPublicOnly() {
-      const publicDecks = this.$store.state.decks.filter(d => {
-        return (d.isPublic && (d.creatorId != this.$store.state.user.userId))
+      const publicDecks = this.$store.state.decks.filter((d) => {
+        return d.isPublic && d.creatorId != this.$store.state.user.userId;
       });
-      
+
       return publicDecks;
     },
-  }
+  },
 };
 </script>
 
