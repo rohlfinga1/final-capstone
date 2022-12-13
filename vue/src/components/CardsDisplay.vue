@@ -78,7 +78,8 @@
 
 <script>
 import CardDetails from "./CardDetails.vue";
-import cardService from "../services/CardService";
+//import cardService from "../services/CardService";
+import cardDeckIdService from "../services/CardDeckIdService"
 //import JoinCardAndDeck from "./JoinCardAndDeck.vue";
 //import DeleteCardFromDeck from "./DeleteCardFromDeck.vue"
 //import Popup from './Popup.vue'
@@ -172,7 +173,7 @@ export default {
       console.log(`${deckID}, ${cardID}`);
       this.$router.replace({ path: `/deck/${deckID}/card/${cardID}` });
       console.log(`${deckID}, ${cardID}`);
-      cardService
+      cardDeckIdService
         .addCardToDeck(deckID, cardID)
         .then((response) => {
           if (response.status === 201) {

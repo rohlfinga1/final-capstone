@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import cardService from "../services/CardService";
+import cardDeckIdService from "../services/CardDeckIdService";
 
 export default {
   name: "join-card-and-deck",
@@ -48,7 +48,7 @@ export default {
 
     addCardDeck(deckID, cardID) {
       this.$router.push({ path: `/deck/${deckID}/card/${cardID}`});
-      cardService
+      cardDeckIdService
         .addCardToDeck(deckID, cardID)
         .then((response) => {
           if (response.status === 201) {
