@@ -104,7 +104,7 @@ const router = new Router({
     },
     {
       path: '/deck/:deckId', //view 1 deck
-      name: "deck-of-cards",
+      name: 'deck-of-cards',
       component: ViewCardsInDeck,
       meta:{
         requiresAuth: true
