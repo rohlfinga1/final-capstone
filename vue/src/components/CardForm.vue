@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import CardDeckIdService from '../services/CardDeckIdService.js';
 import cardService from "../services/CardService.js";
 
 export default {
@@ -34,11 +35,8 @@ export default {
         front: "",
         back: "",
         cardKeywords: "",
-        // deckId: this.$route.params.deckId,
-        cardId: {
-          type: Number,
-          default: 0
-        },
+        //deckId: this.$route.params.deckId,
+        cardId: null,
         creator: '',
         creatorId: 0,
         cardDate: {}
@@ -46,31 +44,17 @@ export default {
       errorMsg: ""
     };
   },
-  created() {
-    // if (this.newCard.cardId != 0) {
-      // deckCardService
-        // .getCard(this.$route.params.deckId, this.card.cardId)
-        // .then(response => {
-          // this.card.cardId = response.data.card.cardId;
-          //;
-        // })
-        // .catch(error => {
-          // if (error.response && error.response.status === 404) {
-            // alert(
-              // // "Card not available. This card may have been deleted or you have entered an invalid card ID."
-            // );
-            // this.$router.push({ name: 'Home' });
-          // }
-        // });
-    // }
-  },
+  created() {},
   methods: {
     submitForm() { //currently does not add card to deck
+      const tempDeckCard = {
+        deckId: this.$route.params.deckId,
+        cardId: this.newCard.cardId
+        };
       const tempCard = {
         front: this.newCard.front,
         back: this.newCard.back,
         cardKeywords: this.newCard.cardKeywords,
-        //deckId: Number(this.$route.params.deckId),
         cardId: this.newCard.cardId,
         creator: this.newCard.creator,
         creatorId: this.newCard.creatorId,
@@ -80,7 +64,17 @@ export default {
           .addCard(tempCard)
           .then(response => {
             if (response.status === 201) {
-              
+              this.$router.go();
+            }
+          })
+          .catch(error => {
+            
+            this.handleErrorResponse(error, "adding");
+          });
+        CardDeckIdService
+        .addCardToDeck(tempDeckCard.deckId, tempDeckCard.cardId)
+        .then(response => {
+            if (response.status === 201) {
               this.$router.go();
             }
           })
@@ -90,7 +84,7 @@ export default {
           });
     },
     cancelForm() {
-      this.$router.push(`/deck/${this.$route.params.deckId}/card`);
+      this.$router.push(`/editdeck/${this.$route.params.deckId}`);
     },
     handleErrorResponse(error, verb) {
       if (error.response) {

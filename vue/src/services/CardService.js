@@ -23,7 +23,7 @@ export default
   },
 
   addCard(card) {
-    return axios.post(`/card`, card);
+    return axios.post(`/editdeck`, card);
   },
 
   updateCard(cardId, card) {
