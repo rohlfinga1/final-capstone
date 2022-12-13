@@ -59,7 +59,6 @@ export default {
   methods: {
     retrievePublicDecks() {
       //we need to look at this one!
-      this.$store.commit("SET_DECKS", []); //reset before pulling decks
       deckService
         .getPublicDecks()
         .then((response) => {

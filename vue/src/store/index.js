@@ -35,7 +35,7 @@ export default new Vuex.Store({
     },
     userCards: [],
     publicCards: [],
-    //searchCards: [],
+    searchCards: [],
     cards: [],
     card: {
       cardId: 0,
@@ -101,6 +101,10 @@ export default new Vuex.Store({
 
     SET_PUBLIC_CARDS(state, data) {
       state.publicCards = data;
+    },
+
+    SET_SEARCH_CARDS(state, data) {
+      state.searchCards = data;
     },
     
     SET_CURRENT_CARD(state, data) {

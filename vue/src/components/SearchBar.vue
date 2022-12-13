@@ -43,7 +43,7 @@ export default {
           .getAuthenticatedCardSearchResults(this.userId, this.searchInput)
           .then((response) => {
             if (response.status == 200) {
-              this.$store.commit("SET_CARDS", response.data);
+              this.$store.commit("SET_SEARCH_CARDS", response.data);
               this.$router.push({path: `/${this.userId}/cardsearch/${this.searchInput}`});
             }
           })
@@ -55,7 +55,7 @@ export default {
           .getPublicCardSearchResults(this.searchInput)
           .then((response) => {
             if (response.status == 200) {
-              this.$store.commit("SET_CARDS", response.data);
+              this.$store.commit("SET_SEARCH_CARDS", response.data);
               this.$router.push({path: `/cardsearch/${this.searchInput}`});
             }
           })

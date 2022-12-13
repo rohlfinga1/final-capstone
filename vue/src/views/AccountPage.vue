@@ -1,5 +1,15 @@
 <template>
   <div>
+    <!-- <li>
+          <router-link v-bind:to="{ name: 'Home' }" class="link"
+            >HOME</router-link
+          >
+        </li> make route to go to all public cards-->
+        <!-- <li>
+          <router-link v-bind:to="{ name: 'Home' }" class="link"
+            >HOME</router-link
+          >
+        </li> make route to go to all of my cards-->
     <myDecks />
     
   </div>
