@@ -21,6 +21,21 @@
         </button>
       </form>
     </div>
+    <form v-if="showAddDeck" @submit.prevent="submitForm">
+      Deck Name:
+      <input type="text" class="form-control" v-model="newDeck.name" />
+      Description:
+      <input type="text" class="form-control" v-model="newDeck.description" />
+      Deck Keywords:
+      <input type="text" class="form-control" v-model="newDeck.deckKeywords" />
+      Is this Public:
+      <input type="checkbox" class="form-control" v-model="newDeck.isPublic" />
+      <button class="btn btn-submit" @click="submitForm">Save</button>
+      <button class="btn btn-cancel" v-on:click="showAddDeck = !showAddDeck">
+        Cancel
+      </button>
+    </form>
+
     <div>
       <h2>My Decks</h2>
       <div
@@ -32,12 +47,14 @@
         <p class="eachDeck">
           {{ deck.name }}<br /><br />
           {{ deck.description }}<br />
+
           Creator ID: {{ deck.creatorId }}
         </p>
       </div>
     </div>
     <div>
       <h2>Public Decks</h2>
+
       <div
         id="publicDecks"
         class="decks"
@@ -63,6 +80,7 @@ export default {
   name: "myDecks",
   data() {
     return {
+      showEditDeck: false,
       searchInput: "",
       userId: this.$store.state.user.userId,
       showAddDeck: false,
@@ -79,6 +97,7 @@ export default {
       errorMsg: "",
     };
   },
+  props: ["decks"],
   created() {
     this.retrieveDecks();
   },
@@ -87,12 +106,12 @@ export default {
       //we need to look at this one!
       const userId = this.$store.state.user.userId;
       //console.log(this.$store.state.user.userId);
-      this.$store.commit("SET_USER_DECKS", []); //reset before pulling decks
+      this.$store.commit("SET_DECKS", []); //reset before pulling decks
       deckService
         .getUserDecks(userId)
         .then((response) => {
           console.log(response.data);
-          this.$store.commit("SET_USER_DECKS", response.data);
+          this.$store.commit("SET_DECKS", response.data);
         })
         .catch((error) => {
           alert(error);
@@ -161,6 +180,7 @@ export default {
           }
         });
     },
+
     randomBackgroundColor() {
       return "#" + this.generateHexCode();
     },

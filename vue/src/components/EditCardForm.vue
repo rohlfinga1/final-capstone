@@ -1,25 +1,26 @@
 <template>
   <form @submit.prevent="submitForm" class="editCardForm">
-    <div class="status-message error" v-show="errorMsg !== ''">{
-{errorMsg}}</div>
+    <div class="status-message error" v-show="errorMsg !== ''">
+      { {errorMsg}}
+    </div>
     <div class="form-group">
       <label for="front">Question:  </label>
       
       <input id="front" type="text" name="front" v-model="newCard.front" value="Test"/>
     </div>
-    <br/>
-     <div class="form-group">
-      <label for="back">Answer:  </label>
+    <br />
+    <div class="form-group">
+      <label for="back">Answer: </label>
       <input type="text" name="back" v-model="newCard.back" />
     </div>
-    <br/>
+    <br />
     <div class="form-group">
       <label for="cardKeywords">Tags:  </label>
       <input id="cardKeywords" type="text" name="cardKeywords" v-model="newCard.cardKeywords" />
     </div>
-    <br/>
+    <br />
     <div class="actions">
-      <button class="btn btn-submit" >Submit</button>
+      <button class="btn btn-submit">Submit</button>
     </div>
   </form>
 </template>
@@ -66,7 +67,7 @@ export default {
         back: this.newCard.back,
         cardKeywords: this.newCard.cardKeywords,
         deckId: Number(this.$route.params.deckId),
-        cardId: this.newCard.cardId
+        cardId: this.newCard.cardId,
       };
         cardService
           .updateCard(tempCard)
@@ -87,19 +88,15 @@ export default {
     handleErrorResponse(error, verb) {
       if (error.response) {
         this.errorMsg =
-          "Error " + verb + " card. Response received was '" +
-          error +
-          "'.";
+          "Error " + verb + " card. Response received was '" + error + "'.";
       } else if (error.request) {
-        this.errorMsg =
-          "Error " + verb + " card. Server could not be reached.";
+        this.errorMsg = "Error " + verb + " card. Server could not be reached.";
       } else {
         this.errorMsg =
           "Error " + verb + " card. Request could not be created.";
       }
-    }
+    },
   },
-  
 };
 </script>
 
