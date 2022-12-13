@@ -27,7 +27,7 @@ export default
   },
 
   updateCard(cardId, card) {
-    return axios.put(`/card/${cardId}`, card);
+    return axios.put(`/editcard/${cardId}`, card);
   },
 
   deleteCard(cardId) {

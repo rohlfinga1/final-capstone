@@ -228,8 +228,7 @@ namespace Capstone.DAO
 
                 SqlCommand cmd = new SqlCommand("UPDATE textcard SET front = @front, back = @back, card_keywords = @card_keywords, " +
                     "date_made = @date_made, creator_id = @creator_id WHERE textcard_id = @textcard_id; ", conn);
-                cmd.Parameters.AddWithValue("@date_made", card.DateMade);
-                cmd.Parameters.AddWithValue("@card_id", cardId);
+                cmd.Parameters.AddWithValue("@date_made", DateTime.Today);
                 cmd.Parameters.AddWithValue("@front", card.Front);
                 cmd.Parameters.AddWithValue("@back", card.Back);
                 cmd.Parameters.AddWithValue("@card_keywords", card.CardKeywords);

@@ -16,8 +16,10 @@ namespace Capstone.Controllers
     {
         private ICardDao cardDao;
         private IDeckDao deckDao;
-        public CardController(ICardDao cardDao, IDeckDao deckDao)
+        private ICardDeckIdDao cardDeckIdDao;
+        public CardController(ICardDeckIdDao cardDeckIdDao, ICardDao cardDao, IDeckDao deckDao)
         {
+            this.cardDeckIdDao = cardDeckIdDao;
             this.cardDao = cardDao;
             this.deckDao = deckDao;
         }
@@ -150,14 +152,24 @@ namespace Capstone.Controllers
             }
         }
 
-        [HttpPost()]
-        public ActionResult<Card> AddCard(Card card)
+        [HttpPost("/editdeck/{deckId}")]
+        public ActionResult<Card> AddCard(Card card, int deckId)
         {
             Card added = cardDao.CreateCard(card);
-            return Created($"/{added.CardId}", added);
+            bool result = cardDeckIdDao.AddCardToDeck(deckId, added.CardId);
+
+            if (result)
+            {
+                return Created($"/{added.CardId}", added);
+            }
+            else
+            {
+                return StatusCode(500);
+            }
+            
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("/editcard/{id}")]
         public ActionResult<Card> UpdateExistingCard(int id, Card card)
         {
             Card existingCard = cardDao.GetCard(id);
