@@ -3,7 +3,11 @@
 
     <h1>Home</h1>
     <p>Study APP</p>
-
+        <!-- <li>
+          <router-link v-bind:to="{ name: 'Home' }" class="link"
+            >HOME</router-link
+          >
+        </li> make route to go to all public cards-->
     <public-decks/>
     
     
