@@ -1,26 +1,32 @@
 <template>
-  <div v-show="hideForm == true">
-    <form v-on:submit="hideForm">
-      <button
-        v-for="deck in selectedDecks"
-        v-bind:key="deck.deckId"
-        @click="selectThisDeckForAdding(deck.deckId)"
-      >
-        {{ deck.name }}
-      </button>
-      <br />
-      <button class="btn btn-submit">Done</button>
-    </form>
+  <div>
+    <single-card-display />
+    <div
+      class="decks"
+      v-for="deck in userDecks"
+      v-bind:key="deck.deckId"
+      v-bind:style="{ 'background-color': deck.backgroundColor }"
+    >
+      <p class="eachDeck">
+        {{ deck.name }}<br />
+        Deck: {{ deck.deckId }}<br /><br />
+        {{ deck.description }}<br />
+
+        Creator ID: {{ deck.creatorId }}
+      </p>
+      <button></button>
+    </div>
   </div>
 </template>
 
 <script>
 import cardDeckIdService from "../services/CardDeckIdService";
+import SingleCardDisplay from "./SingleCardDisplay.vue";
 
 export default {
   name: "join-card-and-deck",
   props: {
-    decks: [],
+    userDecks: [],
     deck: {
       name: "",
       description: "",
@@ -28,7 +34,7 @@ export default {
       deckKeywords: "",
       creator: "",
       creatorId: 0,
-      deckDate: "",
+      deckDate: Date,
       isPublic: false,
     },
     cardID: this.$store.state.cardID,
@@ -37,9 +43,10 @@ export default {
     return {
       showAddCardToDeckForm: false,
       showDeleteCardFromDeckForm: false,
-      hideForm: false
+      hideForm: false,
     };
   },
+  components: { SingleCardDisplay },
   methods: {
     selectThisDeckForAdding(deckId) {
       this.$store.commit("SET_DECK_ID", deckId);
@@ -47,7 +54,7 @@ export default {
     },
 
     addCardDeck(deckID, cardID) {
-      this.$router.push({ path: `/deck/${deckID}/card/${cardID}`});
+      //this.$router.push({ path: `/deck/${deckID}/card/${cardID}`});
       cardDeckIdService
         .addCardToDeck(deckID, cardID)
         .then((response) => {

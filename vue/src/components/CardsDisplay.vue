@@ -1,52 +1,16 @@
 <template>
   <section class="card-overview">
-    <!-- <div class="card">
-      <div class="form-content">
-        <br/>
-        <ul v-for="deck in selectedDecks" v-bind:key="deck.deckId">
-          <li>Deck {{ deck.deckId }}: {{ deck.name }}</li>
-        </ul>
-        <form v-on:submit="selectForAdding(deckID, cardID)">
-          <label for="card">Enter card ID to select card: </label>
-          <input
-            id="deck"
-            type="text"
-            name="deck"
-            value="cardID"
-            v-bind:key="cardID"
-          />
-          <br />
-          <label for="deck">Enter deck ID to select deck: </label>
-          <input
-            id="deck"
-            type="text"
-            name="deck"
-            value="deckID"
-            v-bind:key="deckID"
-          />
-          <br />
-          <br />
-          <button
-            class="btn btn-submit"
-            @click="parseInt(selectForAdding(deckID, cardID))"
-            v-bind:key="deck.deckId"
-          >
-            Select
-          </button>
-        </form>
-      </div>
-    </div> -->
     <div v-for="card in selectedCards" v-bind:key="card.cardId">
       <section>
         <card-details v-bind:card="card" v-bind:key="card.cardId" />
       </section>
       <div class="card-details" v-bind:card="card" v-bind:key="card.cardId">
-        <button
+        <router-link v-bind:to="{}" @click="setCurrentCard(card.cardId)"><button
           class="addbtn"
           @click="selectThisCardForAdding(card.cardId)"
         >
           Add to A Deck
-        </button><!--v-if="showAddForm == false"-->
+        </button></router-link>
 
         <p>Card {{ card.cardId }} &nbsp; Date Created: {{ card.cardDate }}</p>
         <p>Creator ID: {{ card.creatorId }}</p>
@@ -107,6 +71,9 @@ export default {
         return deck.creatorId === this.userId;
       });
     },
+    setCurrentCard(cardId) {
+      return this.$store.commit('SET_CURRENT_CARD_ID', cardId);
+    }
   },
   components: {
     CardDetails,

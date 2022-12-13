@@ -49,6 +49,8 @@ export default new Vuex.Store({
       wrong: false,
       scored: false
     },
+    cardID: 0,
+    deckID: 0,
     cardDeckIds: [],   // could this be used for modifying decks & creating cards? needs route
     cardDeckId: {
       cardId: 0,
@@ -112,6 +114,9 @@ export default new Vuex.Store({
     
     SET_CURRENT_CARD(state, data) {
       state.card = data;
+    },
+    SET_CARD_ID(state, data) {
+      state.cardID = data;
     },
     MARK_CORRECT(state, data) {
       state.card = data;
