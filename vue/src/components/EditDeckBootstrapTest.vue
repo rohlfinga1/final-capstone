@@ -12,15 +12,6 @@
         <!--<card-form v-bind:cardID="parseInt($route.params.cardID)" />-->
       </popup>
       </div>
-    <div class="popup">
-      <edit-card-popup
-        v-if="editPopupTriggers.editButtonTrigger"
-        :EditTogglePopup="() => EditTogglePopup('editButtonTrigger')"
-      >
-        <h3>Edit Card</h3>
-        <!--<card-form v-bind:cardID="parseInt($route.params.cardID)" />-->
-      </edit-card-popup>
-    </div>
     <table>
       <tr>
         <th>Front</th>
@@ -37,19 +28,11 @@
         <td>{{ card.back }}</td>
         <td>{{ card.cardKeywords }}</td>
         <td>
-          <button class="edit-btn" @click="() => EditTogglePopup('editButtonTrigger')">
+          <router-link
+            :to="{ name: 'EditCard', params: {cardID: $route.params.cardID} }"
+            class="btn editCard">
             Edit Card
-          </button>
-          <div class="popup">
-        <edit-card-popup
-        v-if="editPopupTriggers.editButtonTrigger"
-        :EditTogglePopup="() => EditTogglePopup('editButtonTrigger')"
-        :card="card"
-      >
-        <h3>Card Editor</h3>
-        <edit-card-form />
-      </edit-card-popup>
-    </div>
+          </router-link>
         </td>
       </tr>
     </table>
@@ -72,8 +55,6 @@ import cardService from "../services/CardService.js";
 import { ref } from "vue";
 import Popup from "./Popup.vue";
 import CardForm from "./CardForm.vue";
-import EditCardPopup from "./EditCardPopup.vue";
-import EditCardForm from "./EditCardForm.vue"
 
 export default {
   name: "edit-deck",
@@ -86,21 +67,12 @@ export default {
       popupTriggers.value[trigger] = !popupTriggers.value[trigger];
     };
 
-    const editPopupTriggers = ref({
-      editButtonTrigger: false,
-    });
-    const EditTogglePopup = (trigger) => {
-      editPopupTriggers.value[trigger] = !editPopupTriggers.value[trigger];
-    };
 
 
     return {
       Popup,
       popupTriggers,
       TogglePopup,
-      EditCardPopup,
-      editPopupTriggers,
-      EditTogglePopup
     };
   },
   data() {
@@ -174,8 +146,6 @@ export default {
   components: {
     Popup,
     CardForm,
-    EditCardPopup,
-    EditCardForm
   },
 };
 </script>
