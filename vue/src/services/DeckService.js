@@ -3,7 +3,7 @@ import axios from 'axios';
 export default 
 {
   getUserDecks(userId){
-    return axios.get(`/${userId}/deck`);//new method for my decks and public
+    return axios.get(`/deck/${userId}/deck`);//new method for my decks and public
   },
   getPublicDecks(){
     return axios.get('/deck/public');//check /deckendpnt

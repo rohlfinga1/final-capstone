@@ -31,7 +31,7 @@ const router = new Router({
   routes: [
     {
       path: '/', // changed this to false does not require auth
-      name: 'homepage',
+      name: 'home',
       component: Home,
       meta: {
         requiresAuth: false

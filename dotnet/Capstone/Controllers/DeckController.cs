@@ -11,7 +11,7 @@ namespace Capstone.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class DeckController : ControllerBase
     {
         private IDeckDao deckDao;
@@ -20,7 +20,7 @@ namespace Capstone.Controllers
             this.deckDao = deckDao;
         }
 
-        [HttpGet("/{userId}/deck")]  //new GetMethod for mydecks+public
+        [HttpGet("{userId}/deck")]  //new GetMethod for mydecks+public
         public ActionResult<List<Deck>> GetUserDecks(int userId)
         {
             List<Deck> userDecks = deckDao.GetDecksForUser(userId);
@@ -39,7 +39,7 @@ namespace Capstone.Controllers
             return userDecks;
         }
 
-        [HttpGet("/{userId}/decksearch/{searchInput}")]
+        [HttpGet("{userId}/decksearch/{searchInput}")]
         public ActionResult<List<Deck>> SearchMyDecks(int userId, string searchInput)
         {
             List<Deck> decks;
@@ -96,7 +96,7 @@ namespace Capstone.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet()]
+        [HttpGet("public")]
         public ActionResult<List<Deck>> GetAllPublicDecks()
         {
             List<Deck> allPublicDecks = deckDao.GetAllPublicDecks();
@@ -133,7 +133,7 @@ namespace Capstone.Controllers
             }
         }
 
-        [HttpPost("/{deck.creatorId}/deck")]
+        [HttpPost("{deck.creatorId}/deck")]
         public ActionResult<Deck> AddDeck(Deck deck)
         {
             if (deck.CreatorId != 0)
