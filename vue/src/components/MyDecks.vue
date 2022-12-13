@@ -38,7 +38,8 @@
 
     <div>
       <h2>My Decks</h2>
-      <div
+      <router-link
+      :to="{ name: 'DeckEditor', params: {deckId: deck.deckId}}"
         class="decks"
         v-for="deck in filterMyDecksOnly"
         v-bind:key="deck.deckId"
@@ -47,10 +48,11 @@
         <p class="eachDeck">
           {{ deck.name }}<br /><br />
           {{ deck.description }}<br />
+          
 
           Creator ID: {{ deck.creatorId }}
         </p>
-      </div>
+      </router-link>
     </div>
     <div>
       <h2>Public Decks</h2>

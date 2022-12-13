@@ -1,5 +1,25 @@
 <template>
   <div>
+    
+    
+    
+    <button class="add-btn" @click="ShowForm = !ShowForm">Edit This Deck</button>
+
+    <form v-if="ShowForm" @submit.prevent="submitForm">
+  Deck Name:
+  <input type="text" class="form-control" v-model="deck.name" />
+  Description:
+  <input type="text" class="form-control" v-model="deck.description" />
+  Deck Keywords:
+  <input type="text" class="form-control" v-model="deck.deckKeywords" />
+  Is this Public:
+  <input type="checkbox" class="form-control" v-model="deck.isPublic" />
+  <button class="btn btn-submit" @click="submitForm">Save</button>
+  <button class="btn btn-cancel" v-on:click="showAddDeck = !showAddDeck">
+    Cancel
+  </button>
+</form>
+    
     <button class="add-btn" @click="() => TogglePopup('buttonTrigger')">
       Add Card
     </button>
@@ -74,6 +94,7 @@ export default {
   },
   data() {
     return {
+      ShowForm: false,
       deck: {
         name: "",
         description: "",
@@ -107,7 +128,7 @@ export default {
       deckService
         .getDeck(deckId)
         .then((response) => {
-          this.$store.commit("SET_DECK", response.data);
+          this.$store.commit("SET_DECKS", response.data);
         })
         .catch((error) => {
           alert(error);

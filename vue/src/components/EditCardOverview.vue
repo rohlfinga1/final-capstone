@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import deckService from "../services/DeckService.js";
+// import deckService from "../services/DeckService.js";
 import cardService from "../services/CardService.js";
 import { ref } from "vue";
 import Popup from "./Popup.vue";
@@ -114,20 +114,20 @@ export default {
     };
   },
   created() {
-    this.getSingleDeck(this.deck.deckId);
-    this.GetCards(this.deck.deckId);
+    // this.getSingleDeck(this.$route.params.deckId);
+    this.GetCards(this.$route.params.deckId);
   },
   methods: {
-    getSingleDeck(deckId) {
-      deckService
-        .getDeck(deckId)
-        .then((response) => {
-          this.$store.commit("SET_DECK", response.data);
-        })
-        .catch((error) => {
-          alert(error);
-        });
-    },
+    // getSingleDeck(deckId) {
+      // deckService
+        // .getDeck(deckId)
+        // .then((response) => {
+          // this.$store.commit("SET_DECKS", response.data);
+        // })
+        // .catch((error) => {
+          // alert(error);
+        // });
+    // },
     GetCards(deckId) {
       cardService
         .getCardsByDeckId(deckId)
