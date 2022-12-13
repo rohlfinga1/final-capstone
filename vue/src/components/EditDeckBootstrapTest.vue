@@ -1,5 +1,27 @@
 <template>
   <div>
+    <h2>{{ deck.name }}<br /></h2>
+    <p>{{ deck.description }}<br /></p>
+
+    <button class="add-btn" @click="ShowForm = !ShowForm">
+      Edit This Deck
+    </button>
+
+    <form v-if="ShowForm" @submit.prevent="UpdateDeck">
+      Deck Name:
+      <input type="text" class="form-control" v-model="deck.name" />
+      Description:
+      <input type="text" class="form-control" v-model="deck.description" />
+      Deck Keywords:
+      <input type="text" class="form-control" v-model="deck.deckKeywords" />
+      Is this Public:
+      <input type="checkbox" class="form-control" v-model="deck.isPublic" />
+      <button class="btn btn-submit">Save</button>
+      <button class="btn btn-cancel" v-on:click="showAddDeck = !showAddDeck">
+        Cancel
+      </button>
+    </form>
+
     <button class="add-btn" @click="() => TogglePopup('buttonTrigger')">
       Add Card
     </button>
@@ -11,7 +33,7 @@
         <h3>Add Card</h3>
         <!--<card-form v-bind:cardID="parseInt($route.params.cardID)" />-->
       </popup>
-      </div>
+    </div>
     <table>
       <tr>
         <th>Front</th>
@@ -28,9 +50,7 @@
         <td>{{ card.back }}</td>
         <td>{{ card.cardKeywords }}</td>
         <td>
-          <button
-            v-on:click="viewEditCard(card.cardId)"
-            class="btn editCard">
+          <button v-on:click="viewEditCard(card.cardId)" class="btn editCard">
             Edit Card
           </button>
         </td>
@@ -45,7 +65,6 @@
         <card-form />
       </popup>
     </div>
-    
   </div>
 </template>
 
@@ -74,6 +93,7 @@ export default {
   },
   data() {
     return {
+      ShowForm: false,
       deck: {
         name: "",
         description: "",
@@ -82,7 +102,7 @@ export default {
         deckKeywords: "",
         creator: "",
         creatorId: 0,
-        deckDate: "",
+        dateMade: "",
         isPublic: false,
       },
       card: {
@@ -107,7 +127,8 @@ export default {
       deckService
         .getDeck(deckId)
         .then((response) => {
-          this.$store.commit("SET_DECK", response.data);
+          this.$store.commit("SET_CURRENT_DECK", response.data);
+          this.deck = this.$store.state.deck;
         })
         .catch((error) => {
           alert(error);
@@ -129,20 +150,60 @@ export default {
         back: this.card.back,
         cardKeywords: this.card.cardKeywords,
         deckId: this.card.deckId,
-        cardId: this.card.cardId
-      }
-      cardService.updateCard(updateCard)
-        .then((response)=> {
-          if (response.status == 201){
+        cardId: this.card.cardId,
+      };
+      cardService
+        .updateCard(updateCard)
+        .then((response) => {
+          if (response.status == 201) {
+            this.$router.go();
+            this.ShowForm = false;
+          }
+        })
+        .catch((error) => {
+          this.handleErrorResponse(error, "editing");
+        });
+    },
+    UpdateDeck() {
+      const updatedDeck = {
+        name: this.deck.name,
+        description: this.deck.description,
+        deckId: this.deck.deckId,
+        deckKeywords: this.deck.deckKeywords,
+        dateMade: this.deck.dateMade,
+        creatorId: this.deck.creatorId,
+        isPublic: this.deck.isPublic,
+      };
+      deckService
+        .updateDeck(updatedDeck.deckId, updatedDeck)
+        .then((response) => {
+          if (response.status === 200 ||
+              response.status === 201 ||
+              response.status === 202) {
             this.$router.go();
           }
         })
-         .catch(error => {
-            
-            this.handleErrorResponse(error, "editing");
-          });
-    }
+        .catch((error) => {
+          this.handleErrorResponse(error, "updating");
+        });
+    },
+    handleErrorResponse(error, verb) {
+      if (error.response) {
+        this.errorMsg =
+          "Error " +
+          verb +
+          " card. Response received was '" +
+          error.response.statusText;
+        ("'.");
+      } else if (error.request) {
+        this.errorMsg = "Error " + verb + " card. Server could not be reached.";
+      } else {
+        this.errorMsg =
+          "Error " + verb + " card. Request could not be created.";
+      }
+    },
   },
+
   components: {
     Popup,
     CardForm,

@@ -28,7 +28,7 @@ export default new Vuex.Store({
       description:'',
       deckId: 0,
       deckKeywords:'',
-      creator: '',
+      //creator: '',
       creatorId: 0,
       dateMade: Date,
       isPublic: false

@@ -25,7 +25,7 @@ export default
     return axios.post(`${newDeck.creatorId}/deck`, newDeck);
   },
   updateDeck(deckId, deck) {
-    return axios.put(`/deck/${deckId}`, deck);
+    return axios.put(`/editdeck/${deckId}`, deck);
   },
 
   deleteDeck(deckId) {

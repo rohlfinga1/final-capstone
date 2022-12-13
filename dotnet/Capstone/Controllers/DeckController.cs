@@ -148,7 +148,7 @@ namespace Capstone.Controllers
             
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("/editdeck/{id}")]
         public ActionResult<Deck> UpdateExistingDeck(int id, Deck deck)
         {
             Deck existingDeck = deckDao.GetDeck(id);
