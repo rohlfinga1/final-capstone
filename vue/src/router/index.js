@@ -62,7 +62,7 @@ const router = new Router({
       }
     },
     {
-      path: "/deck", // view public deck?
+      path: "/deck/public", // view public deck?
       name: "publicDecks", //"DeckEditor",
       component: Home, //DeckEditor,
       meta:{
