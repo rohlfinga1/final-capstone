@@ -248,7 +248,7 @@ button {
     border-color: rgb(0, 0, 0);
     background-color: rgb(199, 255, 199);
     border-radius: 8px;
-    width: 600px;
+    width: 800px;
     height: 300px;
     text-align: center;
     font-size: 24px;
@@ -260,7 +260,7 @@ button {
     border-color: rgb(0, 0, 0);
     background-color: rgb(255, 175, 175);
     border-radius: 8px;
-    width: 600px;
+    width: 800px;
     height: 300px;
     text-align: center;
     font-size: 24px;
@@ -289,7 +289,7 @@ button {
     background-color: rgb(215, 255, 215);
 }
 .wrong-btn {
-    background-color: rgb(255, 169, 186);
+    background-color: rgb(255, 152, 174);
     width: 150px;
     height: 150px;
     margin-right: 100px;
@@ -297,7 +297,7 @@ button {
 }
 .wrong-btn:hover {
     cursor: pointer;
-    background-color: rgb(255, 98, 130);
+    background-color: rgb(255, 184, 198);
 }
 .right-arrow {
     margin-left: 50px;
