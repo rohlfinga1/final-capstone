@@ -26,9 +26,13 @@
 <script>
 //import CardDeckIdService from '../services/CardDeckIdService.js';
 import cardService from "../services/CardService.js";
+import moment from 'moment'
 
 export default {
   name: "card-form",
+  props: {
+    user: Object,
+  },
   data() {
     return {
       newCard: {
@@ -36,10 +40,10 @@ export default {
         back: "",
         cardKeywords: "",
         //deckId: this.$route.params.deckId,
-        cardId: null,
-        creator: '',
-        creatorId: 0,
-        cardDate: {}
+        //cardId: null,
+        //creator: this.$store.state.user.username,
+        creatorId: this.$store.state.user.userId,
+        cardDate: moment(new Date()).format('DD-MM-YYYY')
       },
       errorMsg: ""
     };
@@ -47,21 +51,21 @@ export default {
   created() {},
   methods: {
     submitForm() { //currently does not add card to deck
-      // const tempDeckCard = {
-      //   deckId: this.$route.params.deckId,
-      //   cardId: this.newCard.cardId
-      //   };
+      const tempDeckCard = {
+        deckId: this.$route.params.deckId,
+        cardId: this.newCard.cardId
+        };
       const tempCard = {
         front: this.newCard.front,
         back: this.newCard.back,
         cardKeywords: this.newCard.cardKeywords,
-        cardId: this.newCard.cardId,
-        creator: this.newCard.creator,
+        //cardId: this.newCard.cardId,
+        //creator: this.newCard.creator,
         creatorId: this.newCard.creatorId,
         cardDate: this.newCard.cardDate
       };
         cardService
-          .addCard(tempCard, this.$route.params.deckId)
+          .addCard(tempCard, tempDeckCard.deckId)
           .then(response => {
             if (response.status === 201) {
               this.$router.go();
