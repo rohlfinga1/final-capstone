@@ -39,7 +39,7 @@
         <p class="eachDeck">
           {{ deck.name }}<br /><br />
           {{ deck.description }}<br />
-          {{ deck.creator }}
+          Creator ID: {{ deck.creatorId }}
         </p>
       </div>
   

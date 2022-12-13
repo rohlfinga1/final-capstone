@@ -26,11 +26,19 @@ export default
     return axios.post(`/card`, card);
   },
 
+  addCardToDeck(deckId, cardId) {
+    return axios.post(`/deck/${deckId}/card/${cardId}`, {deckId, cardId});
+  },
+
   updateCard(cardId, card) {
     return axios.put(`/card/${cardId}`, card);
   },
 
   deleteCard(cardId) {
     return axios.delete(`/card/${cardId}`);
-  }
+  },
+
+  deleteCardFromDeck(deckId, cardId) {
+    return axios.delete(`/deck/${deckId}/card/${cardId}`);
+  },
 }

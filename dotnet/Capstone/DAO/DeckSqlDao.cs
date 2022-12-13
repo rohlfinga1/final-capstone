@@ -27,7 +27,7 @@ namespace Capstone.DAO
                     conn.Open();
 
                     SqlCommand cmd = new SqlCommand("SELECT deck_id, creator_id, users.username, name, description, is_public, date_made, deck_keywords " +
-                        "FROM deck JOIN users ON creator_id = user_id WHERE is_public = 1 OR creator_id = @user_id; ", conn);
+                        "FROM deck JOIN users ON creator_id = user_id WHERE is_public = 1 OR creator_id = @user_id; ", conn); //
                     cmd.Parameters.AddWithValue("@user_id", userId);
                     SqlDataReader reader = cmd.ExecuteReader();
                     userDecks = new List<Deck>();
