@@ -153,7 +153,7 @@ const router = new Router({
       }
     },
     {
-      path: '/editcard/:cardId/card', // this route was '/study'; get, post, put, delete card
+      path: '/editcard/:cardId', // this route was '/study'; get, post, put, delete card
       name: 'EditCard',
       component: EditCard,
       meta:{

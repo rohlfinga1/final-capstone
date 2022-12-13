@@ -13,7 +13,7 @@
     </div>
     <br/>
     <div class="form-group">
-      <label for="cardKeywords">Tags:  </label>
+      <label for="cardKeywords">Keywords:  </label>
       <input id="cardKeywords" type="text" name="cardKeywords" v-model="newCard.cardKeywords" />
     </div>
     <br/>
@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import CardDeckIdService from '../services/CardDeckIdService.js';
+//import CardDeckIdService from '../services/CardDeckIdService.js';
 import cardService from "../services/CardService.js";
 
 export default {
@@ -47,10 +47,10 @@ export default {
   created() {},
   methods: {
     submitForm() { //currently does not add card to deck
-      const tempDeckCard = {
-        deckId: this.$route.params.deckId,
-        cardId: this.newCard.cardId
-        };
+      // const tempDeckCard = {
+      //   deckId: this.$route.params.deckId,
+      //   cardId: this.newCard.cardId
+      //   };
       const tempCard = {
         front: this.newCard.front,
         back: this.newCard.back,
@@ -61,7 +61,7 @@ export default {
         cardDate: this.newCard.cardDate
       };
         cardService
-          .addCard(tempCard)
+          .addCard(tempCard, this.$route.params.deckId)
           .then(response => {
             if (response.status === 201) {
               this.$router.go();
@@ -71,17 +71,17 @@ export default {
             
             this.handleErrorResponse(error, "adding");
           });
-        CardDeckIdService
-        .addCardToDeck(tempDeckCard.deckId, tempDeckCard.cardId)
-        .then(response => {
-            if (response.status === 201) {
-              this.$router.go();
-            }
-          })
-          .catch(error => {
+        // CardDeckIdService
+        // .addCardToDeck(tempDeckCard.deckId, tempDeckCard.cardId)
+        // .then(response => {
+        //     if (response.status === 201) {
+        //       this.$router.go();
+        //     }
+        //   })
+        //   .catch(error => {
             
-            this.handleErrorResponse(error, "adding");
-          });
+        //     this.handleErrorResponse(error, "adding");
+        //   });
     },
     cancelForm() {
       this.$router.push(`/editdeck/${this.$route.params.deckId}`);

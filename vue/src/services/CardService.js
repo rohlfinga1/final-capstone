@@ -22,8 +22,8 @@ export default
     return axios.get(`/card/${cardId}`)
   },
 
-  addCard(card) {
-    return axios.post(`/editdeck`, card);
+  addCard(card, deckId) {
+    return axios.post(`/editdeck/${deckId}`, card);
   },
 
   updateCard(cardId, card) {
