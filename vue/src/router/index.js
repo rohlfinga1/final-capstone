@@ -11,6 +11,7 @@ import StudySession from '../views/StudySession.vue'
 import AuthCardSearch from '../views/AuthCardSearch.vue'
 import PublicCardSearch from '../views/PublicCardSearch.vue'
 import ViewCardsInDeck from '../views/ViewCardsInDeck.vue'
+import EditCard from '../views/EditCard.vue'
 //import JoinCardAndDeck from '../components/JoinCardAndDeck.vue'
 
 Vue.use(Router)
@@ -78,7 +79,7 @@ const router = new Router({
       }
     },
     {
-      path: "/deck/:deckId", //view 1 deck
+      path: "/editdeck/:deckId", //view 1 deck
       name: "DeckEditor",
       component: DeckEditor,
       meta:{
@@ -147,6 +148,14 @@ const router = new Router({
       path: '/card/:cardId', // this route was '/study'; get, post, put, delete card
       name: 'ViewCard',
       component: StudySession,
+      meta:{
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/editcard/:cardId', // this route was '/study'; get, post, put, delete card
+      name: 'EditCard',
+      component: EditCard,
       meta:{
         requiresAuth: true
       }
