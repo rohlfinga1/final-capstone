@@ -63,7 +63,7 @@ export default {
           if (response.status == 200) {
             this.$store.commit("SET_AUTH_TOKEN", response.data.token);
             this.$store.commit("SET_USER", response.data.user);
-            this.$router.push("/1/deck");//changed from "/mydecks" so our decks are visible once we log in on the first page
+            this.$router.push({name: "my-decks", params: {userId: response.data.user.userId}});//changed from "/mydecks" so our decks are visible once we log in on the first page
           }
         })
         .catch(error => {

@@ -12,6 +12,7 @@ import AuthCardSearch from '../views/AuthCardSearch.vue'
 import PublicCardSearch from '../views/PublicCardSearch.vue'
 import EditCardOverview from '../components/EditCardOverview.vue'
 import EditCard from '../views/EditCard.vue'
+import MyDecks from '../components/MyDecks.vue'
 //import JoinCardAndDeck from '../components/JoinCardAndDeck.vue'
 
 Vue.use(Router)
@@ -73,7 +74,7 @@ const router = new Router({
     {
       path: "/:userId/deck", // authenticated home
       name: "my-decks", // "myDecks",
-      component: AccountPage, // AccountPage,
+      component: MyDecks, // AccountPage,
       meta:{
         requiresAuth: true
       }
