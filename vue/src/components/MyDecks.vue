@@ -2,29 +2,38 @@
   <div id="MyDecksPage">
     <div class="Nav">
       <h1>My Decks</h1>
-    </div>
-    <button class="addDeck" v-on:click="showAddDeck = !showAddDeck">
-      Add New Deck
-    </button>
-
-    <form v-if="showAddDeck" @submit.prevent="submitForm">
-      Deck Name:
-      <input type="text" class="form-control" v-model="newDeck.name" />
-      Description:
-      <input type="text" class="form-control" v-model="newDeck.description" />
-      Deck Keywords:
-      <input type="text" class="form-control" v-model="newDeck.deckKeywords" />
-      Is this Public:
-      <input type="checkbox" class="form-control" v-model="newDeck.isPublic" />
-      <button class="btn btn-submit" @click="submitForm">Save</button>
-      <button class="btn btn-cancel" v-on:click="showAddDeck = !showAddDeck">
-        Cancel
+      </div>
+      <button class="addDeck" v-on:click="showAddDeck = !showAddDeck">
+        Add New Deck
       </button>
-    </form>
-    <router-link                            
-      :to="{name: 'deck-of-cards', params:{deckId: deck.deckId}}"
+      
+      <form v-if="showAddDeck" @submit.prevent="submitForm">
+        Deck Name:
+        <input type="text" class="form-control" v-model="newDeck.name" />
+        Description:
+        <input type="text" class="form-control" v-model="newDeck.description" />
+        Deck Keywords:
+        <input
+          type="text"
+          class="form-control"
+          v-model="newDeck.deckKeywords"
+        />
+        Is this Public:
+        <input
+          type="checkbox"
+          class="form-control"
+          v-model="newDeck.isPublic"
+        />
+        <button class="btn btn-submit" @click="submitForm">Save</button>
+        <button class="btn btn-cancel" v-on:click="showAddDeck = !showAddDeck">
+          Cancel
+        </button>
+      </form>
+    <div>
+      <h2>My Decks</h2>
+      <div
         class="decks"
-        v-for="deck in $store.state.decks"
+        v-for="deck in filterMyDecksOnly"
         v-bind:key="deck.deckId"
         v-bind:style="{ 'background-color': deck.backgroundColor }"
       
@@ -35,7 +44,22 @@
           
           Creator ID: {{ deck.creatorId }}
         </p>
-      </router-link>
+      </div>
+    </div>
+    <div >
+      <h2>Public Decks</h2>
+      <div id="publicDecks" class="decks"
+       v-for="deck in filterPublicOnly"
+        v-bind:key="deck.id"
+        v-bind:style="{ 'background-color': deck.backgroundColor }"
+      >
+        <p class="eachDeck">
+          {{ deck.name }}<br /><br />
+          {{ deck.description }}<br />
+          {{ deck.creatorId }}
+        </p>
+      </div>
+    </div>
   
  
  </div>
@@ -141,6 +165,22 @@ export default {
       return bg;
     },
   },
+  computed: {
+    filterMyDecksOnly() {
+      const myDecksOnly = this.$store.state.decks.filter(deck => {
+        return deck.creatorId == this.$store.state.user.userId
+      });
+      console.log(`mydecksonly ${myDecksOnly}`);
+      return myDecksOnly;
+    },
+    filterPublicOnly() {
+      const publicDecks = this.$store.state.decks.filter(d => {
+        return (d.isPublic && (d.creatorId != this.$store.state.user.userId))
+      });
+      
+      return publicDecks;
+    },
+  }
 };
 </script>
 
