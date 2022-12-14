@@ -39,8 +39,8 @@ namespace Capstone.Controllers
                 }
             }
 
-            [HttpPost("/deck/{deckId}/card/{cardId}")]
-            public ActionResult<bool> AddCardToDeck(int deckId, int cardId)
+            [HttpPost("/card/{cardId}/deck/{deckId}")]
+            public ActionResult<bool> AddCardToDeck(int cardId, int deckId)
             {
                 Card card = cardDao.GetCard(cardId);
                 Deck deck = deckDao.GetDeck(deckId);

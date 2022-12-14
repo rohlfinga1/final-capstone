@@ -13,7 +13,7 @@ import PublicCardSearch from '../views/PublicCardSearch.vue'
 import EditCardOverview from '../components/EditCardOverview.vue'
 import EditCard from '../views/EditCard.vue'
 import MyDecks from '../components/MyDecks.vue'
-//import JoinCardAndDeck from '../components/JoinCardAndDeck.vue'
+import AddCardToDeck from '../views/AddCardToDeck.vue'
 
 Vue.use(Router)
 
@@ -169,14 +169,14 @@ const router = new Router({
     //     requiresAuth: true
     //   }
     // },
-    // {
-    //   path: '/deck/:deckId/card/:cardId',
-    //   name: 'join-card-and-deck',
-    //   component: JoinCardAndDeck,
-    //   meta:{
-    //      requiresAuth: true
-    //   }
-    // }
+    {
+      path: '/card/:cardId/deck',
+      name: 'add-card-to-deck',
+      component: AddCardToDeck,
+      meta:{
+         requiresAuth: true
+      }
+    }
   ]
 })
 

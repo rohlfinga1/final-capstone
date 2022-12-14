@@ -2,12 +2,12 @@ import axios from 'axios';
 
 export default 
 {
-  getCardDekIdArray() {
+  getCardDeckIdArray() {
       return axios.get(`deck/card/`);
   },
 
-  addCardToDeck(deckId, cardId) {
-    return axios.post(`/deck/${deckId}/card/${cardId}`, {deckId, cardId});
+  addCardToDeck(cardId, deckId) {
+    return axios.post(`/card/${cardId}/deck/${deckId}`, {cardId, deckId});
   },
 
   deleteCardFromDeck(deckId, cardId) {
