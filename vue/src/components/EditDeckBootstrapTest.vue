@@ -53,7 +53,7 @@
           <button v-on:click="viewEditCard(card.cardId)" class="btn editCard" v-if="viewEditButton(card.creatorId)">
             Edit Card
           </button>
-          <button v-on:click="deleteCard(card.cardId)" class="btn editCard">
+          <button v-on:click="deleteCard(card.cardId)" class="btn editCard" v-if="viewDeleteButton(deck.creatorId)">
             Delete Card From Deck
           </button>
         </td>
@@ -98,15 +98,14 @@ export default {
   data() {
     return {
       ShowForm: false,
-      viewButton: false,
       deck: {
         name: "",
         description: "",
         deckId: this.$route.params.deckId, // right now, GetCards() is taking this number literally,
         // but we want it to auto-increment
         deckKeywords: "",
-        creator: "",
-        creatorId: 0,
+        //creator: "",
+        creatorId: "",
         dateMade: "",
         isPublic: false,
       },
@@ -129,6 +128,14 @@ export default {
       this.$router.push(`/editcard/${cardId}`);
     },
     viewEditButton(creatorId){
+      if(creatorId == this.$store.state.user.userId){
+        return true;
+      }
+      else{
+        return false;
+      }
+    },
+    viewDeleteButton(creatorId){
       if(creatorId == this.$store.state.user.userId){
         return true;
       }
