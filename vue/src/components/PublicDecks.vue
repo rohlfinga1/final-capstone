@@ -1,6 +1,6 @@
 <template>
   <div id="PublicDecksPage">
-    <div class="search-bar">
+    <div class="search-bar" v-show="loggedIn(this.userId)">
       <form @submit.prevent="retrievePublicResults">
         <input
           class="form-item"
@@ -38,6 +38,7 @@ export default {
   name: "publicDecks",
   data() {
     return {
+      userId: this.$store.state.user.userId,
       searchInput: "",
       showAddDeck: false,
       newDeck: {
@@ -57,6 +58,14 @@ export default {
     this.retrievePublicDecks();
   },
   methods: {
+    loggedIn(userId) {
+      if(userId > 0){
+        return true;
+      }
+      else{
+        return false;
+      }
+    },
     retrievePublicDecks() {
       //we need to look at this one!
       deckService

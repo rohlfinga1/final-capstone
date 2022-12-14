@@ -170,9 +170,15 @@ const router = new Router({
     //   }
     // },
     {
-      path: '/card/:cardId/deck',
+      path: `/card/:cardId/deck/`, 
       name: 'add-card-to-deck',
       component: AddCardToDeck,
+      query: {
+        deckId: {
+          type: Number,
+          default: 0
+        }
+      },
       meta:{
          requiresAuth: true
       }

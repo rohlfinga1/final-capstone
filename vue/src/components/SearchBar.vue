@@ -1,5 +1,5 @@
 <template>
-  <div class="search-bar">
+  <div class="search-bar" >
     <form @submit.prevent="retrieveResults">
       <select class="form-item" id="select-search" name="select-search">
         <option value="">--Please choose an option--</option>

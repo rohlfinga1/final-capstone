@@ -6,8 +6,9 @@ export default
       return axios.get(`deck/card/`);
   },
 
-  addCardToDeck(cardId, deckId) {
-    return axios.post(`/card/${cardId}/deck/${deckId}`, {cardId, deckId});
+  async addCardToDeck(cardId, deckId) {
+    let response = axios.post(`/card/${cardId}/deck/${deckId}`);
+    return response;
   },
 
   deleteCardFromDeck(deckId, cardId) {

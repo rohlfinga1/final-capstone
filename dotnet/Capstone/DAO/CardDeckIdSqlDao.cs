@@ -44,6 +44,7 @@ namespace Capstone.DAO
         }
         public bool AddCardToDeck(int deckId, int cardId)
         {
+            //CardDeckId dc = new CardDeckId();
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
@@ -56,15 +57,16 @@ namespace Capstone.DAO
 
                     cmd.ExecuteNonQuery();
                 }
-
+                //dc.DeckId = deckId;
+                //dc.CardId = cardId;
             }
             catch (SqlException ex)
             {
                 Console.Error.WriteLine(ex.Message);
                 return false;
             }
-
             return true;
+            //return dc;
         }
 
         public bool DeleteCardFromDeck(int deckId, int cardId)
