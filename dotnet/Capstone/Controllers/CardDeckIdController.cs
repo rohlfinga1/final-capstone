@@ -42,13 +42,24 @@ namespace Capstone.Controllers
             [HttpPost("/card/{cardId}/deck/{deckId}")]
             public ActionResult<bool> AddCardToDeck(int cardId, int deckId)
             {
+
                 Card card = cardDao.GetCard(cardId);
                 Deck deck = deckDao.GetDeck(deckId);
                 if (card == null || deck == null)
                 {
                     return NotFound();
                 }
-                return cardDeckIdDao.AddCardToDeck(deckId, cardId);
+
+                bool result = cardDeckIdDao.AddCardToDeck(deckId, cardId);
+                
+                if (result)
+                {
+                    return true;
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
 
             [HttpDelete("/deck/{deckId}/card/{cardId}")]

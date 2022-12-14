@@ -92,9 +92,9 @@ export default new Vuex.Store({
       state.deck = data;
     },
 
-    // SET_DECK_ID(state, data) {
-    //   state.deckID = data;
-    // },
+    SET_DECK_ID(state, data) {
+      state.deckID = data;
+    },
 
     SET_CARDS(state, data){
       state.cards = data;

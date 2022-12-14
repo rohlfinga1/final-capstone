@@ -5,12 +5,12 @@
         <card-details v-bind:card="card" v-bind:key="card.cardId" />
       </section>
       <div class="card-details" v-bind:card="card" v-bind:key="card.cardId">
-        <router-link v-bind:to="{}" @click="setCurrentCard(card.cardId)"><button
+        <button
           class="addbtn"
           @click="selectThisCardForAdding(card.cardId)"
         >
           Add to A Deck
-        </button></router-link>
+        </button>
 
         <p>Card {{ card.cardId }} &nbsp; Date Created: {{ card.cardDate }}</p>
         <p>Creator ID: {{ card.creatorId }}</p>
@@ -22,7 +22,7 @@
 
 <script>
 import CardDetails from "./CardDetails.vue";
-import cardDeckIdService from "../services/CardDeckIdService"
+// import cardDeckIdService from "../services/CardDeckIdService"
 
 export default {
   name: "cards-display",
@@ -83,39 +83,45 @@ export default {
     selectThisCardForAdding(cardId) {
       console.log(`${cardId}`);
       this.$store.commit("SET_CARD_ID", cardId);
+      if (this.userId !== 0 || this.userId !== null) {
+        this.$router.push({path: `/card/${cardId}/deck/`});
+      }
+      else {
+        this.$router.push({name: 'Home'});
+      }
     },
     // selectThisCardForDeleting(cardId) {
     //   this.showSelectDeletingDeckForm = true;
     //   this.$store.commit("SET_CARD_ID", cardId);
     // },
 
-    selectThisDeckForAdding(deckId) {
-      //this.showAddForm = false;
-      console.log(`${deckId}`);
-      this.$store.commit("SET_DECK_ID", deckId);
-      this.addCardDeck(this.deckID, this.cardID);
-    },
+    // selectThisDeckForAdding(deckId) {
+    //   //this.showAddForm = false;
+    //   console.log(`${deckId}`);
+    //   this.$store.commit("SET_DECK_ID", deckId);
+    //   this.addCardDeck(this.deckID, this.cardID);
+    // },
     // selectThisDeckForDeleting(deckId) {
     //   this.showDeleteForm = false;
     //   this.$store.commit("SET_DECK_ID", deckId);
     //   this.deleteCardDeck(this.deckID, this.cardID);
     // },
 
-    addCardDeck(deckID, cardID) {
-      console.log(`${deckID}, ${cardID}`);
-      this.$router.replace({ path: `/deck/${deckID}/card/${cardID}` });
-      console.log(`${deckID}, ${cardID}`);
-      cardDeckIdService
-        .addCardToDeck(deckID, cardID)
-        .then((response) => {
-          if (response.status === 201) {
-            this.$router.back();
-          }
-        })
-        .catch((error) => {
-          alert(error);
-        });
-    },
+    // addCardDeck(deckID, cardID) {
+    //   console.log(`${deckID}, ${cardID}`);
+    //   this.$router.replace({ path: `/deck/${deckID}/card/${cardID}` });
+    //   console.log(`${deckID}, ${cardID}`);
+    //   cardDeckIdService
+    //     .addCardToDeck(deckID, cardID)
+    //     .then((response) => {
+    //       if (response.status === 201) {
+    //         this.$router.back();
+    //       }
+    //     })
+    //     .catch((error) => {
+    //       alert(error);
+    //     });
+    // },
     //   deleteCardDeck(deckID, cardID) {
     //     this.$router.push({ path: `/deck/${deckID}/card/${cardID}` });
     //     cardService
