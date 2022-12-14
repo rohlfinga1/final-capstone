@@ -31,11 +31,13 @@
     <button class="btn btn-cancel" v-on:click="cancelForm" type="button">
       Cancel
     </button>
+    <!-- <button class="btn btn-delete" v-on:click="deleteCard">Delete Card From Deck</button> -->
   </form>
 </template>
 
 <script>
 import cardService from "../services/CardService.js";
+//import CardDeckIdService from '../services/CardDeckIdService.js';
 
 export default {
   name: "edit-card-form",
@@ -97,6 +99,20 @@ export default {
     cancelForm() {
       this.$router.back();
     },
+
+    // deleteCard(){
+    //   const tempDeckCard = {
+    //     deckId: this.$route.params.deckId,
+    //     cardId: this.newCard.cardId
+    //     };
+    //     CardDeckIdService
+    //     .deleteCardFromDeck(tempDeckCard.deckId, tempDeckCard.cardId).then((response) => {
+    //       if (response.status === 201) {
+    //         this.$router.back();
+    //       }
+    //     });
+    // },
+
     handleErrorResponse(error, verb) {
       if (error.response) {
         this.errorMsg =
