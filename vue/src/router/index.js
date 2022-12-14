@@ -138,7 +138,7 @@ const router = new Router({
     },
     
     {
-      path: '/studysession', // this route was '/study'; get public cards, post card
+      path: '/studysession/:deckId', // this route was '/study'; get public cards, post card
       name: 'StudySession',
       component: StudySession,
       meta:{

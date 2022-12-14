@@ -3,6 +3,10 @@
     <h2>{{ deck.name }}<br /></h2>
     <p>{{ deck.description }}<br /></p>
 
+    <button class="add-btn" @click="study(deck.deckId)">
+      Study Now
+    </button>
+
     <button class="add-btn" @click="ShowForm = !ShowForm">
       Edit This Deck
     </button>
@@ -124,6 +128,9 @@ export default {
     this.GetCards(this.deck.deckId);
   },
   methods: {
+    study(deckId) {
+      this.$router.push({name: 'StudySession', params: {deckId}});
+    },
     viewEditCard(cardId) {
       this.$router.push(`/editcard/${cardId}`);
     },

@@ -20,5 +20,7 @@ export default {
 </script>
 
 <style>
-
+router-view {
+  background-color: #FFFDEB;
+}
 </style>
