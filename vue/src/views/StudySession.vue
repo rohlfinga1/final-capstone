@@ -1,5 +1,6 @@
 <template>
     <div class="root">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
         <div class="everything">
             <h1 style="font-family: Arial">DECK TITLE</h1>
             <div class="right-wrong-count">
@@ -9,20 +10,20 @@
             </div>
             <div class="card-and-btn-block">
                 <button class="left-arrow" v-on:click="goBack"><i class="arrow left"></i></button>
-                <button class="wrong-btn" v-on:click="markWrong">Wrong</button>
+                <button class="wrong-btn" v-on:click="markWrong"><i class="fas fa-xmark fa-7x"></i></button>
                 <div class="card-content" v-on:click="flip"
-                :class="{ 'card-content-correct': currentCard.correct,
-                'card-content-wrong': currentCard.wrong}"
+                v-bind:class="{ 'card-content-correct': isGreen,
+                'card-content-wrong': isRed}"
                  v-show="flipped == false">
                     {{currentCard.front}}
                 </div>
                 <div class="card-content" v-on:click="flip"
-                :class="{ 'card-content-correct': currentCard.correct,
-                'card-content-wrong': currentCard.wrong}"
+                v-bind:class="{ 'card-content-correct': isGreen,
+                'card-content-wrong': isRed}"
                 v-show="flipped == true">
                     {{currentCard.back}}
                 </div>
-                <button class="correct-btn" v-on:click="markCorrect">Correct</button>
+                <button class="correct-btn" v-on:click="markCorrect"><i class="fas fa-check fa-7x"></i></button>
                 <button class="right-arrow" v-on:click="goNext"><i class="arrow right"></i></button>
             </div>
             <div class="edit-and-end">
@@ -35,7 +36,7 @@
                 v-if="popupTriggers.buttonTrigger"
                 :TogglePopup="() => TogglePopup('buttonTrigger')">
                 <h3>Are you sure you want to end your session?</h3>
-                <p>Current Score: {{totalCorrect}} / {{cards.length}}</p>
+                <p>Current Score: {{totalCorrect}} / {{cardsArray.length}}</p>
                 <p>Correct: {{totalCorrect}} </p>
                 <p>Incorrect: {{totalWrong}} </p>
                 <p>Cards Remaining: {{cardsLeft}}</p>
@@ -43,16 +44,18 @@
             </popup>
         </div>
         <div>
-            <single-card-display class="card-display"/>
+            <!-- <single-card-display class="card-display"/>
+            <card-service class="card-service"/> -->
         </div>
     </div>
 </template>
 
 <script>
-import SingleCardDisplay from '../components/SingleCardDisplay.vue'
+// import SingleCardDisplay from '../components/SingleCardDisplay.vue'
 import { ref } from "vue";
 import Popup from "../components/Popup.vue";
 import CardService from '../services/CardService.js';
+// import deckService from '../services/DeckService.js';
 
 export default {
     name: "study-session",
@@ -73,20 +76,25 @@ export default {
   },
     data() {
         return {
+            cardsArray: [],
             flipped: false,
             currentCard: {
+                cardId: this.$store.state.card.cardId,
+                deckId: this.$route.params.deckId,
                 front: '',
                 back: '',
+                cardKeywords: '',
                 correct: false,
                 wrong: false,
                 scored: false
             },
-            index: 0
+            index: 0,
+            isGreen: false,
+            isRed: false
         }
     },
     created(){
-        this.getCards(this.$store.state.cardDeckId.deckId);
-        this.currentCard = this.$store.state.cards[0];
+        this.getCards(this.$route.params.deckId);
     },
     methods : {
         flip() {
@@ -98,36 +106,59 @@ export default {
             }
         },
         goBack() {
-            if (this.currentCard != this.$store.state.cards[0])
+            if (this.currentCard != this.cardsArray[0])
             {
-                this.index = this.cards.indexOf(this.currentCard);
-                this.currentCard = this.$store.state.cards[this.index - 1];
+                this.index = this.cardsArray.indexOf(this.currentCard);
+                this.currentCard = this.cardsArray[this.index - 1];
                 this.flipped = false;
+                if(this.currentCard.scored) { 
+                    this.isGreen = this.currentCard.correct;
+                    this.isRed = this.currentCard.wrong;
+                }
+                else { 
+                    this.resetColor();
+                }
             }
         },
         goNext() {
-            if (this.currentCard != this.cards[this.cards.length - 1])
+            if (this.currentCard != this.cardsArray[this.cardsArray.length - 1])
             {
-                this.index = this.cards.indexOf(this.currentCard);
-                this.currentCard = this.cards[this.index + 1];
+                this.index = this.cardsArray.indexOf(this.currentCard);
+                this.currentCard = this.cardsArray[this.index + 1];
                 this.flipped = false;
+                if(this.currentCard.scored) { 
+                    this.isGreen = this.currentCard.correct;
+                    this.isRed = this.currentCard.wrong;
+                }
+                else { 
+                    this.resetColor();
+                }
             }
         },
-        // these next two methods are about altering data on the card in the
-        // store, which means I need to make mutations for them
+        resetColor() { 
+            this.isGreen = false; 
+            this.isRed = false;
+        },
         markCorrect() {
             this.currentCard.correct = true;
             this.currentCard.wrong = false;
             this.currentCard.scored = true;
+            this.isGreen = true;
+            this.isRed = false;
+            console.log(this.cardsCorrect);
         },
         markWrong() {
             this.currentCard.correct = false;
             this.currentCard.wrong = true;
             this.currentCard.scored = true;
+            this.isRed = true;
+            this.isGreen = false;
         },
         getCards(deckId) {
             CardService.getCardsByDeckId(deckId).then((response) => {
                 this.$store.commit("SET_CARDS", response.data);
+                this.cardsArray = this.$store.state.cards;
+                this.currentCard = this.cardsArray[0];
             }).catch((error) => {
                 alert(error);
             });
@@ -136,9 +167,14 @@ export default {
     computed : {
         // in here, I need to auto-update the correct/incorrect count
         totalCorrect() {
+            // const arrayOfCards = this.$store.state.cards;
+            //     let sum = arrayOfCards.reduce((currentSum,)=>{
+            //         return currentSum + (this.currentCard.Correct == true ? 1 : 0);},0);
+            //         return sum;
+            // },
             let cardsCorrect = 0;
-            for (let i = 0; i < this.cards.length; i++) {
-                if (this.cards[i].correct == true && this.cards[i].scored == true) {
+            for (let i = 0; i < this.cardsArray.length; i++) {
+                if (this.cardsArray[i].isGreen == true && this.cardsArray[i].isRed == false) {
                     cardsCorrect++;
                 }
             }
@@ -146,8 +182,8 @@ export default {
         },
         totalWrong() {
             let cardsWrong = 0;
-            for (let i = 0; i < this.cards.length; i++) {
-                if (this.cards[i].correct == false && this.cards[i].scored == true) {
+            for (let i = 0; i < this.cardsArray.length; i++) {
+                if (this.cardsArray[i].isGreen == false && this.cardsArray[i].isRed == true) {
                     cardsWrong++;
                 }
             }
@@ -155,18 +191,18 @@ export default {
         },
         cardsLeft() {
             let cardsClicked = 0;
-            for (let i = 0; i < this.cards.length; i++) {
-                if (this.cards[i].scored == true){
+            for (let i = 0; i < this.cardsArray.length; i++) {
+                if (this.cardsArray[i].isGreen == false && this.cardsArray[i].isRed == false){
                     cardsClicked++;
                 }
             }
-            let cardsRemaining = this.cards.length - cardsClicked;
+            let cardsRemaining = this.cardsArray.length - cardsClicked;
             return cardsRemaining;
         }
     },
     components: {
-        SingleCardDisplay,
-        Popup
+        // SingleCardDisplay,
+        Popup,
     }
 }
 </script>
