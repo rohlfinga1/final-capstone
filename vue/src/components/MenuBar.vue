@@ -7,7 +7,7 @@
       <ul>
         <!--<li><router-link v-bind:to="{ name: 'login' }" v-if="token==''">LOGIN</router-link></li> possibly switch v-bind for v-model   @click="processResults"-->
         <li>
-          <router-link v-bind:to="{ name: 'Home' }" class="link"
+          <router-link v-bind:to="{ name: 'home' }" class="link"
             >HOME</router-link
           >
         </li>

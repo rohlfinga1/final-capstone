@@ -50,8 +50,11 @@
         <td>{{ card.back }}</td>
         <td>{{ card.cardKeywords }}</td>
         <td>
-          <button v-on:click="viewEditCard(card.cardId)" class="btn editCard">
+          <button v-on:click="viewEditCard(card.cardId)" class="btn editCard" v-if="viewEditButton(card.creatorId)">
             Edit Card
+          </button>
+          <button v-on:click="deleteCard(card.cardId)" class="btn editCard" v-if="viewDeleteButton(deck.creatorId)">
+            Delete Card From Deck
           </button>
         </td>
       </tr>
@@ -74,6 +77,7 @@ import cardService from "../services/CardService.js";
 import { ref } from "vue";
 import Popup from "./Popup.vue";
 import CardForm from "./CardForm.vue";
+import CardDeckIdService from '../services/CardDeckIdService.js';
 
 export default {
   name: "edit-deck",
@@ -100,8 +104,8 @@ export default {
         deckId: this.$route.params.deckId, // right now, GetCards() is taking this number literally,
         // but we want it to auto-increment
         deckKeywords: "",
-        creator: "",
-        creatorId: 0,
+        //creator: "",
+        creatorId: "",
         dateMade: "",
         isPublic: false,
       },
@@ -122,6 +126,22 @@ export default {
   methods: {
     viewEditCard(cardId) {
       this.$router.push(`/editcard/${cardId}`);
+    },
+    viewEditButton(creatorId){
+      if(creatorId == this.$store.state.user.userId){
+        return true;
+      }
+      else{
+        return false;
+      }
+    },
+    viewDeleteButton(creatorId){
+      if(creatorId == this.$store.state.user.userId){
+        return true;
+      }
+      else{
+        return false;
+      }
     },
     getSingleDeck(deckId) {
       deckService
@@ -187,6 +207,23 @@ export default {
           this.handleErrorResponse(error, "updating");
         });
     },
+    deleteCard(cardId) {
+      CardDeckIdService
+      .deleteCardFromDeck(this.$route.params.deckId, cardId).then((response) => {
+        if (response.status === 200 ||
+            response.status === 201 ||
+            response.status === 202 ||
+            response.status === 203 ||
+            response.status === 204 ||
+            response.status === 205) {
+          this.$router.go();
+        }
+      })
+      .catch((error) => {
+          this.handleErrorResponse(error, "deleting");
+        });
+    },
+
     handleErrorResponse(error, verb) {
       if (error.response) {
         this.errorMsg =
