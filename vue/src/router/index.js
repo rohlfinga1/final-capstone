@@ -10,7 +10,7 @@ import DeckEditor from '../views/DeckEditor.vue'
 import StudySession from '../views/StudySession.vue'
 import AuthCardSearch from '../views/AuthCardSearch.vue'
 import PublicCardSearch from '../views/PublicCardSearch.vue'
-import EditCardOverview from '../components/EditCardOverview.vue'
+// import EditCardOverview from '../components/EditCardOverview.vue'
 import EditCard from '../views/EditCard.vue'
 import MyDecks from '../components/MyDecks.vue'
 //import JoinCardAndDeck from '../components/JoinCardAndDeck.vue'
@@ -103,14 +103,14 @@ const router = new Router({
         requiresAuth: true
       }
     },
-    {
-      path: '/deck/:deckId/card', //view 1 deck
-      name: 'deck-of-cards',
-      component: EditCardOverview,
-      meta:{
-        requiresAuth: true
-      }
-    },
+    // {
+    //   path: '/deck/:deckId/card', //view 1 deck
+    //   name: 'deck-of-cards',
+    //   component: EditCardOverview,
+    //   meta:{
+    //     requiresAuth: true
+    //   }
+    // },
     // {
     //   path: "/:userId/card", // get my cards
     //   name: "myCards",
@@ -138,21 +138,21 @@ const router = new Router({
     },
     
     {
-      path: '/studysession', // this route was '/study'; get public cards, post card
+      path: '/studysession/:deckId', // this route was '/study'; get public cards, post card
       name: 'StudySession',
       component: StudySession,
       meta:{
         requiresAuth: true
       }
     },
-    {
-      path: '/studysession/:cardId', // this route was '/study'; get, post, put, delete card
-      name: 'ViewCard',
-      component: StudySession,
-      meta:{
-        requiresAuth: true
-      }
-    },
+    // {
+    //   path: '/studysession/:cardId', // this route was '/study'; get, post, put, delete card
+    //   name: 'ViewCard',
+    //   component: StudySession,
+    //   meta:{
+    //     requiresAuth: true
+    //   }
+    // },
     {
       path: '/editcard/:cardId', // this route was '/study'; get, post, put, delete card
       name: 'EditCard',
