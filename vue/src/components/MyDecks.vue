@@ -93,7 +93,7 @@ export default {
         deckId: 0,
         deckKeywords: "",
         //creator: "",
-        dateMade: "",
+        dateMade: Date,
         isPublic: false,
         creatorId: this.$store.state.user.userId,
       },
@@ -152,6 +152,12 @@ export default {
       deckService
         .AddDeck(tempDeck)
         .then(() => {
+          console.log(tempDeck.name);
+          console.log(tempDeck.description);
+          console.log(tempDeck.isPublic);
+          console.log(tempDeck.deckKeywords);
+          console.log(tempDeck.dateMade);
+          console.log(tempDeck.creatorId);
           this.retrieveDecks();
           //reset new deck object
           this.newDeck = {
@@ -160,7 +166,7 @@ export default {
             deckId: 0,
             deckKeywords: "",
             creator: "",
-            dateMade: "",
+            dateMade: Date,
             isPublic: false,
             creatorId: this.$store.state.user.userId,
           };
@@ -195,17 +201,22 @@ export default {
   },
   computed: {
     filterMyDecksOnly() {
-      const myDecksOnly = this.$store.state.decks.filter((deck) => {
-        return deck.creatorId == this.$store.state.user.userId;
+      let myDecksOnly = this.$store.state.decks.filter((deck) => {
+        return deck.creatorId == this.userId; // this.$store.state.user.userId;
       });
-      console.log(`mydecksonly ${myDecksOnly}`);
+      myDecksOnly.forEach((myDeck) => {
+        console.log(`mydecksonly ${myDeck.deckId}`);
+      });
+      
       return myDecksOnly;
     },
     filterPublicOnly() {
       const publicDecks = this.$store.state.decks.filter((d) => {
-        return d.isPublic && d.creatorId != this.$store.state.user.userId;
+        return d.isPublic && d.creatorId != this.userId; // this.$store.state.user.userId;
       });
-
+      publicDecks.forEach((publicDeck) => {
+        console.log(`public ${publicDeck.deckId}`);
+      })
       return publicDecks;
     },
   },
