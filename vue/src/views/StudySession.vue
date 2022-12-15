@@ -377,20 +377,36 @@ button {
     transform: translate(-50%);
 }
 .end-btn {
-    width: 200px;
-    height: 50px;
-    background-color: cornflowerblue;
+    background-color: #495579;
+   border-style: solid, black;
+   height: 50px;
+   width: 200px;
+   font-size: 20px;
+   border-radius: 10px;
+   margin-bottom: 10px;
+   margin-right:15px;
+   margin-left:15px;
+   color:#FFFDEB;
 }
 .end-btn:hover {
-    background-color: rgb(153, 181, 231);
-    cursor: pointer;
+  background-color: rgb(190, 209, 233);
+  color: black;
 }
 .end-btn-2 {
-    background-color: cornflowerblue;
+    background-color: #495579;
+   border-style: solid, black;
+   height: 30px;
+   width: 150px;
+   font-size: 20px;
+   border-radius: 10px;
+   margin-bottom: 10px;
+   margin-right:15px;
+   margin-left:15px;
+   color:#FFFDEB;
 }
 .end-btn-2:hover {
-    background-color: rgb(153, 181, 231);
-    cursor: pointer;
+  background-color: rgb(190, 209, 233);
+  color: black;
 }
 .right-wrong-count {
     font-family: Arial, Helvetica, sans-serif;
@@ -410,7 +426,4 @@ button {
     transform: translate(50%);
     color: red
 }
-.cards-remaining-count {
-}
-
 </style>
