@@ -12,7 +12,6 @@ namespace Capstone.Models
         public string CardKeywords { get; set; }
         public int CardId { get; set; }
         public DateTime DateMade { get; set; }
-        public string Creator { get; set; } = "";
         public int CreatorId { get; set; } = 0;
     }
 }

@@ -27,7 +27,7 @@ export default {
 };
 </script>
 
-
+<!--  Single card CSS & HTML from: https://codepen.io/edeesims/pen/wvpYWW -->
 <style>
 @import "https://fonts.googleapis.com/css?family=Lily+Script+One";
 
@@ -70,7 +70,7 @@ body {
   width: 100%;
   background: white;
   line-height: normal;
-  color: #03446a;
+  color: #203159;/* #03446a;*/
   text-align: center;
   font-size: 30px;
   border-radius: 5px;
@@ -78,8 +78,8 @@ body {
 }
 
 .back {
-  background: #03446a;
-  color: white;
+  background: white;
+  color: #203159;/* white; #03446a;*/
   transform: rotateY(180deg);
 }
 

@@ -5,6 +5,7 @@
     </div>
     <div class="form-group">
       <label for="front">Question: </label>
+      &nbsp;
       <input
         id="front"
         type="text"
@@ -12,14 +13,20 @@
         v-model="newCard.front"
         autocomplete="off"
       />
+      &nbsp;
+      &nbsp;
       <label for="back">Answer: </label>
+      &nbsp;
       <input
         id="back"
         type="text"
         class="form-control"
         v-model="newCard.back"
       />
+      &nbsp;
+      &nbsp;
       <label for="cardKeywords">Keywords: </label>
+      &nbsp;
       <input
         id="cardKeywords"
         type="text"

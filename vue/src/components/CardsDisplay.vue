@@ -19,7 +19,7 @@
     </div>
   </section>
 </template>
-
+<!-- Add to deck button from https://uiverse.io/cssbuttons-io/stale-rattlesnake-87-->
 <script>
 import CardDetails from "./CardDetails.vue";
 // import cardDeckIdService from "../services/CardDeckIdService"
@@ -93,7 +93,7 @@ export default {
   },
 };
 </script>
-
+<!--  Single card CSS & HTML from: https://codepen.io/edeesims/pen/wvpYWW -->
 <style>
 .card-overview {
   display: flex;
@@ -139,8 +139,37 @@ ul li {
 }
 
 .addbtn {
-  margin-left: 110px;
+  padding: 1.3em 3em;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #000;
+  background-color: #fff;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  margin-left: 85px;
 }
+
+.addbtn:hover {
+  background-color: #23c483;
+  box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+  color: #fff;
+  transform: translateY(-7px);
+}
+
+.addbtn:active {
+  transform: translateY(-1px);
+}
+  /* 
+  background-color: #FFFDEB;
+  border: none;
+} */
+
 /* .card-details {
   display: flex;
   justify-content: center;

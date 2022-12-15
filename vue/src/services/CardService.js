@@ -9,10 +9,10 @@ export default
     return axios.get(`${userId}/card`); 
   },
   getAuthenticatedCardSearchResults(userId, searchInput) {
-    return axios.get(`/${userId}/cardsearch/${searchInput}`); 
+    return axios.get(`/${userId}/search/${searchInput}`); 
   },
   getPublicCardSearchResults(searchInput) {
-    return axios.get(`/cardsearch/${searchInput}`); 
+    return axios.get(`/search/${searchInput}`); 
   },
   getCardsByDeckId(deckId) {
     return axios.get(`/deck/${deckId}/card`);
@@ -23,11 +23,11 @@ export default
   },
 
   addCard(card, deckId) {
-    return axios.post(`/editdeck/${deckId}`, card);
+    return axios.post(`/deck/${deckId}`, card);
   },
 
   updateCard(cardId, card) {
-    return axios.put(`/editcard/${cardId}`, card);
+    return axios.put(`/card/${cardId}`, card);
   },
 
   deleteCard(cardId) {

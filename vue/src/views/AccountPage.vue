@@ -11,19 +11,19 @@
           >
         </li> make route to go to all of my cards-->
     <myDecks />
-    
+    <!--<decks-display/>-->
   </div>
 </template>
 
 <script>
+//import DeckDisplay from '../components/DeckDisplay.vue';
 import MyDecks from "../components/MyDecks.vue";
 
-
 export default {
-  name: "my-decks",
+  name: "account-page",
   components: { MyDecks },
   // data() {
-  //   return {
+  //   return {DeckDisplay 
   //     userId: this.$route.params.userId,
   //     showAddDeck: false,
   //     newDeck: {

@@ -20,7 +20,7 @@ namespace Capstone.Controllers
             this.deckDao = deckDao;
         }
 
-        [HttpGet("{userId}/deck")]  //new GetMethod for mydecks+public
+        [HttpGet("/{userId}/deck")]  //new GetMethod for mydecks+public
         public ActionResult<List<Deck>> GetUserDecks(int userId)
         {
             List<Deck> userDecks = deckDao.GetDecksForUser(userId);
@@ -148,7 +148,7 @@ namespace Capstone.Controllers
             
         }
 
-        [HttpPut("/editdeck/{id}")]
+        [HttpPut("{id}")]
         public ActionResult<Deck> UpdateExistingDeck(int id, Deck deck)
         {
             Deck existingDeck = deckDao.GetDeck(id);
@@ -163,7 +163,7 @@ namespace Capstone.Controllers
         }
 
         // do we need this to authorize role admin?
-        [HttpPut("{id}")]
+        //[HttpPut("{id}")]
         public ActionResult<Deck> UpdateDeckAsAdmin(int deckId, Deck deck)
         {
             Deck existingDeck = deckDao.GetDeck(deckId);

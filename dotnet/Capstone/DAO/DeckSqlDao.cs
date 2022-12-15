@@ -26,7 +26,7 @@ namespace Capstone.DAO
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("SELECT deck_id, creator_id, users.username, name, description, is_public, date_made, deck_keywords " +
+                    SqlCommand cmd = new SqlCommand("SELECT deck_id, creator_id, name, description, is_public, date_made, deck_keywords " +
                         "FROM deck JOIN users ON creator_id = user_id WHERE is_public = 1 OR creator_id = @user_id; ", conn); //
                     cmd.Parameters.AddWithValue("@user_id", userId);
                     SqlDataReader reader = cmd.ExecuteReader();
@@ -55,8 +55,8 @@ namespace Capstone.DAO
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("SELECT deck_id, creator_id, users.username, name, description, is_public, date_made, deck_keywords" +
-                        " FROM deck JOIN users ON creator_id = user_id WHERE is_public = 1;", conn);
+                    SqlCommand cmd = new SqlCommand("SELECT deck_id, creator_id, name, description, is_public, date_made, deck_keywords" +
+                        " FROM deck WHERE is_public = 1;", conn);
                     SqlDataReader reader = cmd.ExecuteReader();
                     publicDeckList = new List<Deck>();
                     while (reader.Read())
@@ -83,7 +83,7 @@ namespace Capstone.DAO
                 {
                     conn.Open();
                     string wildKeyword = "%" + deckKeyword + "%";
-                    SqlCommand cmd = new SqlCommand("SELECT DISTINCT deck_id, creator_id, users.username, name, description, is_public, date_made, deck_keywords " +
+                    SqlCommand cmd = new SqlCommand("SELECT DISTINCT deck_id, creator_id, name, description, is_public, date_made, deck_keywords " +
                         "FROM deck JOIN users ON creator_id = user_id " +
                         "WHERE deck_keywords LIKE @wild_keyword AND creator_id = @user_id;", conn);
                     cmd.Parameters.AddWithValue("@wild_keyword", wildKeyword);
@@ -114,8 +114,8 @@ namespace Capstone.DAO
                 {
                     conn.Open();
                     string wildKeyword = "%" + deckKeyword + "%";
-                    SqlCommand cmd = new SqlCommand("SELECT DISTINCT deck_id, creator_id, users.username, name, description, is_public, date_made, deck_keywords " +
-                        "FROM deck JOIN users ON creator_id = user_id " +
+                    SqlCommand cmd = new SqlCommand("SELECT DISTINCT deck_id, creator_id, name, description, is_public, date_made, deck_keywords " +
+                        "FROM deck " +
                         "WHERE deck_keywords LIKE @wild_keyword AND is_public = 1;", conn);
                     cmd.Parameters.AddWithValue("@wild_keyword", wildKeyword);
                     SqlDataReader reader = cmd.ExecuteReader();
@@ -144,8 +144,8 @@ namespace Capstone.DAO
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("SELECT deck_id, creator_id, users.username, name, description, is_public, date_made, deck_keywords" +
-                        " FROM deck JOIN users ON creator_id = user_id WHERE deck_id = @deck_id;", conn);
+                    SqlCommand cmd = new SqlCommand("SELECT deck_id, creator_id, name, description, is_public, date_made, deck_keywords" +
+                        " FROM deck WHERE deck_id = @deck_id;", conn);
                     cmd.Parameters.AddWithValue("@deck_id", deckId);
 
                     SqlDataReader reader = cmd.ExecuteReader();
@@ -276,7 +276,6 @@ namespace Capstone.DAO
             Deck deck = new Deck();
             deck.DeckId = Convert.ToInt32(reader["deck_id"]);
             deck.CreatorId = Convert.ToInt32(reader["creator_id"]);
-            deck.Creator = Convert.ToString(reader["username"]);
             deck.Name = Convert.ToString(reader["name"]);
             deck.Description = Convert.ToString(reader["description"]);
             deck.IsPublic = Convert.ToBoolean(reader["is_public"]);

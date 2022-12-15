@@ -1,7 +1,5 @@
 <template>
   <div class="deckEditor">
-
-    <h1>Deck Editor</h1>
     <edit-deck />
     <!--<edit-other />-->
   </div>

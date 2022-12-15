@@ -1,13 +1,17 @@
 <template>
   <div>
-    <h2>My Cards Results</h2>
-    <cards-display />
+    <h1>My Cards Results</h1>
+    <div class="layout">
+      <my-cards-search-bar/>
+      <cards-display />
+    </div>
   </div>
 </template>
 
 <script>
 import cardService from '../services/CardService.js'
 import CardsDisplay from '../components/CardsDisplay.vue'
+import MyCardsSearchBar from '../components/MyCardsSearchBar.vue'
 
 export default {
   name: "auth-card-search",
@@ -18,7 +22,7 @@ export default {
     }
   },
   props: ["cards"],
-  components: { CardsDisplay },
+  components: { CardsDisplay, MyCardsSearchBar },
   created() {
     this.privateCardSearch(this.userId, this.searchInput);
     console.log(`${this.userId}`);
@@ -39,8 +43,12 @@ export default {
 </script>
 
 <style>
-h2 {
+h1 {
   text-align: center;
   font-family: "Courier New", Courier, monospace;
+}
+.layout {
+  display: flex;
+  flex-direction: column;
 }
 </style>
