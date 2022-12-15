@@ -3,19 +3,17 @@
     <h2 id="deck-name">{{ deck.name }}<br /></h2>
     <p>{{ deck.description }}<br /></p>
 
-     <form v-if="ShowForm" @submit.prevent="UpdateDeck">
-      Deck Name:
-      <input type="text" class="form-control" v-model="deck.name" />
-      Description:
-      <input type="text" class="form-control" v-model="deck.description" />
-      Deck Keywords:
-      <input type="text" class="form-control" v-model="deck.deckKeywords" />
-      Is this Public:
-      <input type="checkbox" class="form-control" v-model="deck.isPublic" />
-      <button class="btn btn-submit">Save</button>
-      <button class="btn btn-cancel" v-on:click="showAddDeck = !showAddDeck">
-        Cancel
-      </button>
+     <form id="form" v-if="ShowForm" @submit.prevent="UpdateDeck">
+      <label class="labels" for="deckName">Deck Name:</label><br/>
+      <input id="deckName" type="text" class="form-control, input-field" v-model="deck.name" /><br/><br/>
+      <label class="labels" for="description">Description:</label><br/>
+      <input id="description" type="text" class="form-control, input-field" v-model="deck.description" /><br/><br/>
+      <label class="labels" for="deckKeywords">Deck Keywords:</label><br/>
+      <input id="deckKeywords" type="text" class="form-control, input-field" v-model="deck.deckKeywords" /><br/><br/>
+      <label class="labels" for="deckKeywords">Is this Public:</label>
+      <input type="checkbox" class="form-control" v-model="deck.isPublic" /><br/><br/>
+      <button class="btn-btn">Save</button>
+      <button class="btn-btn" v-on:click="showAddDeck = !showAddDeck"> Cancel </button>
     </form>
 
     <button class="add-btn" id="study-button" @click="study(deck.deckId)">
@@ -44,7 +42,7 @@
         <th>Front</th>
         <th>Back</th>
         <th>Keywords</th>
-        <th></th>
+        <th>Edit/Delete Card</th>
       </tr>
       <tr
         class="card-row"
@@ -72,7 +70,7 @@
         v-if="popupTriggers.buttonTrigger"
         :TogglePopup="() => TogglePopup('buttonTrigger')"
       >
-        <h3>Card Creator</h3>
+        <h3 class="cardform-title">Card Creator</h3>
         <card-form />
       </popup>
     </div>
@@ -284,7 +282,25 @@ tr:nth-child(even) {
 .edit-btn:hover {
   background-color: whitesmoke;
 }
-
+#form {
+font-family: sans-serif;
+align-content: center;
+width: 20%;
+margin-left: 40%;
+margin-right:40%;
+text-align: center;
+background-color: white;
+padding: 5px;
+box-shadow: rgba(73,85,121,0.5) 5px 3px,
+ rgba(73,85,121,0.4) 10px 6px,
+ rgba(73,85,121,0.3) 15px 9px;
+}
+.input-field{
+  width:90%;
+}
+.labels{
+  font-family: sans-serif;
+}
 .add-btn {
   background-color: #495579;
   border-style: solid, black;
@@ -298,6 +314,22 @@ tr:nth-child(even) {
   color:#FFFDEB;
 }
 .add-btn:hover {
+  background-color: rgb(190, 209, 233);
+  color: black;
+}
+.btn-btn {
+   background-color: #495579;
+   border-style: solid, black;
+   height: 30px;
+   width: 100px;
+   font-size: 20px;
+   border-radius: 10px;
+   margin-bottom: 10px;
+   margin-right:15px;
+   margin-left:15px;
+   color:#FFFDEB;
+}
+.btn-btn:hover {
   background-color: rgb(190, 209, 233);
   color: black;
 }
@@ -318,5 +350,7 @@ th{
   height: 50px;
   font-size: 170%;
 }
-
+.cardform-title{
+  font-family: sans-serif;
+}
 </style>

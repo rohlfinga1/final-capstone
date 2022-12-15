@@ -69,11 +69,11 @@ export default {
 </script>
 
 <style>
-.search-form {
-  display: flex;
-  align-items: center;
-  float: right;
-}
+/* form { */
+  /* display: flex; */
+  /* align-items: center; */
+  /* float: right; */
+/* } */
 
 .form-item {
   margin: 10px;
