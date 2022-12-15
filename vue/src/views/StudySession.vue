@@ -2,15 +2,15 @@
     <div class="root">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
         <div class="everything">
-            <h1 style="font-family: Arial">DECK TITLE</h1>
+            <h1 style="font-family: Arial">Still need a deck name</h1>
             <div class="right-wrong-count">
                 <div class="correct-count"><h3>Correct: {{countCorrect}}</h3></div>
                 <div class="wrong-count"><h3>Incorrect: {{countWrong}}</h3></div>
-                <div class="cards-remaining-count"><h3>Cards Remaining: {{cardsArray.length - currentCardIndex}}</h3></div>
+                <div class="cards-remaining-count"><h3>Cards Remaining: {{cardsArray.length - countCorrect - countWrong}}</h3></div>
             </div>
             <div class="card-and-btn-block">
                 <button class="left-arrow" v-on:click="goBack"><i class="arrow left"></i></button>
-                <button class="wrong-btn" v-on:click="markWrong"><i class="fas fa-times fa-8x"></i></button>
+                <button class="wrong-btn" v-on:click="markWrong"><i id="x-mark" class="fas fa-times fa-8x"></i></button>
                 <div class="card-content" v-on:click="flip"
                 v-bind:class="{ 'card-content-correct': isGreen,
                 'card-content-wrong': isRed}"
@@ -23,11 +23,10 @@
                 v-show="flipped == true">
                     {{currentCard.back}}
                 </div>
-                <button class="correct-btn" v-on:click="markCorrect"><i class="fas fa-check fa-7x"></i></button>
+                <button class="correct-btn" v-on:click="markCorrect"><i id="check" class="fas fa-check fa-7x"></i></button>
                 <button class="right-arrow" v-on:click="goNext"><i class="arrow right"></i></button>
             </div>
             <div class="edit-and-end">
-                <button class="edit-btn">Edit</button>
                 <button class="end-btn" @click="() => TogglePopup('buttonTrigger')">End Session</button>
             </div>
         </div>
@@ -39,7 +38,7 @@
                 <p>Current Score: {{countCorrect}} / {{cardsArray.length}}</p>
                 <p>Correct: {{countCorrect}} </p>
                 <p>Incorrect: {{totalWrong}} </p>
-                <p>Cards Remaining: {{cardsArray.length - currentCardIndex}}</p>
+                <p>Cards Remaining: {{cardsArray.length - countCorrect - countWrong}}</p>
                 <button class="end-btn-2" @click="$router.push('/')">End Session</button>
             </popup>
         </div>
@@ -87,6 +86,10 @@ export default {
                 correct: false,
                 wrong: false,
                 scored: false
+            },
+            currentDeck: {
+                deckId: this.$route.params.deckId,
+                name: ''
             },
             index: 0,
             isGreen: false,
@@ -148,26 +151,54 @@ export default {
             this.isRed = false;
         },
         markCorrect() {
-            this.currentCard.correct = true;
-            this.currentCard.wrong = false;
-            this.currentCard.scored = true;
-            this.isGreen = true;
-            this.isRed = false;
-            if(!this.cardsCorrect.has(this.currentCard.cardId)){
+            // if card is not scored
+            if (this.isGreen == false && this.isRed == false){
+                if (this.currentCard.scored == false) {
+                    this.countCorrect++;
+                    this.currentCard.scored = true;
+                    this.currentCard.correct = true;
+                }
+                this.isGreen = true;
+                this.currentCard.scored = true;
                 this.countCorrect++;
-                this.cardsCorrect.add(this.currentCard.cardId);
             }
+            // if card is wrong
+            else if (this.isRed == true) {
+                this.isGreen = true;
+                this.isRed = false;
+                this.countCorrect++;
+                this.countWrong--;
+            }
+            // this.currentCard.correct = true;
+            // this.currentCard.wrong = false;
+            // this.currentCard.scored = true;
+            // this.isGreen = true;
+            // this.isRed = false;
         },
         markWrong() {
-            this.currentCard.correct = false;
-            this.currentCard.wrong = true;
-            this.currentCard.scored = true;
-            this.isRed = true;
-            this.isGreen = false;
-            if(!this.cardsWrong.has(this.currentCard.cardId)){
+            // if card is not scored
+            if (this.isGreen == false && this.isRed == false){
+                if (this.currentCard.scored == false) {
+                    this.countWrong++;
+                    this.currentCard.scored = true;
+                    this.currentCard.wrong = true;
+                }
+                this.isRed = true;
+                this.currentCard.scored = true;
                 this.countWrong++;
-                this.cardsWrong.add(this.currentCard.cardId);
             }
+            // if card is correct
+            else if (this.isGreen == true) {
+                this.isRed = true;
+                this.isGreen = false;
+                this.countWrong++;
+                this.countCorrect--;
+            }
+            // this.currentCard.correct = false;
+            // this.currentCard.wrong = true;
+            // this.currentCard.scored = true;
+            // this.isRed = true;
+            // this.isGreen = false;
         },
         getCards(deckId) {
             CardService.getCardsByDeckId(deckId).then((response) => {
@@ -223,6 +254,12 @@ export default {
 </script>
 
 <style>
+#check {
+    font-size: 48px;
+}
+#x-mark {
+    font-size: 48px;
+}
 button {
     font-size: 20px;
 }
@@ -257,7 +294,6 @@ button {
     cursor: pointer;
 }
 .everything {
-    background-color: rgb(202, 219, 250);
     display: inline-block;
     position: relative;
     width: 100vw;
@@ -334,6 +370,9 @@ button {
     margin-right: 100px;
     transform: translate(0, 50%);
 }
+.fas fa-times fa-8x {
+    size: 10px;
+}
 .wrong-btn:hover {
     cursor: pointer;
     background-color: rgb(255, 184, 198);
@@ -362,18 +401,7 @@ button {
     top: 48%;
     transform: translate(-50%);
 }
-.edit-btn {
-    margin-right: 50px;
-    width: 200px;
-    height: 50px;
-    background-color: cornflowerblue;
-}
-.edit-btn:hover {
-    cursor: pointer;
-    background-color: rgb(153, 181, 231);
-}
 .end-btn {
-    margin-left: 50px;
     width: 200px;
     height: 50px;
     background-color: cornflowerblue;
