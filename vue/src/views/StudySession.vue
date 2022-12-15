@@ -17,7 +17,7 @@
                  v-show="flipped == false">
                     {{currentCard.front}}
                 </div>
-                <div class="card-content" v-on:click="flip"
+                <div class="card-content-back" v-on:click="flip"
                 v-bind:class="{ 'card-content-correct': isGreen,
                 'card-content-wrong': isRed}"
                 v-show="flipped == true">
@@ -42,19 +42,13 @@
                 <button class="end-btn-2" @click="$router.push('/')">End Session</button>
             </popup>
         </div>
-        <div>
-            <!-- <single-card-display class="card-display"/>
-            <card-service class="card-service"/> -->
-        </div>
     </div>
 </template>
 
 <script>
-// import SingleCardDisplay from '../components/SingleCardDisplay.vue'
 import { ref } from "vue";
 import Popup from "../components/Popup.vue";
 import CardService from '../services/CardService.js';
-// import deckService from '../services/DeckService.js';
 
 export default {
     name: "study-session",
@@ -169,11 +163,6 @@ export default {
                 this.countCorrect++;
                 this.countWrong--;
             }
-            // this.currentCard.correct = true;
-            // this.currentCard.wrong = false;
-            // this.currentCard.scored = true;
-            // this.isGreen = true;
-            // this.isRed = false;
         },
         markWrong() {
             // if card is not scored
@@ -194,11 +183,6 @@ export default {
                 this.countWrong++;
                 this.countCorrect--;
             }
-            // this.currentCard.correct = false;
-            // this.currentCard.wrong = true;
-            // this.currentCard.scored = true;
-            // this.isRed = true;
-            // this.isGreen = false;
         },
         getCards(deckId) {
             CardService.getCardsByDeckId(deckId).then((response) => {
@@ -208,42 +192,6 @@ export default {
             }).catch((error) => {
                 alert(error);
             });
-        }
-    },
-    computed : {
-        // in here, I need to auto-update the correct/incorrect count
-        // totalCorrect() {
-        //     // const arrayOfCards = this.$store.state.cards;
-        //     //     let sum = arrayOfCards.reduce((currentSum,)=>{
-        //     //         return currentSum + (this.currentCard.Correct == true ? 1 : 0);},0);
-        //     //         return sum;
-        //     // },
-        //     let cardsCorrect = 0;
-        //     for (let i = 0; i < this.cardsArray.length; i++) {
-        //         if (this.cardsArray[i].isGreen == true && this.cardsArray[i].isRed == false) {
-        //             cardsCorrect++;
-        //         }
-        //     }
-        //     return cardsCorrect;
-        // },
-        totalWrong() {
-            let cardsWrong = 0;
-            for (let i = 0; i < this.cardsArray.length; i++) {
-                if (this.cardsArray[i].isGreen == false && this.cardsArray[i].isRed == true) {
-                    cardsWrong++;
-                }
-            }
-            return cardsWrong;
-        },
-        cardsLeft() {
-            let cardsClicked = 0;
-            for (let i = 0; i < this.cardsArray.length; i++) {
-                if (this.cardsArray[i].isGreen == false && this.cardsArray[i].isRed == false){
-                    cardsClicked++;
-                }
-            }
-            let cardsRemaining = this.cardsArray.length - cardsClicked;
-            return cardsRemaining;
         }
     },
     components: {
@@ -307,16 +255,39 @@ button {
     transform: translate(-50%, -50%);
 }
 .card-content {
+    display: flex;
     border-style: solid;
     border-color: rgb(0, 0, 0);
     background-color: white;
     border-radius: 8px;
     width: 800px;
     height: 300px;
-    text-align: center;
+    align-items: center;
+    justify-content: center;
     font-size: 24px;
     font-weight: bold;
     font-family: Arial, Helvetica, sans-serif;
+}
+.card-content:hover {
+    box-shadow: 0 0 30px rgba(33,33,33,.2); 
+}
+.card-content-back {
+    display: flex;
+    border-style: solid;
+    border-color: rgb(0, 0, 0);
+    background-color: white;
+    border-radius: 8px;
+    width: 800px;
+    height: 300px;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    font-style: italic;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.card-content-back:hover {
+    box-shadow: 0 0 30px rgba(33,33,33,.2); 
 }
 .card-content-correct {
     border-style: solid;
@@ -325,6 +296,8 @@ button {
     border-radius: 8px;
     width: 800px;
     height: 300px;
+    align-items: center;
+    justify-content: center;
     text-align: center;
     font-size: 24px;
     font-weight: bold;
@@ -338,6 +311,8 @@ button {
     width: 800px;
     height: 300px;
     text-align: center;
+    align-items: center;
+    justify-content: center;
     font-size: 24px;
     font-weight: bold;
     font-family: Arial, Helvetica, sans-serif;
@@ -369,9 +344,6 @@ button {
     height: 150px;
     margin-right: 100px;
     transform: translate(0, 50%);
-}
-.fas fa-times fa-8x {
-    size: 10px;
 }
 .wrong-btn:hover {
     cursor: pointer;
@@ -420,22 +392,22 @@ button {
 .right-wrong-count {
     font-family: Arial, Helvetica, sans-serif;
     display: flex;
+    width: 800px;
+    justify-content: space-between;
     position: absolute;
     left: 49%;
     top: 40%;
-    transform: translate(-50%);
+    transform: translate(-49%);
     margin: 10px;
 }
 .correct-count {
-    margin-right: 100px;
     color: green;
 }
 .wrong-count {
-    margin-left: 30px;
+    transform: translate(50%);
     color: red
 }
 .cards-remaining-count {
-    margin-left: 50px;
 }
 
 </style>
