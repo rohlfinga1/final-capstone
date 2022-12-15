@@ -46,7 +46,7 @@ export default {
           .then((response) => {
             if (response.status == 200) {
               this.$store.commit("SET_CARDS", response.data);
-              this.$router.push({path: `/cardsearch/${this.searchInput}`});
+              this.$router.push({path: `/search/${this.searchInput}`});
             }
           })
           .catch((error) => {

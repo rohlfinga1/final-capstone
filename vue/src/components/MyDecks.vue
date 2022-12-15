@@ -3,59 +3,76 @@
     <div class="Nav">
       <h1>Account</h1>
     </div>
-    <my-cards-search-bar/>
+    <my-cards-search-bar />
 
     <h2>My Decks</h2>
-    <button class="addDeck" v-on:click="showAddDeck = !showAddDeck">
-      Add New Deck
-    </button>
-    <form v-if="showAddDeck" @submit.prevent="submitForm">
-      Deck Name:
-      <input type="text" class="form-control" v-model="newDeck.name" />
-      Description:
-      <input type="text" class="form-control" v-model="newDeck.description" />
-      Deck Keywords:
-      <input type="text" class="form-control" v-model="newDeck.deckKeywords" />
-      Is this Public:
-      <input type="checkbox" class="form-control" v-model="newDeck.isPublic" />
-      <button class="btn btn-submit" @click="submitForm">Save</button>
-      <button class="btn btn-cancel" v-on:click="showAddDeck = !showAddDeck">
-        Cancel
-      </button>
-    </form>
     <div class="displayDecks">
-      <router-link
-        :to="{ name: 'DeckEditor', params: { deckId: deck.deckId } }"
-        class="decks"
-        v-for="deck in filterMyDecksOnly"
-        v-bind:key="deck.deckId"
-      >
-        <deck-display v-bind:deck="deck" v-bind:key="deck.deckId" />
-      </router-link>
-    </div>
-    <div>
-      <h2>Public Decks</h2>
+      <div>
+        <div class="deck">
+          <div class="details">
+            <button class="addDeck" v-on:click="showAddDeck = !showAddDeck">
+              Add New Deck
+            </button>
+          </div>
+        </div>
+      </div>
 
-      <div class="displayDecks">
+      <form v-if="showAddDeck" @submit.prevent="submitForm">
+        Deck Name:
+        <input type="text" class="form-control" v-model="newDeck.name" />
+        Description:
+        <input type="text" class="form-control" v-model="newDeck.description" />
+        Deck Keywords:
+        <input
+          type="text"
+          class="form-control"
+          v-model="newDeck.deckKeywords"
+        />
+        Is this Public:
+        <input
+          type="checkbox"
+          class="form-control"
+          v-model="newDeck.isPublic"
+        />
+        <button class="btn btn-submit" @click="submitForm">Save</button>
+        <button class="btn btn-cancel" v-on:click="showAddDeck = !showAddDeck">
+          Cancel
+        </button>
+      </form>
+      <!--<div v-bind:key="deck.deckId" v-bind:deck="deck">-->
+      
         <router-link
           :to="{ name: 'DeckEditor', params: { deckId: deck.deckId } }"
-          id="publicDecks"
           class="decks"
-          v-for="deck in filterPublicOnly"
-          v-bind:key="deck.id"
+          v-for="deck in filterMyDecksOnly"
+          v-bind:key="deck.deckId"
         >
           <deck-display v-bind:deck="deck" v-bind:key="deck.deckId" />
         </router-link>
       </div>
+      <div>
+        <h2>Public Decks</h2>
+
+        <div class="displayDecks">
+          <router-link
+            :to="{ name: 'DeckEditor', params: { deckId: deck.deckId } }"
+            id="publicDecks"
+            class="decks"
+            v-for="deck in filterPublicOnly"
+            v-bind:key="deck.id"
+          >
+            <deck-display v-bind:deck="deck" v-bind:key="deck.deckId" />
+          </router-link>
+        </div>
+      </div>
     </div>
-  </div>
 </template>
 
 <script>
 import deckService from "../services/DeckService";
 import cardService from "../services/CardService.js";
 import DeckDisplay from "./DeckDisplay.vue";
-import MyCardsSearchBar from './MyCardsSearchBar.vue';
+import MyCardsSearchBar from "./MyCardsSearchBar.vue";
 
 export default {
   components: { DeckDisplay, MyCardsSearchBar },
@@ -107,7 +124,7 @@ export default {
           if (response.status == 200) {
             this.$store.commit("SET_CARDS", response.data);
             this.$router.push({
-              path: `/${this.userId}/cardsearch/${this.searchInput}`,
+              path: `/${this.userId}/search/${this.searchInput}`,
             });
           }
         })
@@ -224,34 +241,47 @@ h1 {
   display: flex;
   margin: 20px;
 }
-.decks {
+.displayDecks {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   flex-wrap: wrap;
+  /* width: 350px; */
+  margin-inline: 5% 10%;
+  writing-mode: horizontal-tb;
+}
+.decks {
+  /* display: flex;
+  flex-direction: column;
+  justify-content: space-between; */
   border-width: 3px;
   border-color: black;
   border: black;
   align-items: center;
   font-size: 16px;
   width: 60%;
-  margin: 40px;
-  margin-trim: inline-flow;
+  margin: 10px;
   padding: 20px;
   cursor: pointer;
   font-weight: bold;
 }
-#decks {
-  color: #f7fafc;
-  border-radius: 10px;
-  padding: 40px;
-  flex: 1;
-  margin: 10px;
-  text-align: center;
-  text-decoration: none;
-  cursor: pointer;
-  width: 60%;
+
+span.decks > div {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  width: 300px;
+  margin: 0;
 }
+
+span.decks {
+  width: 300px;
+}
+/* .search-bar {
+  display: flex;
+  align-items: center;
+  float: right;
+} */
+
 .eachDeck {
   text-align: center;
   align-items: center;
@@ -279,6 +309,7 @@ h1 {
   margin: 10px;
   padding: 20px;
   margin-bottom: 35px;
+  margin-top: 50px;
   cursor: pointer;
 }
 .form-control {
@@ -294,5 +325,14 @@ h1 {
 }
 h2 {
   color: black;
+}
+div.displayDecks > a {
+  width: 300px;
+}
+div.displayDecks > div {
+  width: 320px;
+}
+div.displayDecks {
+  align-items: center;
 }
 </style>
