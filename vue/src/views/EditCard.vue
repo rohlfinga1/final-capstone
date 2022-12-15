@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Edit Card</h1>
+    <h1 id="title">Edit Card</h1>
     <edit-card-form v-bind:cardID="parseInt($route.params.cardID)" />
   </div>
 </template>
@@ -14,3 +14,8 @@ export default {
   }
 };
 </script>
+<style>
+#title{
+  font-family: sans-serif;
+}
+</style>

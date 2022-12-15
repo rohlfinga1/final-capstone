@@ -300,6 +300,7 @@ box-shadow: rgba(73,85,121,0.5) 5px 3px,
 }
 .labels{
   font-family: sans-serif;
+  font-weight: bold; 
 }
 .add-btn {
   background-color: #495579;

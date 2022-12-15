@@ -1,57 +1,51 @@
 <template>
-  <form v-on:submit.prevent="submitForm" class="editCardForm">
+  <form id="edit-form" v-on:submit.prevent="submitForm" class="editCardForm">
     <div class="status-message error" v-show="errorMsg !== ''">
       {{ errorMsg }}
     </div>
     <div class="form-group">
-      <label for="front">Question: </label>
-      &nbsp;
+      <label class="edit-label" for="front">Question: </label>
+      <br/>
       <input
         id="front"
         type="text"
-        class="form-control"
+        class="form-control, input-fields"
         v-model="newCard.front"
         autocomplete="off"
       />
-      &nbsp;
-      &nbsp;
-      <label for="back">Answer: </label>
-      &nbsp;
+      <br/><br/>
+      <label class="edit-label" for="back">Answer: </label>
+
       <input
         id="back"
         type="text"
-        class="form-control"
+        class="form-control, input-fields"
         v-model="newCard.back"
       />
-      &nbsp;
-      &nbsp;
-      <label for="cardKeywords">Keywords: </label>
-      &nbsp;
+      <br/><br/>
+      <label class="edit-label" for="cardKeywords">Keywords: </label>
+
       <input
         id="cardKeywords"
         type="text"
-        class="form-control"
+        class="form-control, input-fields"
         v-model="newCard.cardKeywords"
       />
+      <br/><br/>
     </div>
-    <button class="btn btn-submit">Submit</button>
-    <button class="btn btn-cancel" v-on:click="cancelForm" type="button">
-      Cancel
-    </button>
-    <!-- <button class="btn btn-delete" v-on:click="deleteCard">Delete Card From Deck</button> -->
+    <button class="edit-btn-btn">Submit</button>
+    <button class="edit-btn-btn" v-on:click="cancelForm" type="button">Cancel </button>
   </form>
 </template>
 
 <script>
 import cardService from "../services/CardService.js";
-//import CardDeckIdService from '../services/CardDeckIdService.js';
 
 export default {
   name: "edit-card-form",
   data() {
     return {
-      //newCard: this.props.card,
-      // deckId: this.$route.params.
+      
       newCard: {
         front: "",
         back: "",
@@ -107,19 +101,6 @@ export default {
       this.$router.back();
     },
 
-    // deleteCard(){
-    //   const tempDeckCard = {
-    //     deckId: this.$route.params.deckId,
-    //     cardId: this.newCard.cardId
-    //     };
-    //     CardDeckIdService
-    //     .deleteCardFromDeck(tempDeckCard.deckId, tempDeckCard.cardId).then((response) => {
-    //       if (response.status === 201) {
-    //         this.$router.back();
-    //       }
-    //     });
-    // },
-
     handleErrorResponse(error, verb) {
       if (error.response) {
         this.errorMsg =
@@ -137,4 +118,41 @@ export default {
 </script>
 
 <style>
+#edit-form {
+font-family: sans-serif;
+align-content: center;
+width: 20%;
+margin-left: 40%;
+margin-right:40%;
+margin-bottom:24%;
+text-align: center;
+background-color: white;
+padding: 5px;
+box-shadow: rgba(73,85,121,0.5) 5px 3px,
+ rgba(73,85,121,0.4) 10px 6px,
+ rgba(73,85,121,0.3) 15px 9px;
+}
+.input-fields{
+  width:90%;
+}
+.edit-label{
+  font-family: sans-serif;
+  font-weight: bold; 
+}
+.edit-btn-btn {
+   background-color: #495579;
+   border-style: solid, black;
+   height: 30px;
+   width: 100px;
+   font-size: 20px;
+   border-radius: 10px;
+   margin-bottom: 10px;
+   margin-right:15px;
+   margin-left:15px;
+   color:#FFFDEB;
+}
+.edit-btn-btn:hover {
+  background-color: rgb(190, 209, 233);
+  color: black;
+}
 </style>
