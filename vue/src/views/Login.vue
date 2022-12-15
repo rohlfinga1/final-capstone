@@ -134,6 +134,11 @@ export default {
     cursor: pointer;
     background-color: #495579;
   }
+
+  #login {
+    padding-left: 37%;
+    border-style: ridge;
+  }
 </style>
 
 <!-- #FFFDEB, #495579, #203159 -->

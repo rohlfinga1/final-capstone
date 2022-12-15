@@ -68,7 +68,7 @@ Loading card HTML & CSS from https://uiverse.io/alexruix/white-cat-50-->
 h1 {
   font-family: "Arial Narrow Bold", sans-serif;
   text-align: center;
-  font-style: italic;
+  font-style: bold;
 }
 /* 
 .userBtn {

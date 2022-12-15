@@ -118,7 +118,7 @@ nav ul li {
 h2 {
   font-family: "Arial Narrow Bold", sans-serif;
   text-align: center;
-  font-style: italic;
+  font-style: bold;
   color: #FFFDEB;
 }
 </style>
