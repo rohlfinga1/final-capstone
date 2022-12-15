@@ -19,14 +19,9 @@
       v-bind:key="deck.deckId"
       v-bind:style="{ 'background-color': deck.backgroundColor }"
     >
-      <p class="eachDeck">
-        {{ deck.name }}<br />
-        Deck: {{ deck.deckId }}<br /><br />
-        {{ deck.description }}<br />
-
-        Creator ID: {{ deck.creatorId }}
-      </p>
-      <button @click="selectThisDeck(deck.deckId)">Add To This Deck</button>
+      <deck-display v-bind:deck="deck" v-bind:key="deck.deckId" />
+      <br/>
+      <button class="addbtn" @click="selectThisDeck(deck.deckId)">Add To This Deck</button>
     </div>
   </div>
 </template>
@@ -34,11 +29,12 @@
 <script>
 // import CardDetails from './CardDetails.vue';
 import cardDeckIdService from "../services/CardDeckIdService";
-
+import DeckDisplay from "./DeckDisplay.vue";
 
 export default {
   name: "join-card-and-deck",
   props: ["userDecks", "card"],
+  components: { DeckDisplay },
   data() {
     return {
       showFront: true,
@@ -116,7 +112,7 @@ export default {
   },
 };
 </script>
-
+<!-- Add to deck button from https://uiverse.io/cssbuttons-io/stale-rattlesnake-87-->
 <style>
 @import "https://fonts.googleapis.com/css?family=Lily+Script+One";
 
@@ -159,7 +155,7 @@ body {
   width: 100%;
   background: white;
   line-height: normal;
-  color: #03446a;
+  color: #203159; /* #03446a;*/
   text-align: center;
   font-size: 30px;
   border-radius: 5px;
@@ -167,8 +163,8 @@ body {
 }
 
 .back {
-  background: #03446a;
-  color: white;
+  background: white;
+  color: #203159;/* #03446a;*/
   transform: rotateY(180deg);
 }
 
@@ -191,7 +187,7 @@ body {
   cursor: pointer;
   font-weight: bold;
 }
-.eachDeck {
+/* .eachDeck {
   text-align: center;
   align-items: center;
   color: #f7fafc;
@@ -207,5 +203,32 @@ body {
   padding: 20px;
   margin-bottom: 35px;
   cursor: pointer;
+} */
+.addbtn {
+  padding: 1.3em 3em;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #000;
+  background-color: #fff;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  margin-left: 85px;
+}
+
+.addbtn:hover {
+  background-color: #23c483;
+  box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+  color: #fff;
+  transform: translateY(-7px);
+}
+
+.addbtn:active {
+  transform: translateY(-1px);
 }
 </style>

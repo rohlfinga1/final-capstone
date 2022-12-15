@@ -12,7 +12,7 @@
     </div>
   </section>
 </template>
-
+<!--  Single card CSS & HTML from: https://codepen.io/edeesims/pen/wvpYWW -->
 <script>
 import cardService from "../services/CardService.js";
 import SingleCardDisplay from "./SingleCardDisplay.vue";

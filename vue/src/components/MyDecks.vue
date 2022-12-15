@@ -1,26 +1,14 @@
 <template>
   <div id="MyDecksPage">
     <div class="Nav">
-      <h1>My Decks</h1>
+      <h1>Account</h1>
     </div>
+    <my-cards-search-bar/>
+
+    <h2>My Decks</h2>
     <button class="addDeck" v-on:click="showAddDeck = !showAddDeck">
       Add New Deck
     </button>
-    <div class="search-bar">
-      <form @submit.prevent="retrieveResults">
-        <input
-          class="form-item"
-          id="front"
-          type="text"
-          name="keyword"
-          placeholder="Search My Cards"
-          v-model="searchInput"
-        />
-        <button class="form-item btn btn-submit" @click="retrieveResults">
-          Search
-        </button>
-      </form>
-    </div>
     <form v-if="showAddDeck" @submit.prevent="submitForm">
       Deck Name:
       <input type="text" class="form-control" v-model="newDeck.name" />
@@ -35,42 +23,30 @@
         Cancel
       </button>
     </form>
-
-    <div>
-      <h2>My Decks</h2>
+    <div class="displayDecks">
       <router-link
-      :to="{ name: 'DeckEditor', params: {deckId: deck.deckId}}"
+        :to="{ name: 'DeckEditor', params: { deckId: deck.deckId } }"
         class="decks"
         v-for="deck in filterMyDecksOnly"
         v-bind:key="deck.deckId"
-        v-bind:style="{ 'background-color': deck.backgroundColor }"
       >
-        <p class="eachDeck">
-          {{ deck.name }}<br /><br />
-          {{ deck.description }}<br />
-        
-
-          Creator ID: {{ deck.creatorId }}
-        </p>
+        <deck-display v-bind:deck="deck" v-bind:key="deck.deckId" />
       </router-link>
     </div>
     <div>
       <h2>Public Decks</h2>
 
-      <router-link
-      :to="{ name: 'DeckEditor', params: {deckId: deck.deckId}}"
-        id="publicDecks"
-        class="decks"
-        v-for="deck in filterPublicOnly"
-        v-bind:key="deck.id"
-        v-bind:style="{ 'background-color': deck.backgroundColor }"
-      >
-        <p class="eachDeck">
-          {{ deck.name }}<br /><br />
-          {{ deck.description }}<br />
-          {{ deck.creatorId }}
-        </p>
-      </router-link>
+      <div class="displayDecks">
+        <router-link
+          :to="{ name: 'DeckEditor', params: { deckId: deck.deckId } }"
+          id="publicDecks"
+          class="decks"
+          v-for="deck in filterPublicOnly"
+          v-bind:key="deck.id"
+        >
+          <deck-display v-bind:deck="deck" v-bind:key="deck.deckId" />
+        </router-link>
+      </div>
     </div>
   </div>
 </template>
@@ -78,8 +54,11 @@
 <script>
 import deckService from "../services/DeckService";
 import cardService from "../services/CardService.js";
+import DeckDisplay from "./DeckDisplay.vue";
+import MyCardsSearchBar from './MyCardsSearchBar.vue';
 
 export default {
+  components: { DeckDisplay, MyCardsSearchBar },
   name: "myDecks",
   data() {
     return {
@@ -190,14 +169,14 @@ export default {
         });
     },
 
-    randomBackgroundColor() {
-      return "#" + this.generateHexCode();
+    BackgroundColor() {
+      return "#203159";
     },
-    generateHexCode() {
-      var bg = Math.floor(Math.random() * 16777215).toString(16);
-      if (bg.length !== 6) bg = this.generateHexCode();
-      return bg;
-    },
+    // generateHexCode() {
+    //   var bg = Math.floor(Math.random() * 16777215).toString(16);
+    //   if (bg.length !== 6) bg = this.generateHexCode();
+    //   return bg;
+    // },
   },
   computed: {
     filterMyDecksOnly() {
@@ -207,7 +186,7 @@ export default {
       myDecksOnly.forEach((myDeck) => {
         console.log(`mydecksonly ${myDeck.deckId}`);
       });
-      
+
       return myDecksOnly;
     },
     filterPublicOnly() {
@@ -216,13 +195,13 @@ export default {
       });
       publicDecks.forEach((publicDeck) => {
         console.log(`public ${publicDeck.deckId}`);
-      })
+      });
       return publicDecks;
     },
   },
 };
 </script>
-
+<!-- Search bar HTML & CSS from https://uiverse.io/alexruix/slippery-frog-10-->
 <style scoped>
 #Nav {
   align-items: center;
@@ -241,18 +220,23 @@ export default {
 h1 {
   text-align: center;
 }
-
+.displayDecks {
+  display: flex;
+  margin: 20px;
+}
 .decks {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-between;
+  flex-wrap: wrap;
   border-width: 3px;
   border-color: black;
   border: black;
   align-items: center;
   font-size: 16px;
   width: 60%;
-  margin: 10px;
+  margin: 40px;
+  margin-trim: inline-flow;
   padding: 20px;
   cursor: pointer;
   font-weight: bold;
@@ -271,13 +255,13 @@ h1 {
 .eachDeck {
   text-align: center;
   align-items: center;
-  color: #f7fafc;
+  color: rgb(32, 49, 89);
   border-style: solid;
   border-radius: 10px;
   border-width: 2px;
   border-color: black;
 
-  background-color: rgb(79, 189, 240);
+  background-color: #fff;
   font-size: 16px;
   width: 90%;
   margin: 10px;
@@ -287,9 +271,9 @@ h1 {
 }
 .addDeck {
   align-items: center;
-  color: #f7fafc;
+  color: rgb(32, 49, 89);
   border-radius: 10px;
-  background-color: mediumaquamarine;
+  background-color: #fff;
   font-size: 16px;
   width: 90%;
   margin: 10px;
@@ -305,14 +289,10 @@ h1 {
 .addDeck:hover {
   font-weight: bold;
 }
-
-.search-bar {
-  display: flex;
-  align-items: center;
-  float: right;
+.decks:hover {
+  font-weight: bold;
 }
-
-.form-item {
-  margin: 10px;
+h2 {
+  color: black;
 }
 </style>

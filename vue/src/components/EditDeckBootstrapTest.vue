@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>{{ deck.name }}<br /></h2>
+    <h2 id="deck-name">{{ deck.name }}<br /></h2>
     <p>{{ deck.description }}<br /></p>
 
     <button class="add-btn" @click="study(deck.deckId)">
@@ -54,12 +54,18 @@
         <td>{{ card.back }}</td>
         <td>{{ card.cardKeywords }}</td>
         <td>
+           <br/>
           <button v-on:click="viewEditCard(card.cardId)" class="btn editCard" v-if="viewEditButton(card.creatorId)">
             Edit Card
           </button>
+          <br/>
+          <br/>
+          <br/>
           <button v-on:click="deleteCard(card.cardId)" class="btn editCard" v-if="viewDeleteButton(deck.creatorId)">
             Delete Card From Deck
           </button>
+           <br/>
+           <br/>
         </td>
       </tr>
     </table>
@@ -132,7 +138,7 @@ export default {
       this.$router.push({name: 'StudySession', params: {deckId}});
     },
     viewEditCard(cardId) {
-      this.$router.push(`/editcard/${cardId}`);
+      this.$router.push(`/card/${cardId}`);
     },
     viewEditButton(creatorId){
       if(creatorId == this.$store.state.user.userId){
@@ -256,6 +262,9 @@ export default {
 </script>
 
 <style>
+#deck-name {
+  color: black;
+}
 table {
   align-self: center;
   justify-self: center;
@@ -272,15 +281,16 @@ tbody tr:nth-child(even) {
   background-color: #979797;
 }
 .edit-btn {
-  background-color: rgb(129, 230, 129);
-  border-style: solid, black;
+  background-color: #495579;
+  margin: 10px;
+  /* border-style: solid, black; */
 }
 .edit-btn:hover {
   background-color: whitesmoke;
 }
 
 .add-btn {
-  background-color: rgb(160, 190, 245);
+  background-color: #495579;
   border-style: solid, black;
   height: 50px;
   width: 200px;
@@ -289,6 +299,9 @@ tbody tr:nth-child(even) {
   margin-bottom: 10px;
 }
 .add-btn:hover {
-  background-color: whitesmoke;
+  background-color: #203159;
+}
+td {
+  font-family: sans-serif;
 }
 </style>

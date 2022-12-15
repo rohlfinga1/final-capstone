@@ -12,7 +12,7 @@ import AuthCardSearch from '../views/AuthCardSearch.vue'
 import PublicCardSearch from '../views/PublicCardSearch.vue'
 // import EditCardOverview from '../components/EditCardOverview.vue'
 import EditCard from '../views/EditCard.vue'
-import MyDecks from '../components/MyDecks.vue'
+//import MyDecks from '../components/MyDecks.vue'
 import AddCardToDeck from '../views/AddCardToDeck.vue'
 
 Vue.use(Router)
@@ -73,28 +73,28 @@ const router = new Router({
 
     {
       path: "/:userId/deck", // authenticated home
-      name: "my-decks", // "myDecks",
-      component: MyDecks, // AccountPage,
+      name: "account-page", // "myDecks",
+      component: AccountPage, // AccountPage,
       meta:{
         requiresAuth: true
       }
     },
     {
-      path: "/editdeck/:deckId", //view 1 deck
+      path: "/deck/:deckId", //view 1 deck
       name: "DeckEditor",
       component: DeckEditor,
       meta:{
         requiresAuth: true
       }
     },
-    {
-      path: '/decksearch/:input', // search public decks
-      name: 'publicDeckSearch',
-      component: Home,
-      meta:{
-        requiresAuth: false
-      }
-    },
+    // {
+    //   path: '/decksearch/:input', // search public decks
+    //   name: 'publicDeckSearch',
+    //   component: Home,
+    //   meta:{
+    //     requiresAuth: false
+    //   }
+    // },
     {
       path: '/:userId/decksearch/:input', // search user decks
       name: 'authDeckSearch',
@@ -120,7 +120,7 @@ const router = new Router({
     //   }
     // },
     {
-      path: '/cardsearch/:searchInput', // search public cards
+      path: '/search/:searchInput', // search public cards
       name: 'public-card-search',
       component: PublicCardSearch,
       meta:{
@@ -129,7 +129,7 @@ const router = new Router({
     },
     
     {
-      path: '/:userId/cardsearch/:input', // search user cards
+      path: '/:userId/search/:input', // search user cards
       name: 'auth-card-search',
       component: AuthCardSearch,
       meta:{
@@ -154,7 +154,7 @@ const router = new Router({
     //   }
     // },
     {
-      path: '/editcard/:cardId', // this route was '/study'; get, post, put, delete card
+      path: '/card/:cardId', // this route was '/study'; get, post, put, delete card
       name: 'EditCard',
       component: EditCard,
       meta:{

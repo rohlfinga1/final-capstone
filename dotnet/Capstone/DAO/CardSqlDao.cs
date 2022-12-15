@@ -26,7 +26,7 @@ namespace Capstone.DAO
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("SELECT textcard_id, users.username, creator_id, front, back, card_keywords, " +
+                    SqlCommand cmd = new SqlCommand("SELECT textcard_id, creator_id, front, back, card_keywords, " +
                         "date_made FROM textcard JOIN users ON creator_id = user_id WHERE user_id = @user_id;", conn);
                     cmd.Parameters.AddWithValue("@user_id", userId);
                     SqlDataReader reader = cmd.ExecuteReader();
@@ -55,8 +55,8 @@ namespace Capstone.DAO
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("SELECT textcard.textcard_id, users.username, textcard.creator_id, front, back, card_keywords, " +
-                        "textcard.date_made FROM textcard JOIN users ON creator_id = user_id JOIN deck_textcard ON " +
+                    SqlCommand cmd = new SqlCommand("SELECT textcard.textcard_id, textcard.creator_id, front, back, card_keywords, " +
+                        "textcard.date_made FROM textcard JOIN deck_textcard ON " +
                         "deck_textcard.textcard_id = textcard.textcard_id " +
                         "JOIN deck ON deck.deck_id = deck_textcard.deck_id WHERE is_public = 1;", conn);
                     SqlDataReader reader = cmd.ExecuteReader();
@@ -85,7 +85,7 @@ namespace Capstone.DAO
                 {
                     conn.Open();
                     string wildKeyword = "%" + cardKeyword + "%";
-                    SqlCommand cmd = new SqlCommand("SELECT DISTINCT textcard_id, users.username, creator_id, front, back, card_keywords, " +
+                    SqlCommand cmd = new SqlCommand("SELECT DISTINCT textcard_id, creator_id, front, back, card_keywords, " +
                         "date_made FROM textcard JOIN users ON creator_id = user_id WHERE card_keywords LIKE @wild_keyword AND creator_id = @user_id;", conn);
                     cmd.Parameters.AddWithValue("@wild_keyword", wildKeyword);
                     cmd.Parameters.AddWithValue("@user_id", userId);
@@ -115,8 +115,8 @@ namespace Capstone.DAO
                 {
                     conn.Open();
                     string wildKeyword = "%" + cardKeyword + "%";
-                    SqlCommand cmd = new SqlCommand("SELECT DISTINCT textcard.textcard_id, users.username, textcard.creator_id, front, back, card_keywords, " +
-                        "textcard.date_made FROM textcard JOIN users ON creator_id = user_id JOIN deck_textcard ON textcard.textcard_id = deck_textcard.textcard_id " +
+                    SqlCommand cmd = new SqlCommand("SELECT DISTINCT textcard.textcard_id, textcard.creator_id, front, back, card_keywords, " +
+                        "textcard.date_made FROM textcard JOIN deck_textcard ON textcard.textcard_id = deck_textcard.textcard_id " +
                         "JOIN deck ON deck_textcard.deck_id = deck.deck_id " +
                         "WHERE card_keywords LIKE @wild_keyword AND is_public = 1;", conn);
                     cmd.Parameters.AddWithValue("@wild_keyword", wildKeyword);
@@ -148,8 +148,8 @@ namespace Capstone.DAO
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("SELECT textcard.textcard_id, users.username, textcard.creator_id, front, back, card_keywords, " +
-                        "textcard.date_made FROM textcard JOIN users ON creator_id = user_id JOIN deck_textcard ON " +
+                    SqlCommand cmd = new SqlCommand("SELECT textcard.textcard_id, textcard.creator_id, front, back, card_keywords, " +
+                        "textcard.date_made FROM textcard JOIN deck_textcard ON " +
                         "textcard.textcard_id = deck_textcard.textcard_id WHERE deck_id = @deck_id", conn);
                     cmd.Parameters.AddWithValue("@deck_id", deckId);
                     SqlDataReader reader = cmd.ExecuteReader();
@@ -177,7 +177,7 @@ namespace Capstone.DAO
             {
                 conn.Open();
 
-                SqlCommand cmd = new SqlCommand("SELECT textcard_id, users.username, creator_id, front, back, card_keywords, " +
+                SqlCommand cmd = new SqlCommand("SELECT textcard_id, creator_id, front, back, card_keywords, " +
                         "date_made FROM textcard JOIN users ON creator_id = user_id WHERE textcard_id = @card_id;", conn);
                 cmd.Parameters.AddWithValue("@card_id", cardId);
 
@@ -272,7 +272,6 @@ namespace Capstone.DAO
         private Card CreateCardFromReader(SqlDataReader reader)
         {
             Card card = new Card();
-            card.Creator = Convert.ToString(reader["username"]);
             card.CreatorId = Convert.ToInt32(reader["creator_id"]);
             card.CardId = Convert.ToInt32(reader["textcard_id"]);
             card.Front = Convert.ToString(reader["front"]);

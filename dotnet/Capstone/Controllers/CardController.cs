@@ -42,7 +42,7 @@ namespace Capstone.Controllers
             return cards;
         }
 
-        [HttpGet("/{userId}/cardsearch/{searchInput}")]
+        [HttpGet("/{userId}/search/{searchInput}")]
         public ActionResult<List<Card>> SearchMyCards(int userId, string searchInput)
         {
             List<Card> cards;
@@ -71,7 +71,7 @@ namespace Capstone.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("/cardsearch/{searchInput}")]
+        [HttpGet("/search/{searchInput}")]
         public ActionResult<List<Card>> SearchPublicCards(string searchInput)
         {
             List<Card> cards;
@@ -152,7 +152,7 @@ namespace Capstone.Controllers
             }
         }
 
-        [HttpPost("/editdeck/{deckId}")]
+        [HttpPost("/deck/{deckId}")]
         public ActionResult<Card> AddCard(Card card, int deckId)
         {
             Card added = cardDao.CreateCard(card);
@@ -169,7 +169,7 @@ namespace Capstone.Controllers
             
         }
 
-        [HttpPut("/editcard/{id}")]
+        [HttpPut("{id}")]
         public ActionResult<Card> UpdateExistingCard(int id, Card card)
         {
             Card existingCard = cardDao.GetCard(id);

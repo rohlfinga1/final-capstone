@@ -3,7 +3,7 @@ import axios from 'axios';
 export default 
 {
   getUserDecks(userId){
-    return axios.get(`/deck/${userId}/deck`);//new method for my decks and public
+    return axios.get(`/${userId}/deck`);//new method for my decks and public
   },
   getPublicDecks(){
     return axios.get('/deck/public');//check /deckendpnt
@@ -25,7 +25,7 @@ export default
     return axios.post(`${newDeck.creatorId}/deck`, newDeck);
   },
   updateDeck(deckId, deck) {
-    return axios.put(`/editdeck/${deckId}`, deck);
+    return axios.put(`/deck/${deckId}`, deck);
   },
 
   deleteDeck(deckId) {

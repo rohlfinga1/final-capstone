@@ -22,7 +22,7 @@
         v-model="user.username"
         required
         autofocus
-      />
+      />&nbsp;
       <label for="password" class="sr-only">Password</label>
       <input
         type="password"
@@ -31,8 +31,8 @@
         placeholder="Password"
         v-model="user.password"
         required
-      />
-      <router-link :to="{ name: 'register' }">Need an account?</router-link>
+      />&nbsp;&nbsp;
+      <router-link :to="{ name: 'register' }">Need an account?</router-link>&nbsp;&nbsp;
       <button type="submit" @click="login">Sign in</button> 
       <!--  @click triggers login function on a click-->
       <!-- testable using default username = "user" password = "password" -->
@@ -63,7 +63,7 @@ export default {
           if (response.status == 200) {
             this.$store.commit("SET_AUTH_TOKEN", response.data.token);
             this.$store.commit("SET_USER", response.data.user);
-            this.$router.push({name: "my-decks", params: {userId: response.data.user.userId}});//changed from "/mydecks" so our decks are visible once we log in on the first page
+            this.$router.push({name: "account-page", params: {userId: response.data.user.userId}});//changed from "/mydecks" so our decks are visible once we log in on the first page
           }
         })
         .catch(error => {

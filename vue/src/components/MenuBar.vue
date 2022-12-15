@@ -1,7 +1,7 @@
 <template>
   <header id="menubar">
     <div class="title">
-      <h2>FlashCard Study App</h2>
+      <h2>Crash Cards</h2>
     </div>
     <nav>
       <ul>
@@ -12,7 +12,7 @@
           >
         </li>
         <li>
-          <router-link v-bind:to="{ name: 'my-decks' }" class="link"
+          <router-link v-bind:to="{ name: 'account-page' }" class="link"
             >ACCOUNT</router-link
           >
         </li>
@@ -54,6 +54,7 @@ header {
 .title {
   align-items: center;
   color: #FFFDEB;
+  margin-left: 20px;
 }
 
 header div {
@@ -113,5 +114,11 @@ nav ul li {
   background: white;
   color: #03446a;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+h2 {
+  font-family: "Arial Narrow Bold", sans-serif;
+  text-align: center;
+  font-style: italic;
+  color: #FFFDEB;
 }
 </style>
