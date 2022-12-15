@@ -224,4 +224,5 @@ h2 {
 .loader:hover::before {
   animation-play-state: running;
 }
+/* card logo from https://uiverse.io/alexruix/white-cat-50*/
 </style>
