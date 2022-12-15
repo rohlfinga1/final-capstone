@@ -2,29 +2,29 @@
   <form @submit.prevent="submitForm" class="cardForm">
     <div class="status-message error" v-show="errorMsg !== ''">{{errorMsg}}</div>
     <div class="form-group">
-      <label for="front">Question:  </label>
+      <label class="label" for="front">Question:</label><br/>
       
-      <input id="front" type="text" name="front" v-model="newCard.front" />
+      <input class="input-field" id="front" type="text" name="front" v-model="newCard.front" />
     </div>
     <br/>
      <div class="form-group">
-      <label for="back">Answer:  </label>
-      <input type="text" name="back" v-model="newCard.back" value="test"/>
+      <label class="label" for="back">Answer:</label><br/>
+      <input class="input-field" type="text" name="back" v-model="newCard.back" value="test"/>
     </div>
     <br/>
     <div class="form-group">
-      <label for="cardKeywords">Keywords:  </label>
-      <input id="cardKeywords" type="text" name="cardKeywords" v-model="newCard.cardKeywords" />
+      <label class="label" for="cardKeywords">Keywords:</label><br/>
+      <input class="input-field" id="cardKeywords" type="text" name="cardKeywords" v-model="newCard.cardKeywords" />
     </div>
     <br/>
     <div class="actions">
       <button class="btn btn-submit" >Submit</button>
     </div>
+    <br/>
   </form>
 </template>
 
 <script>
-//import CardDeckIdService from '../services/CardDeckIdService.js';
 import cardService from "../services/CardService.js";
 import moment from 'moment'
 
@@ -39,9 +39,6 @@ export default {
         front: "",
         back: "",
         cardKeywords: "",
-        //deckId: this.$route.params.deckId,
-        //cardId: null,
-        //creator: this.$store.state.user.username,
         creatorId: this.$store.state.user.userId,
         cardDate: moment(new Date()).format('DD-MM-YYYY')
       },
@@ -50,7 +47,7 @@ export default {
   },
   created() {},
   methods: {
-    submitForm() { //currently does not add card to deck
+    submitForm() {
       const tempDeckCard = {
         deckId: this.$route.params.deckId,
         cardId: this.newCard.cardId
@@ -59,8 +56,6 @@ export default {
         front: this.newCard.front,
         back: this.newCard.back,
         cardKeywords: this.newCard.cardKeywords,
-        //cardId: this.newCard.cardId,
-        //creator: this.newCard.creator,
         creatorId: this.newCard.creatorId,
         cardDate: this.newCard.cardDate
       };
@@ -75,17 +70,6 @@ export default {
             
             this.handleErrorResponse(error, "adding");
           });
-        // CardDeckIdService
-        // .addCardToDeck(tempDeckCard.deckId, tempDeckCard.cardId)
-        // .then(response => {
-        //     if (response.status === 201) {
-        //       this.$router.go();
-        //     }
-        //   })
-        //   .catch(error => {
-            
-        //     this.handleErrorResponse(error, "adding");
-        //   });
     },
     cancelForm() {
       this.$router.push(`/editdeck/${this.$route.params.deckId}`);
@@ -110,4 +94,15 @@ export default {
 </script>
 
 <style>
+.label{
+  font-family: sans-serif;
+  align-self: left;
+}
+.cardForm{
+ align-content: right;
+}
+.input-field{
+  width: 300px;
+  word-wrap: break-word;
+}
 </style>

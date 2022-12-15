@@ -1,6 +1,6 @@
 <template>
   <div class="search-bar" >
-    <form @submit.prevent="retrieveResults">
+    <form class="search-form" @submit.prevent="retrieveResults">
       <select class="form-item" id="select-search" name="select-search">
         <option value="">--Please choose an option--</option>
         <option value="my-cards" v-bind:key="userId">my cards</option>
