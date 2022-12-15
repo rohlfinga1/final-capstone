@@ -1,7 +1,7 @@
 <template>
   <div class="joinLayout">
     <section>
-    <div class="card" v-bind:key="selectedCardId">
+    <div class="card" v-bind:key="this.$route.params.cardId">
       <div class="content">
         <div class="front">
           <p class="text">{{ selectCard.front }}</p>
@@ -17,7 +17,6 @@
       class="decks"
       v-for="deck in myDecks"
       v-bind:key="deck.deckId"
-      v-bind:style="{ 'background-color': deck.backgroundColor }"
     >
       <deck-display v-bind:deck="deck" v-bind:key="deck.deckId" />
       <br/>
@@ -58,7 +57,7 @@ export default {
         creatorId: 0,
         dateMade: Date,
       },
-      // selectedCardId: this.$route.params.cardId,
+      //selectedCardId: this.$route.params.cardId,
     };
   },
   computed: {

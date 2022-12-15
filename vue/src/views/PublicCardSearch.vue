@@ -20,7 +20,7 @@ export default {
       searchInput: this.$route.params.searchInput,
     }
   },
-  props: ["cards"],
+  props: ["cards", "user"],
   components: { CardsDisplay, PublicCardsSearchBar },
   computed: {
     selectedDeckId() {
@@ -28,6 +28,9 @@ export default {
         return deck.deckId === this.$route.params.deckId;
       });
     },
+    // getUserId() {
+    //   return this.$store.state.user.userId
+    // }
   },
   created() {
     this.publicCardSearch(this.searchInput);

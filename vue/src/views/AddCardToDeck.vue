@@ -1,6 +1,6 @@
 <template>
   <div>
-      <h3>Select a deck to which you can add this card</h3>
+      <h3 style="font-family: Arial">Select a deck to which you can add this card</h3>
       <join-card-and-deck/>
   </div>
 </template>
