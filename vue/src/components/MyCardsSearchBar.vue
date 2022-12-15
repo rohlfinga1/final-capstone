@@ -41,7 +41,7 @@ export default {
           if (response.status == 200) {
             this.$store.commit("SET_CARDS", response.data);
             this.$router.push({
-              path: `/${this.userId}/cardsearch/${this.searchInput}`,
+              path: `/${this.userId}/search/${this.searchInput}`,
             });
           }
         })

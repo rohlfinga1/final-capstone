@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="joinLayout">
     <section>
     <div class="card" v-bind:key="selectedCardId">
       <div class="content">
@@ -21,7 +21,7 @@
     >
       <deck-display v-bind:deck="deck" v-bind:key="deck.deckId" />
       <br/>
-      <button class="addbtn" @click="selectThisDeck(deck.deckId)">Add To This Deck</button>
+      <button class="addcardbtn" @click="selectThisDeck(deck.deckId)">Add To This Deck</button>
     </div>
   </div>
 </template>
@@ -173,15 +173,15 @@ body {
   margin-right: 10%;
 }
 .decks {
-  display: flex;
-  flex-direction: column;
+  /* display: flex;
+  flex-direction: column; */
   justify-content: space-between;
   border-width: 3px;
   border-color: black;
   border: black;
   align-items: center;
   font-size: 16px;
-  width: 60%;
+  width: 300px;
   margin: 10px;
   padding: 20px;
   cursor: pointer;
@@ -204,7 +204,7 @@ body {
   margin-bottom: 35px;
   cursor: pointer;
 } */
-.addbtn {
+.addcardbtn {
   padding: 1.3em 3em;
   font-size: 12px;
   text-transform: uppercase;
@@ -218,17 +218,20 @@ body {
   transition: all 0.3s ease 0s;
   cursor: pointer;
   outline: none;
-  margin-left: 85px;
+  margin-left: 45px;
 }
 
-.addbtn:hover {
+.addcardbtn:hover {
   background-color: #23c483;
   box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
   color: #fff;
   transform: translateY(-7px);
 }
 
-.addbtn:active {
+.addcardbtn:active {
   transform: translateY(-1px);
+}
+.joinLayout {
+  display: flex;
 }
 </style>
