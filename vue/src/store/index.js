@@ -47,7 +47,8 @@ export default new Vuex.Store({
       dateMade: Date,
       correct: false,
       wrong: false,
-      scored: false
+      scored: false,
+      clickedOnce: true,
     },
     cardID: 0,
     deckID: 0,
