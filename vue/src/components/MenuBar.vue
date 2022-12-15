@@ -16,11 +16,11 @@
             >ACCOUNT</router-link
           >
         </li>
-        <li>
+        <!--<li>
           <router-link v-bind:to="{ name: 'StudySession' }" class="link"
             >STUDY</router-link
           >
-        </li>
+        </li>-->
         <li>
           <router-link v-bind:to="{ name: 'logout' }" class="link"
             >LOG OUT</router-link
@@ -42,7 +42,7 @@ header {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
     "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  background-color: #508ca8;
+  background-color: #495579;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -53,6 +53,7 @@ header {
 }
 .title {
   align-items: center;
+  color: #FFFDEB;
 }
 
 header div {
@@ -97,6 +98,14 @@ nav ul li {
   text-align: center;
   line-height: 50px;
   text-decoration: none;
+  font-size: 1.2rem;
+  color: #FFFDEB;
+}
+
+.link {
+  text-decoration: none;
+  font-size: 1.2rem;
+  color: #FFFDEB;
 }
 
 .btn {
