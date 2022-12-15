@@ -10,8 +10,8 @@
       <input id="description" type="text" class="form-control, input-field" v-model="deck.description" /><br/><br/>
       <label class="labels" for="deckKeywords">Deck Keywords:</label><br/>
       <input id="deckKeywords" type="text" class="form-control, input-field" v-model="deck.deckKeywords" /><br/><br/>
-      <label class="labels" for="deckKeywords">Is this Public:</label>
-      <input type="checkbox" class="form-control" v-model="deck.isPublic" /><br/><br/>
+      <label class="labels" for="isPublic">Is this Public:</label>
+      <input id="isPublic" type="checkbox" class="form-control" v-model="deck.isPublic" /><br/><br/>
       <button class="btn-btn">Save</button>
       <button class="btn-btn" v-on:click="showAddDeck = !showAddDeck"> Cancel </button>
     </form>
@@ -291,6 +291,7 @@ margin-right:40%;
 text-align: center;
 background-color: white;
 padding: 5px;
+border-radius: 20px;
 box-shadow: rgba(73,85,121,0.5) 5px 3px,
  rgba(73,85,121,0.4) 10px 6px,
  rgba(73,85,121,0.3) 15px 9px;

@@ -18,7 +18,7 @@
     </div>
     <br/>
     <div class="actions">
-      <button class="btn btn-submit" >Submit</button>
+      <button class="btn-btn" >Submit</button>
     </div>
     <br/>
   </form>
@@ -97,6 +97,7 @@ export default {
 .label{
   font-family: sans-serif;
   align-self: left;
+  font-weight: bold;
 }
 .cardForm{
  align-content: right;
