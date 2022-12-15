@@ -4,13 +4,13 @@
         <div class="everything">
             <h1 style="font-family: Arial">DECK TITLE</h1>
             <div class="right-wrong-count">
-                <div class="correct-count"><h3>Correct: {{totalCorrect}}</h3></div>
-                <div class="wrong-count"><h3>Incorrect: {{totalWrong}}</h3></div>
-                <div class="cards-remaining-count"><h3>Cards Remaining: {{cardsLeft}}</h3></div>
+                <div class="correct-count"><h3>Correct: {{countCorrect}}</h3></div>
+                <div class="wrong-count"><h3>Incorrect: {{countWrong}}</h3></div>
+                <div class="cards-remaining-count"><h3>Cards Remaining: {{cardsArray.length - currentCardIndex}}</h3></div>
             </div>
             <div class="card-and-btn-block">
                 <button class="left-arrow" v-on:click="goBack"><i class="arrow left"></i></button>
-                <button class="wrong-btn" v-on:click="markWrong"><i class="fas fa-xmark fa-7x"></i></button>
+                <button class="wrong-btn" v-on:click="markWrong"><i class="fas fa-times fa-8x"></i></button>
                 <div class="card-content" v-on:click="flip"
                 v-bind:class="{ 'card-content-correct': isGreen,
                 'card-content-wrong': isRed}"
@@ -36,10 +36,10 @@
                 v-if="popupTriggers.buttonTrigger"
                 :TogglePopup="() => TogglePopup('buttonTrigger')">
                 <h3>Are you sure you want to end your session?</h3>
-                <p>Current Score: {{totalCorrect}} / {{cardsArray.length}}</p>
-                <p>Correct: {{totalCorrect}} </p>
+                <p>Current Score: {{countCorrect}} / {{cardsArray.length}}</p>
+                <p>Correct: {{countCorrect}} </p>
                 <p>Incorrect: {{totalWrong}} </p>
-                <p>Cards Remaining: {{cardsLeft}}</p>
+                <p>Cards Remaining: {{cardsArray.length - currentCardIndex}}</p>
                 <button class="end-btn-2" @click="$router.push('/')">End Session</button>
             </popup>
         </div>
@@ -90,7 +90,12 @@ export default {
             },
             index: 0,
             isGreen: false,
-            isRed: false
+            isRed: false,
+            countCorrect: 0,
+            countWrong: 0,
+            cardsCorrect: new Set(),
+            cardsWrong: new Set(),
+            currentCardIndex: 1
         }
     },
     created(){
@@ -118,7 +123,9 @@ export default {
                 else { 
                     this.resetColor();
                 }
+                this.currentCardIndex--;
             }
+
         },
         goNext() {
             if (this.currentCard != this.cardsArray[this.cardsArray.length - 1])
@@ -134,6 +141,7 @@ export default {
                     this.resetColor();
                 }
             }
+            this.currentCardIndex++;
         },
         resetColor() { 
             this.isGreen = false; 
@@ -145,7 +153,10 @@ export default {
             this.currentCard.scored = true;
             this.isGreen = true;
             this.isRed = false;
-            console.log(this.cardsCorrect);
+            if(!this.cardsCorrect.has(this.currentCard.cardId)){
+                this.countCorrect++;
+                this.cardsCorrect.add(this.currentCard.cardId);
+            }
         },
         markWrong() {
             this.currentCard.correct = false;
@@ -153,6 +164,10 @@ export default {
             this.currentCard.scored = true;
             this.isRed = true;
             this.isGreen = false;
+            if(!this.cardsWrong.has(this.currentCard.cardId)){
+                this.countWrong++;
+                this.cardsWrong.add(this.currentCard.cardId);
+            }
         },
         getCards(deckId) {
             CardService.getCardsByDeckId(deckId).then((response) => {
@@ -166,20 +181,20 @@ export default {
     },
     computed : {
         // in here, I need to auto-update the correct/incorrect count
-        totalCorrect() {
-            // const arrayOfCards = this.$store.state.cards;
-            //     let sum = arrayOfCards.reduce((currentSum,)=>{
-            //         return currentSum + (this.currentCard.Correct == true ? 1 : 0);},0);
-            //         return sum;
-            // },
-            let cardsCorrect = 0;
-            for (let i = 0; i < this.cardsArray.length; i++) {
-                if (this.cardsArray[i].isGreen == true && this.cardsArray[i].isRed == false) {
-                    cardsCorrect++;
-                }
-            }
-            return cardsCorrect;
-        },
+        // totalCorrect() {
+        //     // const arrayOfCards = this.$store.state.cards;
+        //     //     let sum = arrayOfCards.reduce((currentSum,)=>{
+        //     //         return currentSum + (this.currentCard.Correct == true ? 1 : 0);},0);
+        //     //         return sum;
+        //     // },
+        //     let cardsCorrect = 0;
+        //     for (let i = 0; i < this.cardsArray.length; i++) {
+        //         if (this.cardsArray[i].isGreen == true && this.cardsArray[i].isRed == false) {
+        //             cardsCorrect++;
+        //         }
+        //     }
+        //     return cardsCorrect;
+        // },
         totalWrong() {
             let cardsWrong = 0;
             for (let i = 0; i < this.cardsArray.length; i++) {
