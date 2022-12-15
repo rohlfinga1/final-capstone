@@ -1,13 +1,11 @@
 <template>
   <div class="deckEditor">
     <edit-deck />
-    <!--<edit-other />-->
   </div>
 </template>
 
 <script>
-import EditDeck from '../components/EditDeckBootstrapTest.vue';
-//import EditDeck from '../components/EditCardOverview.vue';
+import EditDeck from '../components/EditDeck.vue';
 
 export default {
   components: { EditDeck},

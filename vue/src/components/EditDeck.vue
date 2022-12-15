@@ -3,15 +3,7 @@
     <h2 id="deck-name">{{ deck.name }}<br /></h2>
     <p>{{ deck.description }}<br /></p>
 
-    <button class="add-btn" @click="study(deck.deckId)">
-      Study Now
-    </button>
-
-    <button class="add-btn" @click="ShowForm = !ShowForm">
-      Edit This Deck
-    </button>
-
-    <form v-if="ShowForm" @submit.prevent="UpdateDeck">
+     <form v-if="ShowForm" @submit.prevent="UpdateDeck">
       Deck Name:
       <input type="text" class="form-control" v-model="deck.name" />
       Description:
@@ -26,7 +18,16 @@
       </button>
     </form>
 
-    <button class="add-btn" @click="() => TogglePopup('buttonTrigger')">
+    <button class="add-btn" id="study-button" @click="study(deck.deckId)">
+      Study Now
+    </button>
+
+    <button class="add-btn" id="edit-deck-button" @click="ShowForm = !ShowForm" v-if="viewDeleteButton(deck.creatorId)">
+      Edit Deck Details
+    </button>
+
+
+    <button class="add-btn" id="add-card-button" @click="() => TogglePopup('buttonTrigger')" v-if="viewDeleteButton(deck.creatorId)">
       Add Card
     </button>
     <div class="popup">
@@ -35,40 +36,37 @@
         :TogglePopup="() => TogglePopup('buttonTrigger')"
       >
         <h3>Add Card</h3>
-        <!--<card-form v-bind:cardID="parseInt($route.params.cardID)" />-->
       </popup>
     </div>
+    <div id="table-div">
     <table>
-      <tr>
+      <tr class="table-head">
         <th>Front</th>
         <th>Back</th>
         <th>Keywords</th>
+        <th></th>
       </tr>
       <tr
         class="card-row"
         v-for="card in this.$store.state.cards"
         v-bind:key="card.cardId"
       >
-        <!-- For every card in the textcard table by deck_id, assign each data point to the appropriate column -->
         <td>{{ card.front }}</td>
         <td>{{ card.back }}</td>
         <td>{{ card.cardKeywords }}</td>
         <td>
-           <br/>
-          <button v-on:click="viewEditCard(card.cardId)" class="btn editCard" v-if="viewEditButton(card.creatorId)">
+          <button class="add-btn" v-on:click="viewEditCard(card.cardId)" v-if="viewEditButton(card.creatorId)">
             Edit Card
           </button>
           <br/>
-          <br/>
-          <br/>
-          <button v-on:click="deleteCard(card.cardId)" class="btn editCard" v-if="viewDeleteButton(deck.creatorId)">
-            Delete Card From Deck
+          <button class="add-btn" v-on:click="deleteCard(card.cardId)"  v-if="viewDeleteButton(deck.creatorId)">
+            Delete From Deck
           </button>
-           <br/>
            <br/>
         </td>
       </tr>
     </table>
+    </div>
     <div class="popup">
       <popup
         v-if="popupTriggers.buttonTrigger"
@@ -111,18 +109,15 @@ export default {
       deck: {
         name: "",
         description: "",
-        deckId: this.$route.params.deckId, // right now, GetCards() is taking this number literally,
-        // but we want it to auto-increment
+        deckId: this.$route.params.deckId,
         deckKeywords: "",
-        //creator: "",
         creatorId: "",
         dateMade: "",
         isPublic: false,
       },
       card: {
         cardId: 0,
-        deckId: this.$route.params.deckId, // right now, GetCards() is taking this number literally,
-        // but we want it to auto-increment
+        deckId: this.$route.params.deckId, 
         front: "",
         back: "",
         cardKeywords: "",
@@ -266,20 +261,21 @@ export default {
   color: black;
 }
 table {
-  align-self: center;
-  justify-self: center;
-  table-layout: fixed;
-  width: 80%;
+  table-layout: auto;
+  width: 100%;
   border-collapse: collapse;
   border: 3px solid gray;
   text-align: center;
+  background-color: white;
+  column-rule-width: 3px;
+  column-rule-color: gray;
+  column-rule-style: solid;
 }
-tbody tr:nth-child(odd) {
+tr:nth-child(even) {
   background-color: #e9e9e9;
+  border: 3px solid gray;
 }
-tbody tr:nth-child(even) {
-  background-color: #979797;
-}
+
 .edit-btn {
   background-color: #495579;
   margin: 10px;
@@ -297,11 +293,30 @@ tbody tr:nth-child(even) {
   font-size: 20px;
   border-radius: 10px;
   margin-bottom: 10px;
+  margin-right:15px;
+  margin-left:15px;
+  color:#FFFDEB;
 }
 .add-btn:hover {
-  background-color: #203159;
+  background-color: rgb(190, 209, 233);
+  color: black;
 }
 td {
   font-family: sans-serif;
+  font-size: 120%;
+  word-wrap: break-word;
+  border: 3px solid gray;
+  padding:15px;
 }
+th{
+  font-family: sans-serif;
+  border: 3px solid gray;
+}
+.table-head{
+  background-color: #495579;
+  color: #FFFDEB;
+  height: 50px;
+  font-size: 170%;
+}
+
 </style>
