@@ -1,7 +1,7 @@
 <template>
     <div>
         <footer id = "footer">
-            <p>&copy; 2022. All rights reserved. Created by Amy Drapac, Kim Barry, Joe Gibson, Zach Koepf, & Maria Garcia</p>
+            <p>&copy; 2022. Created by Amy Drapac, Kim Barry, Joe Gibson, Zach Koepf, & Maria Garcia</p>
         </footer>
     </div>
 </template>
