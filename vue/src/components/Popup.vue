@@ -34,6 +34,7 @@ export default {
 	align-items: center;
 	justify-content: center;
     text-align: center;
+	word-wrap: break-word;
 }
 .popup-inner {
 	background-color: rgb(255, 255, 255);
