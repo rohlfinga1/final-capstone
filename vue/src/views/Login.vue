@@ -42,7 +42,7 @@
       <!--  @click triggers login function on a click-->
       <!-- testable using default username = "user" password = "password" -->
       <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-      <br/><br/><br/><br/><br/><br/><br/><br/><br/>
+      <br/><br/><br/><br/><br/><br/>
     </form>
   </div>
 </template>
