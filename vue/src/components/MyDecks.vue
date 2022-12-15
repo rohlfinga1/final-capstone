@@ -97,12 +97,12 @@ export default {
       //we need to look at this one!
       const userId = this.$store.state.user.userId;
       //console.log(this.$store.state.user.userId);
-      this.$store.commit("SET_DECKS", []); //reset before pulling decks
+      this.$store.commit("SET_ALL_DECKS", []); //reset before pulling decks
       deckService
         .getUserDecks(userId)
         .then((response) => {
           console.log(response.data);
-          this.$store.commit("SET_DECKS", response.data);
+          this.$store.commit("SET_ALL_DECKS", response.data);
         })
         .catch((error) => {
           alert(error);
@@ -189,7 +189,7 @@ export default {
   },
   computed: {
     filterMyDecksOnly() {
-      let myDecksOnly = this.$store.state.decks.filter((deck) => {
+      let myDecksOnly = this.$store.state.allDecks.filter((deck) => {
         return deck.creatorId == this.userId; // this.$store.state.user.userId;
       });
       myDecksOnly.forEach((myDeck) => {

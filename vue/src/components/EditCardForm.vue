@@ -50,7 +50,7 @@ export default {
         front: "",
         back: "",
         cardKeywords: "",
-        cardId: 0,
+        cardId: 0 || this.$route.params.cardId,
         //creator: '',
         creatorId: this.$store.state.user.userId,
         cardDate: "",

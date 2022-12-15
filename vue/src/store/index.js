@@ -20,7 +20,7 @@ export default new Vuex.Store({
   state: {
     token: currentToken || '',
     user: currentUser || {},
-    userDecks:[],
+    allDecks:[],
     publicDecks: [],
     decks:[],
     deck:{
@@ -81,8 +81,8 @@ export default new Vuex.Store({
       state.decks = data;
     },
 
-    SET_USER_DECKS(state, data) {
-      state.userDecks = data;
+    SET_ALL_DECKS(state, data) {
+      state.allDecks = data;
     },
 
     SET_PUBLIC_DECKS(state, data) {

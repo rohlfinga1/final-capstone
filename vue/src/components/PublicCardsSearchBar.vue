@@ -28,9 +28,14 @@ export default {
   name: "public-cards-search-bar",
   data() {
     return {
-      userId: this.$store.state.user.userId,
+      myUserId: this.$store.state.user.userId,
       searchInput: "",
     };
+  },
+  computed: {
+    userId() {
+      return this.$store.state.user.userId;
+    },
   },
   methods: {
     loggedIn(userId) {

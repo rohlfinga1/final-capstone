@@ -36,6 +36,7 @@ export default {
   components: { DeckDisplay },
   data() {
     return {
+      //decksToDisplay: [],
       showFront: true,
       userId: this.$store.state.user.userId,
       deck: {
@@ -62,7 +63,7 @@ export default {
   },
   computed: {
     myDecks() {
-      return this.$store.state.decks.filter((deck) => {
+      return this.$store.state.allDecks.filter((deck) => {
         return deck.creatorId == this.userId;
       });
     },
@@ -171,9 +172,9 @@ body {
   margin-left: 10%;
   margin-right: 10%;
 }
-.decks {
+/* .decks {
   /* display: flex;
-  flex-direction: column; */
+  flex-direction: column; 
   justify-content: space-between;
   border-width: 3px;
   border-color: black;
@@ -185,7 +186,7 @@ body {
   padding: 20px;
   cursor: pointer;
   font-weight: bold;
-}
+} */
 /* .eachDeck {
   text-align: center;
   align-items: center;
