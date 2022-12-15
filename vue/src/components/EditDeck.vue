@@ -26,7 +26,7 @@
 
 
     <button class="add-btn" id="add-card-button" @click="() => TogglePopup('buttonTrigger')" v-if="viewDeleteButton(deck.creatorId)">
-      Add Card
+      Create Card
     </button>
     <div class="popup">
       <popup
@@ -39,8 +39,8 @@
     <div id="table-div">
     <table>
       <tr class="table-head">
-        <th>Front</th>
-        <th>Back</th>
+        <th>Questions</th>
+        <th>Answers</th>
         <th>Keywords</th>
         <th>Edit/Delete Card</th>
       </tr>
