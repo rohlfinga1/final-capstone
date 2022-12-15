@@ -10,7 +10,7 @@
             </div>
             <div class="card-and-btn-block">
                 <button class="left-arrow" v-on:click="goBack"><i class="arrow left"></i></button>
-                <button class="wrong-btn" v-on:click="markWrong"><i class="fas fa-xmark fa-7x"></i></button>
+                <button class="wrong-btn" v-on:click="markWrong"><i class="fas fa-times fa-8x"></i></button>
                 <div class="card-content" v-on:click="flip"
                 v-bind:class="{ 'card-content-correct': isGreen,
                 'card-content-wrong': isRed}"
