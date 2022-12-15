@@ -128,6 +128,7 @@ margin-bottom:24%;
 text-align: center;
 background-color: white;
 padding: 5px;
+border-radius: 20px;
 box-shadow: rgba(73,85,121,0.5) 5px 3px,
  rgba(73,85,121,0.4) 10px 6px,
  rgba(73,85,121,0.3) 15px 9px;

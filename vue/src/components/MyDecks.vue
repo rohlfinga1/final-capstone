@@ -17,25 +17,17 @@
         </div>
       </div>
 
-      <form v-if="showAddDeck" @submit.prevent="submitForm">
-        Deck Name:
-        <input type="text" class="form-control" v-model="newDeck.name" />
-        Description:
-        <input type="text" class="form-control" v-model="newDeck.description" />
-        Deck Keywords:
-        <input
-          type="text"
-          class="form-control"
-          v-model="newDeck.deckKeywords"
-        />
-        Is this Public:
-        <input
-          type="checkbox"
-          class="form-control"
-          v-model="newDeck.isPublic"
-        />
-        <button class="btn btn-submit" @click="submitForm">Save</button>
-        <button class="btn btn-cancel" v-on:click="showAddDeck = !showAddDeck">
+      <form id="add-deck-form" v-if="showAddDeck" @submit.prevent="submitForm">
+        <label class="labels" for="deckName">Deck Name:</label><br/>
+        <input id="deckName" type="text" class="form-control, input-field" v-model="newDeck.name" /><br/><br/>
+         <label class="labels" for="description">Description:</label><br/>
+        <input id="description" type="text" class="form-control, input-field" v-model="newDeck.description" /><br/><br/>
+        <label class="labels" for="deckKeywords">Deck Keywords:</label><br/>
+        <input id="deckKeywords" type="text" class="form-control, input-field" v-model="newDeck.deckKeywords"/><br/><br/>
+        <label class="labels" for="isPublic">Is this Public: </label>
+        <input id="isPublic" type="checkbox" class="form-control" v-model="newDeck.isPublic"/><br/><br/>
+        <button class="btn-btn" @click="submitForm">Save</button>
+        <button class="btn-btn" v-on:click="showAddDeck = !showAddDeck">
           Cancel
         </button>
       </form>
@@ -334,5 +326,20 @@ div.displayDecks > div {
 }
 div.displayDecks {
   align-items: center;
+}
+#add-deck-form {
+font-family: sans-serif;
+align-content: center;
+border-radius: 20px;
+width: 20%;
+text-align: center;
+background-color: white;
+padding-top: 25px;
+padding-bottom: 25px;
+padding-right: 5px;
+padding-left: 5px;
+box-shadow: rgba(73,85,121,0.5) 5px 3px,
+ rgba(73,85,121,0.4) 10px 6px,
+ rgba(73,85,121,0.3) 15px 9px;
 }
 </style>

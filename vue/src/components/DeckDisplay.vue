@@ -115,4 +115,5 @@ export default {
   transform: rotate(10deg);
   box-shadow: 0 2px 20px rgba(0, 0, 0, .2);
 } */
+/* deck from https://uiverse.io/pedertanberg/dry-goose-81 */
 </style>
