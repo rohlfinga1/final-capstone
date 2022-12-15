@@ -6,7 +6,7 @@
             <div class="right-wrong-count">
                 <div class="correct-count"><h3>Correct: {{countCorrect}}</h3></div>
                 <div class="wrong-count"><h3>Incorrect: {{countWrong}}</h3></div>
-                <div class="cards-remaining-count"><h3>Cards Remaining: {{cardsLeft}}</h3></div>
+                <div class="cards-remaining-count"><h3>Cards Remaining: {{cardsArray.length - currentCardIndex}}</h3></div>
             </div>
             <div class="card-and-btn-block">
                 <button class="left-arrow" v-on:click="goBack"><i class="arrow left"></i></button>
@@ -39,7 +39,7 @@
                 <p>Current Score: {{countCorrect}} / {{cardsArray.length}}</p>
                 <p>Correct: {{countCorrect}} </p>
                 <p>Incorrect: {{totalWrong}} </p>
-                <p>Cards Remaining: {{cardsLeft}}</p>
+                <p>Cards Remaining: {{cardsArray.length - currentCardIndex}}</p>
                 <button class="end-btn-2" @click="$router.push('/')">End Session</button>
             </popup>
         </div>
@@ -94,7 +94,8 @@ export default {
             countCorrect: 0,
             countWrong: 0,
             cardsCorrect: new Set(),
-            cardsWrong: new Set()
+            cardsWrong: new Set(),
+            currentCardIndex: 1
         }
     },
     created(){
@@ -122,7 +123,9 @@ export default {
                 else { 
                     this.resetColor();
                 }
+                this.currentCardIndex--;
             }
+
         },
         goNext() {
             if (this.currentCard != this.cardsArray[this.cardsArray.length - 1])
@@ -138,6 +141,7 @@ export default {
                     this.resetColor();
                 }
             }
+            this.currentCardIndex++;
         },
         resetColor() { 
             this.isGreen = false; 
