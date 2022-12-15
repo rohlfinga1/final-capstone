@@ -2,7 +2,7 @@
   <header id="menubar">
     <div class="title">
       <div>
-        <h2>Crash Cards</h2>
+        <h2 id="project-title">Crash Cards</h2>
         <br/>
       </div>
       <div>
@@ -11,7 +11,7 @@
       </div>
     </div>
     <nav>
-      <ul>
+      <ul class="nav-links">
         <!--<li><router-link v-bind:to="{ name: 'login' }" v-if="token==''">LOGIN</router-link></li> possibly switch v-bind for v-model   @click="processResults"-->
         <li>
           <router-link v-bind:to="{ name: 'home' }" class="link"
@@ -111,6 +111,12 @@ nav ul {
   display: flex;
   flex-direction: row;
 }
+.nav-links {
+  position: absolute;
+  right: 1%;
+  top: 1%;
+  width: 500px;
+}
 
 nav ul li {
   list-style: none;
@@ -147,8 +153,15 @@ h2 {
   width: 48px;
   height: 48px;
   margin: auto;
-  position: relative;
+  position: absolute;
+  top: 3.5%;
+  left: 13.5%;
   animation-play-state: paused;
+}
+#project-title {
+  position: absolute;
+  left: 2%;
+  top: 4.5%;
 }
 
 .loader:before {
