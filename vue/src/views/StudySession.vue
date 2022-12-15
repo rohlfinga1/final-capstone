@@ -2,7 +2,7 @@
     <div class="root">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
         <div class="everything">
-            <h1 style="font-family: Arial">Still need a deck name</h1>
+            <h1 style="font-family: Arial">{{deckName}}</h1>
             <div class="right-wrong-count">
                 <div class="correct-count"><h3>Correct: {{countCorrect}}</h3></div>
                 <div class="wrong-count"><h3>Incorrect: {{countWrong}}</h3></div>
@@ -49,6 +49,7 @@
 import { ref } from "vue";
 import Popup from "../components/Popup.vue";
 import CardService from '../services/CardService.js';
+import DeckService from '../services/DeckService.js';
 
 export default {
     name: "study-session",
@@ -81,10 +82,6 @@ export default {
                 wrong: false,
                 scored: false
             },
-            currentDeck: {
-                deckId: this.$route.params.deckId,
-                name: ''
-            },
             index: 0,
             isGreen: false,
             isRed: false,
@@ -92,13 +89,20 @@ export default {
             countWrong: 0,
             cardsCorrect: new Set(),
             cardsWrong: new Set(),
-            currentCardIndex: 1
+            currentCardIndex: 1,
+            deckName: ''
         }
     },
     created(){
         this.getCards(this.$route.params.deckId);
+        this.getDeckById(this.$route.params.deckId);
     },
     methods : {
+        getDeckById(deckId){
+            DeckService.getDeck(deckId).then((res) => {
+                this.deckName = res.data.name;
+            })
+        },
         flip() {
             if (this.flipped == false){
                 this.flipped = true;
@@ -195,8 +199,7 @@ export default {
         }
     },
     components: {
-        // SingleCardDisplay,
-        Popup,
+        Popup
     }
 }
 </script>
