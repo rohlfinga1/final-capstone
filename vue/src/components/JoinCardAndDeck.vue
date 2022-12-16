@@ -1,7 +1,7 @@
 <template>
   <div class="joinLayout">
     <section>
-    <div class="card" v-bind:key="selectedCardId">
+    <div class="card" v-bind:key="this.$route.params.cardId">
       <div class="content">
         <div class="front">
           <p class="text">{{ selectCard.front }}</p>
@@ -17,7 +17,6 @@
       class="decks"
       v-for="deck in myDecks"
       v-bind:key="deck.deckId"
-      v-bind:style="{ 'background-color': deck.backgroundColor }"
     >
       <deck-display v-bind:deck="deck" v-bind:key="deck.deckId" />
       <br/>
@@ -37,6 +36,7 @@ export default {
   components: { DeckDisplay },
   data() {
     return {
+      //decksToDisplay: [],
       showFront: true,
       userId: this.$store.state.user.userId,
       deck: {
@@ -58,12 +58,12 @@ export default {
         creatorId: 0,
         dateMade: Date,
       },
-      // selectedCardId: this.$route.params.cardId,
+      //selectedCardId: this.$route.params.cardId,
     };
   },
   computed: {
     myDecks() {
-      return this.$store.state.decks.filter((deck) => {
+      return this.$store.state.allDecks.filter((deck) => {
         return deck.creatorId == this.userId;
       });
     },
@@ -172,9 +172,9 @@ body {
   margin-left: 10%;
   margin-right: 10%;
 }
-.decks {
+/* .decks {
   /* display: flex;
-  flex-direction: column; */
+  flex-direction: column; 
   justify-content: space-between;
   border-width: 3px;
   border-color: black;
@@ -186,7 +186,7 @@ body {
   padding: 20px;
   cursor: pointer;
   font-weight: bold;
-}
+} */
 /* .eachDeck {
   text-align: center;
   align-items: center;

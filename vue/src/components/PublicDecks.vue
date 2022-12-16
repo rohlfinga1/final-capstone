@@ -1,7 +1,7 @@
 <template>
   <div id="PublicDecksPage">
     <div id="layout ">
-      <public-cards-search-bar class="color" />
+      <public-cards-search-bar class="color" v-show="loggedIn(this.userId)"/>
     </div>
     <span id="layout" class="displayDecks">
       <span
@@ -9,7 +9,7 @@
         v-for="deck in $store.state.decks"
         v-bind:key="deck.deckId"
       >
-        <deck-display v-bind:deck="deck" v-bind:key="deck.deckId" />
+        <deck-display v-bind:deck="deck" v-bind:key="deck.deckId"/>
       </span>
     </span>
   </div>

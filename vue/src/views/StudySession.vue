@@ -34,10 +34,10 @@
             <popup
                 v-if="popupTriggers.buttonTrigger"
                 :TogglePopup="() => TogglePopup('buttonTrigger')">
-                <h3>Are you sure you want to end your session?</h3>
+                <h3 style="font-family: Arial">Are you sure you want to end your session?</h3>
                 <p>Current Score: {{countCorrect}} / {{cardsArray.length}}</p>
                 <p>Correct: {{countCorrect}} </p>
-                <p>Incorrect: {{totalWrong}} </p>
+                <p>Incorrect: {{countWrong}} </p>
                 <p>Cards Remaining: {{cardsArray.length - countCorrect - countWrong}}</p>
                 <button class="end-btn-2" @click="$router.push('/')">End Session</button>
             </popup>
